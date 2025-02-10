@@ -28,7 +28,7 @@ public class GymSearchController {
     @GetMapping("/search")
     public String gymListForm(Model model) {
         model.addAttribute("searchForm", new SearchForm());
-        return "gym/gymListForm";
+        return "gym/gymSearchForm";
     }
 
     @ResponseBody

@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         city.options.length = 0;
 
         const defaultOption = document.createElement("option");
-        defaultOption.value = "전체";
+        defaultOption.value = "";
         defaultOption.textContent = "전체";
         city.appendChild(defaultOption);
 
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
         state.options.length = 0;
 
         const defaultOption = document.createElement("option");
-        defaultOption.value = "전체";
+        defaultOption.value = "";
         defaultOption.textContent = "전체";
         state.appendChild(defaultOption);
 
@@ -74,7 +74,34 @@ document.addEventListener('DOMContentLoaded', () => {
     const markerMap = new Map();
 
     btn.addEventListener("click", function () {
-        let reqValue = city.value + " " + state.value + " " + gymType.value;
+        let searchBox = document.querySelector(".searchBox");
+        let region = document.getElementById("region");
+        let reqValue = "";
+
+
+        if(region.value === ""){
+            alert("지역 선택은 필수입니다.")
+            return false;
+        }
+
+        if(city.value === ""){
+            alert("시/군/구 선택은 필수입니다.")
+            return false;
+        }else{
+            if(state.value === ""){
+                if(searchBox.value === ""){
+                    reqValue = city.value + " " + gymType.value;
+                }else{
+                    reqValue = city.value + " " + searchBox.value;
+                }
+            }else{
+                if(searchBox.value === ""){
+                    reqValue = city.value + " " + state.value + " " + gymType.value;
+                }else{
+                    reqValue = city.value + " " + state.value + " " + searchBox.value;
+                }
+            }
+        }
 
         let reqJson = {}
         reqJson.searchQuery = reqValue;
@@ -110,10 +137,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         // 모든 검색 결과에 대해 마커 추가
                         result.forEach(value => {
-                            const title = value.title;
+                            const title = decoding(value.title);
                             const address = value.address;
                             const lat = value.mapy; // 위도
                             const lng = value.mapx; // 경도
+                            console.log(title);
 
                             const div = document.createElement("div");
                             const addressDiv = document.createElement("div");
@@ -161,7 +189,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             const marker = new naver.maps.Marker({
                                 position: new naver.maps.LatLng(lat, lng, title),
                                 map: map,
-                                title: title,
+                                title: decoding(title),
                                 address: address,
                                 icon: {
                                     content: createGymMarkerContent(title, false)
@@ -216,6 +244,13 @@ document.addEventListener('DOMContentLoaded', () => {
                                 }
                             }
                         });
+
+                        //특수문자 디코딩
+                        function decoding(text){
+                            let textArea = document.createElement("textarea");
+                            textArea.innerHTML = text;
+                            return textArea.value;
+                        }
 
                         //선택대상 하이라이트 함수
                         function highlight(title, gymAddress) {
