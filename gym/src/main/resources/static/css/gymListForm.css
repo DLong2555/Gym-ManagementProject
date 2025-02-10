@@ -1,0 +1,155 @@
+#gymListContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#gymListContainer #gymListBox{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    width: 1000px;
+    padding: 30px;
+    margin-top: 80px;
+}
+
+#gymListBox #selectBox{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    flex-wrap: wrap;
+    flex: 1;
+    padding: 15px;
+    border-radius: 5px;
+    border: 1px solid #E0E3E5;
+    margin-bottom: 30px;
+}
+
+#gymListBox .regionBox{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-basis: 300px;
+}
+
+#gymListBox .region-title{
+    font-size: 18px;
+    font-weight: bold;
+    width: 80px;
+}
+
+#gymListBox select{
+    width: 200px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+#gymListBox .selectGymBox{
+    display: flex;
+    flex: 1;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 18px;
+    margin-right: 18px;
+}
+
+#gymListBox #selectBox button{
+    width: 100px;
+    height: 50px;
+    border-radius: 10px;
+    background-color: black;
+    color: white;
+    margin: 15px 20px 10px 10px;
+}
+
+#gymListBox #mapBox{
+    display: none;
+    justify-content: space-between;
+    width: 100%;
+    margin: 0;
+}
+
+#gymListBox #mapBox #gymNameListBox{
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: stretch;
+    margin-right: 20px;
+}
+
+#gymListBox #mapBox #gymNameListBox .gymDiv{
+    border: 1px solid white;
+    padding: 10px 40px 10px 10px;
+    margin: 5px 10px 5px 0;
+    cursor: pointer;
+    border-radius : 10px;
+    color: rgb(66, 73, 73);
+    background-color: white;
+    width: 300px;
+}
+
+#gymListBox #mapBox #gymNameListBox .gymAddressDiv{
+    display: none;
+    border: 1px solid white;
+    padding: 10px 40px 10px 10px;
+    margin: 5px 10px 5px 0;
+    cursor: pointer;
+    border-radius : 10px;
+    color: rgb(66, 73, 73);
+    background-color: white;
+    width: 300px;
+    flex-wrap: wrap;
+}
+
+.scrollbar {
+    overflow-y: auto;
+    margin-left: 10px;
+    margin-right: 20px;
+}
+
+.scrollbar::-webkit-scrollbar {
+    width: 10px;
+}
+
+.scrollbar::-webkit-scrollbar-thumb {
+    background: #666;
+    border-radius: 20px;
+}
+
+.scrollbar::-webkit-scrollbar-track {
+    background: #ddd;
+    border-radius: 20px;
+}
+
+.selectGymBox .search-title{
+    font-size: 18px;
+    font-weight: bold;
+    width: 50px;
+    margin-right: 10px;
+}
+
+.selectGymBox .gymSearchBox{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+    flex-basis: 470px;
+}
+
+.selectGymBox .searchBox{
+    width: 198px;
+    padding: 10px;
+    font-size: 16px;
+    border: 2px solid #3498db;
+    border-radius: 5px;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    margin-right: 20px;
+}

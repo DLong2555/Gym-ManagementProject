@@ -1,0 +1,143 @@
+<!DOCTYPE HTML>
+<html th:replace="~{layout/layoutForm :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Join Manager</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/joinManagerForm.css}">
+
+    <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+    <script th:src="@{/js/joinManagerForm.js}"></script>
+    <script th:src="@{/js/joinValidation.js}"></script>
+</head>
+<body>
+<section>
+    <div class="bodyContents">
+        <div id="joinManagerForm">
+            <div id="joinFormContainer">
+
+                <div id="joinTitle">
+                    <div id="JoinManagerTitle" th:text="#{page.manager}">Manager</div>
+                </div>
+
+                <form th:action="@{/gym/join/manager}" th:object="${joinManagerForm}" method="post">
+
+                    <!--                <div th:if="${#fields.hasGlobalErrors()}">-->
+                    <!--                    <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메세지</p>-->
+                    <!--                </div>-->
+
+                    <div class="managerInputDiv">
+                        <div class="inputGroup">
+                            <label for="memId" th:text="#{label.join.memId}">아이디</label>
+                            <input type="text" th:field="*{memId}" th:errorclass="field-error"
+                                   class="form-control" placeholder="아이디">
+                            <div class="field-error"></div>
+                            <div class="field-error" th:errors="*{memId}">
+                                오류
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="managerInputDiv">
+                        <div class="inputGroup">
+                            <label for="password" th:text="#{label.join.password}">비밀번호</label>
+                            <input type="password" th:field="*{password}" th:errorclass="field-error"
+                                   class="form-control" placeholder="비밀번호">
+                            <div class="field-error">
+                                <p class="pattern_word" style="color : gray">&#10003; 영문/숫자/특수문자 포함</p>
+                                <p class="pattern_len" style="color : gray">&#10003; 8자 이상 16자 이하 입력 (공백 제외)</p>
+                            </div>
+                            <div class="field-error" th:errors="*{password}"></div>
+                        </div>
+                    </div>
+
+                    <div class="managerInputDiv">
+                        <div class="inputGroup">
+                            <label for="password-chk" th:text="#{label.join.password.chk}">비밀번호</label>
+                            <input type="password" id="password-chk"
+                                   class="form-control" placeholder="비밀번호 확인">
+                            <div class="field-error"></div>
+                        </div>
+                    </div>
+
+                    <div class="managerInputDiv">
+                        <div class="inputGroup">
+                            <label for="memName" th:text="#{label.join.name}">이름</label>
+                            <input type="text" th:field="*{memName}"
+                                   th:errorclass="field-error" class="form-control" placeholder="이름">
+                            <div class="field-error" th:errors="*{memName}">
+                                오류
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="managerInputDiv">
+                        <div class="inputGroup">
+                            <label for="memPhoneNum" th:text="#{label.join.phoneNumber}">휴대번호번호</label>
+                            <input type="text" th:field="*{memPhoneNum}"
+                                   th:errorclass="field-error" class="form-control" placeholder="휴대번호번호">
+                            <div class="field-error" th:errors="*{memPhoneNum}">
+                                오류
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="managerInputDiv">
+                        <div class="inputGroup">
+                            <label for="gymName" th:text="#{label.join.gym}">체육관</label>
+                            <input type="text" th:field="*{gymName}"
+                                   th:errorclass="field-error" class="form-control" placeholder="체육관 이름">
+                            <div class="field-error" th:errors="*{gymName}">
+                                오류
+                            </div>
+                            <input type="text" th:field="*{gymPrice}"
+                                   th:errorclass="field-error" class="form-control" placeholder="가격">
+                            <div class="field-error" th:errors="*{gymPrice}">
+                                오류
+                            </div>
+                            <input type="text" th:field="*{gymPhone}"
+                                   th:errorclass="field-error" class="form-control" placeholder="체육관 전화번호">
+                            <div class="field-error" th:errors="*{gymPhone}">
+                                오류
+                            </div>
+                        </div>
+
+                        <!--주소입력 버튼-->
+                        <div class="inputGroup">
+                            <div class="label-and-btn">
+                                <label for="zipcode" th:text="#{label.join.gymAddress}">체육관</label>
+                                <button type="button" class="address-btn" th:text="#{button.address}">우편주소 찾기</button>
+                            </div>
+                            <input type="text" th:field="*{zipcode}"
+                                   th:errorclass="field-error" class="form-control" placeholder="우편번호" readonly>
+                            <input type="text" th:field="*{roadName}"
+                                   th:errorclass="field-error" class="form-control" placeholder="주소" readonly>
+                            <div class="inputGroup">
+                                <input type="text" th:field="*{detailAddress}"
+                                       th:errorclass="field-error" class="form-control" placeholder="상세주소">
+                            </div>
+                            <div class="field-error" th:errors="*{zipcode}">
+                                오류
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                    <div class="join-btn-box">
+                        <button class="join-btn" type="submit" th:text="#{button.join}">등록</button>
+                        <button class="cansel-btn"
+                                th:onclick="|location.href='@{/gym/joinSelect}'|"
+                                type="button" th:text="#{button.cancel}">취소
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+#loginContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#loginBox{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    margin-top: 50px;
+}
+
+#loginBox .loginTitle{
+    text-align: center;
+    font-size: 20px;
+    font-weight: 600;
+    padding-bottom: 50px;
+    padding-top: 30px;
+}
+
+#loginBox input{
+    width: 400px;
+    font-size: 16px;
+    border : 1px solid white;
+    padding: 15px 10px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e8e8e8;
+}
+
+#loginBox .field-error{
+    color: red;
+    font-size: 15px;
+    padding-bottom: 15px;
+}
+
+#loginBox #loginOptions {
+    display: flex;
+    width: 100%;
+    margin-bottom: 35px;
+    font-size: 14px;
+}
+
+#loginBox #loginOptions .checkbox{
+    display: flex;
+    justify-content: start;
+    width: 300px;
+}
+
+#loginBox #loginOptions .checkbox input{
+    width: 30px;
+}
+
+#loginBox #loginBtnBox .loginBtn{
+    width: 100%;
+    padding: 15px;
+    font-size: 18px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 1500px;
+    cursor: pointer;
+}

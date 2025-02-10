@@ -1,0 +1,73 @@
+@charset "UTF-8";
+
+/* 회원가입 선택 컨테이너 */
+#joinChoose #chooseContainer {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+/* 회원가입 선택 박스 */
+#joinChoose #chooseBox {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding: 30px;
+	margin-top: 50px;
+}
+
+/* 회원가입 선택 제목 */
+#joinChoose #chooseTitle {
+	text-align: center;
+	font-size: 38px;
+	font-weight: 600;
+	padding-bottom: 50px;
+}
+
+/* 회원가입 관리자 회원 선택 박스 */
+#joinChoose #chooseManagerUserBox {
+	display: flex;
+	align-items: center;
+}
+
+/* 회원가입 관리자 회원 선택란 */
+#joinChoose .chooseManagerUser {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	width: 400px;
+	border: 2px solid #E0E3E5;
+	padding: 40px;
+	margin: 40px;
+}
+
+/* 회원가입 매니저 사진 */
+#joinChoose #managerImage {
+	width: 140px;
+	height: 140px;
+	margin-top : 5px;
+}
+
+/* 회원가입 유저 사진 */
+#joinChoose #userImage {
+	width: 140px;
+	height: 145px;
+}
+
+/* 회원가입 관리자/회원 설명 */
+#joinChoose .chooseMUTitle {
+	font-size: 22px;
+	margin: 25px;
+	margin-bottom: 40px;
+}
+
+/* 회원가입 관리자/회원 가입 버튼 */
+#joinChoose .chooseMUButton a{
+	padding: 20px 85px;
+	text-align: center;
+	background-color: black;
+	border-radius: 200px;
+	color: white;
+}

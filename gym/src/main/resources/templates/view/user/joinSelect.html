@@ -1,0 +1,41 @@
+<!doctype html>
+<html th:replace="~{layout/layoutForm :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Join Select</title>
+    <link rel="stylesheet" th:href="@{/css/joinSelect.css}">
+    <script th:src="@{/js/joinSelect.js}"></script>
+</head>
+<body>
+    <section>
+        <div class="bodyContents">
+            <div id="joinChoose" class="noto-sans-kr">
+                <div id="chooseContainer">
+                    <div id="chooseBox">
+                        <div id="chooseSentence">
+                            <div id="chooseTitle">Sign Up</div>
+                        </div>
+                        <div id="chooseManagerUserBox">
+                            <div class="chooseManagerUser">
+                                <img id="managerImage" th:src="@{/image/manager.png}" alt="Manager">
+                                <div class="chooseMUTitle">Manager</div>
+                                <div class="chooseMUButton">
+                                    <a th:href="@{/gym/join/manager}"> Sign Up </a>
+                                </div>
+                            </div>
+                            <div class="chooseManagerUser">
+                                <img id="userImage" th:src="@{/image/user.png}" alt="User">
+                                <div class="chooseMUTitle">User</div>
+                                <div class="chooseMUButton">
+                                    <a th:href="@{/gym/join/user}"> Sign Up </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

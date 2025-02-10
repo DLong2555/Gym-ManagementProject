@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/layoutForm :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>gymList</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/gymListForm.css}">
+    <script th:src="@{/js/gymListForm.js}"></script>
+    <script th:src="@{/js/gymListFormCssController.js}"></script>
+    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=mrq89wr8ns"></script>
+</head>
+<body>
+<section>
+    <div id="gymListContainer">
+        <div id="gymListBox">
+            <div id="selectBox">
+
+                <div class="regionBox">
+                    <div class="region-title">지역선택</div>
+                    <div class="regions">
+                        <select id="region">
+                            <option value="">지역 선택</option>
+                            <option value="강원" th:selected="${searchFormRe?.region == '강원'}">강원</option>
+                            <option value="경기" th:selected="${searchFormRe?.region == '경기'}">경기</option>
+                            <option value="경남" th:selected="${searchFormRe?.region == '경남'}">경남</option>
+                            <option value="경북" th:selected="${searchFormRe?.region == '경북'}">경북</option>
+                            <option value="광주" th:selected="${searchFormRe?.region == '광주'}">광주</option>
+                            <option value="대구" th:selected="${searchFormRe?.region == '대구'}">대구</option>
+                            <option value="대전" th:selected="${searchFormRe?.region == '대전'}">대전</option>
+                            <option value="부산" th:selected="${searchFormRe?.region == '부산'}">부산</option>
+                            <option value="서울" th:selected="${searchFormRe?.region == '서울'}">서울</option>
+                            <option value="울산" th:selected="${searchFormRe?.region == '울산'}">울산</option>
+                            <option value="인천" th:selected="${searchFormRe?.region == '인천'}">인천</option>
+                            <option value="전남" th:selected="${searchFormRe?.region == '전남'}">전남</option>
+                            <option value="전북" th:selected="${searchFormRe?.region == '전북'}">전북</option>
+                            <option value="제주" th:selected="${searchFormRe?.region == '제주'}">제주</option>
+                            <option value="충남" th:selected="${searchFormRe?.region == '충남'}">충남</option>
+                            <option value="충북" th:selected="${searchFormRe?.region == '충북'}">충북</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <!-- 시/군/구 -->
+                <div class="regionBox">
+                    <div class="region-title">시/군/구</div>
+                    <div class="cities">
+                        <select id="city">
+                            <option value="전체">전체</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="regionBox">
+                    <div class="region-title">동/읍/면</div>
+                    <div class="states">
+                        <select id="state">
+                            <option value="전체">전체</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="selectGymBox">
+                    <div class="regionBox">
+                        <div class="region-title">체육관</div>
+                        <div class="gymTypes">
+                            <select id="gymType">
+                                <option value="합기도">합기도</option>
+                                <option value="태권도">태권도</option>
+                                <option value="유도">유도</option>
+                                <option value="검도">검도</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="gymSearchBox">
+                        <div class="search-title">검색</div>
+                        <input class="searchBox" placeholder="직접입력">
+                    </div>
+
+                    <div>
+                        <button id="gymListBtn" type="button">조회</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="mapBox">
+
+                <div class="scrollbar">
+                    <div id="gymNameListBox"></div>
+                </div>
+
+                <div id="map" style="width:600px;height:600px;"></div>
+
+            </div>
+
+
+            <form th:action="@{/gym/child/form}" method="post" th:if="${searchResult} != null">
+                <div th:each="gym, gymState : ${searchResult}">
+                    <input type="radio" th:id="${gymState.index}" name="gymName" th:value="${gym.title}"
+                           onchange="updateHiddenInput(this)">
+                    <input type="hidden" th:id="|${gymState.index}_address|" name="address" th:value="${gym.address}">
+                    <label th:for="${gymState.index}" th:text="${gym.title}"></label>
+                </div>
+
+                <button type="submit">등록</button>
+            </form>
+        </div>
+    </div>
+</section>
+</body>
+</html>

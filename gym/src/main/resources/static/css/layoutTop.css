@@ -1,0 +1,240 @@
+
+/* 상단 전체 */
+#headerTop {
+	width: 100%;
+	position: fixed;
+	top: 0;
+	z-index: 1000;
+}
+
+/* 상단 전체 컨테이너 */
+#headerTop #topContainer{
+	background-color: white;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 0 15px;
+	border-bottom: 1px solid #f8f8f8;
+}
+
+/* 상단 왼족 박스 */
+#headerTop #topLeftBox {
+	display: flex;
+	gap: 10px;
+	align-items: center;
+}
+
+/* 상단 로고 박스 */
+#headerTop #logoBox a{
+	display: flex;
+	align-items: center;
+	height: 80px;
+	padding: 0 20px;
+}
+
+/* 상단 로고 이미지 */
+#headerTop #logo {
+	width: 80px;
+	height: 80px;
+}
+
+/* 상단 로고 텍스트 */
+#headerTop #logoText {
+	font-size: 33px;
+	color: #1b2631;
+}
+
+/* 상단 메뉴 박스 */
+#headerTop #topMenuBox {
+	display: flex;
+	gap: 10px;
+}
+
+/* 상단 메뉴 개별 박스 */
+#headerTop .topMenuEachBox a{
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	color: #1b2631;
+	height: 80px;
+	padding: 0 27px;
+}
+
+/* 상단 메인 메뉴 박스 */
+#headerTop .topMainMenu {
+	display: flex;
+	flex-direction: column;
+}
+
+/* 메뉴 화살표 */
+#headerTop .menuDown {
+	content: "";
+	width: 6px;
+	height: 6px;
+	transform: rotate(-135deg);
+	border-top: 1px solid #333;
+	border-left: 1px solid #333;
+}
+
+/* 서브 메뉴 */
+#headerTop .topSubMenu {
+	width: 150px;
+	display : flex;
+	flex-direction: column;
+	border : 1px solid whitesmoke;
+	border-radius : 8px;
+	position: absolute;
+	margin-top : 70px;
+	padding: 10px;
+	visibility : hidden;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+	background-color : white;
+}
+
+/* 각각의 서브 메뉴 */
+#headerTop .topSubMenuEach a{
+	display: flex;
+	padding: 10px;
+	border-radius : 10px;
+	font-size: 14px;
+	transition: background-color 0.1s ease-out;
+	color : #1b2631;
+}
+
+/* 상단 오른족 박스 */
+#headerTop #topRightBox div{
+	display: flex;
+	align-items: center;
+	gap: 20px;
+}
+
+/* 상단 로그인 */
+#headerTop #topLogin a{
+	border: 1px solid #DBDEE3;
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 8px;
+	padding: 10px 15px;
+	font-size: 14px;
+	font-weight: 500;
+	color: #70757D;
+}
+
+/* 상단 회원가입 */
+#headerTop #topJoin a{
+	display: inline-flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 8px;
+	background-color: black;
+	color: white;
+	padding: 10px 15px;
+	font-size: 14px;
+	font-weight: 500;
+}
+
+/* 상단 오른족 박스 전체 */
+#headerTop #topRightImageBox {
+	display: flex;
+	align-items: center;
+	gap : 25px;
+	font-size : 15px;
+}
+
+/* 상단 마이페이지 */
+#headerTop #topMyPage {
+	font-size: 14px;
+	font-weight: 500;
+	color: #1b2631;
+	padding: 20px;
+}
+
+/* 상단 프로필 사진 */
+#headerTop #myImage {
+	border-radius: 100%;
+	object-fit: cover;
+	background-color : lightgray;
+	width: 45px;
+	height: 45px;
+	margin-top : 5px;
+	margin-right: 30px;
+	border: 1px solid whitesmoke;
+	transition: filter 0.3s ease-out;
+	cursor: pointer;
+}
+
+/* 상단 프로필 사진 박스*/
+#headerTop #imageSubBox {
+	width: 250px;
+	display : flex;
+	flex-direction: column;
+	border : 1px solid whitesmoke;
+	border-radius : 8px;
+	position: absolute;
+	padding-top: 10px;
+	margin-top : 10px;
+	top : 70px;
+	right: 30px;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+	background-color : white;
+	visibility : hidden;
+}
+
+/* 상단 프로필 유저 박스 */
+#headerTop #imageUserBox {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 3px;
+	font-size: 14px;
+	color: #1b2631;
+}
+
+/* 상단 프로필 유저 아이디 */
+#headerTop #imageUserID {
+	font-size: 16px;
+	font-weight: 500;
+}
+
+/* 상단 프로필 유저 이미지 */
+#headerTop #myImageUser {
+	border-radius: 100%;
+	object-fit: cover;
+	background-color : lightgray;
+	width: 45px;
+	height: 45px;
+	border: 1px solid whitesmoke;
+	margin-bottom: 5px;
+}
+
+
+/* 마이페이지 로그아웃 전체 박스 */
+#headerTop #imageFuncBox {
+	display: flex;
+	justify-content: space-between;
+	width: 100%;
+	padding-top : 20px;
+}
+
+/* 마이페이지 로그아웃 각자 */
+#headerTop .imageFuncEach {
+	display: flex;
+	justify-content: center;
+	align-items : center;
+	width:100%;
+	border-top: 1px solid #E0E3E5;
+	border-right: 1px solid #E0E3E5;
+	font-size: 14px;
+}
+
+#imageFuncBox .imageFuncEach a{
+	display : flex;
+	justify-content: center;
+	width: 100%;
+	padding: 10px;
+}
+
+button{
+	cursor: pointer;
+}

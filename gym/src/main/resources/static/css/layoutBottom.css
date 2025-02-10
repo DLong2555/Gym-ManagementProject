@@ -1,0 +1,132 @@
+@charset "UTF-8";
+
+/* 바텀 컨테이너 */
+#headerBottom {
+	width: 100%;
+	margin-top: 80px;
+}
+
+#headerBottom #bottomContainer {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	border-top: 1px solid #E0E3E5;
+}
+
+/* 바텀 메뉴 컨테이너 */
+#headerBottom #bottomMenuContainer {
+	display: flex;
+	justify-content: space-between;
+	width: 1150px;
+	padding: 170px 0;
+	gap: 110px;
+}
+
+/* 바텀 메뉴 박스 */
+#headerBottom #bottomMenuLeftBox {
+	display: flex;
+	justify-content: center;
+	gap: 140px;
+	width: 100%;
+}
+
+/* 바텀 메뉴 제목 */
+#headerBottom .bottomMenuTitle {
+	font-weight: bold;
+	margin-bottom: 12px;
+	color : #1b2631;
+}
+
+/* 바텀 메뉴 내용 */
+#headerBottom .bottomMenuContents {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 0px;
+	font-size: 15px;
+	font-weight: 350;
+	color : #1b2631;
+}
+
+/* 바텀 메뉴 오른쪽 박스 */
+#headerBottom #bottomMenuInfoBox {
+	display: flex;
+	flex-direction: column;
+	width: 240px;
+	gap: 20px;
+	color : #1b2631
+}
+
+/* 바텀 메뉴 오른쪽 정보 제목 */
+#headerBottom #bottomMenuInfoTitle {
+	font-size: 33px;
+}
+
+#headerBottom #bottomMenuInfoContents {
+	font-size: 15px;
+	font-weight: 350;
+	line-height: 27px;
+}
+
+/* 바텀 메뉴 오른쪽 정보 링크 */
+#headerBottom #bottomMenuInfoLink {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	font-size: 15px;
+	font-weight: 350;
+	margin-top: 10px;
+}
+
+/* 바텀 회사 정보 컨테이너 */
+#headerBottom #bottomInfoContainer {
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	padding-top: 50px;
+	padding-bottom: 50px;
+	border-top: 1px solid #E0E3E5;
+}
+
+/* 바텀 회사 정보 박스 */
+#headerBottom #bottomInfoBox {
+	display: flex;
+	justify-content: flex-end;
+	width: 1200px;
+	flex-wrap: wrap;
+	font-size: 14px;
+	font-weight: 450;
+	gap: 15px;
+}
+
+/* 바텀 회사 정보 나누는 바 */
+#headerBottom .divider {
+	display: inline-block;
+	margin: 6px;
+	width: 1px;
+	height: 10px;
+	background-color: #e2e5e9;
+}
+
+#headerBottom #bottomChatBotChatBox {
+	position: fixed;
+	bottom: 130px;
+	right: 40px;
+
+}
+
+#headerBottom #bottomChatBotBtn {
+	position: fixed;
+	border-radius: 100%;
+	border : 1px solid #c3c3c3;
+	background-color : white;
+	bottom : 40px;
+	right: 40px;
+	padding: 10px;
+	padding-bottom: 5px;
+	cursor: pointer;
+}
+
+#headerBottom a{
+	color: black;
+}

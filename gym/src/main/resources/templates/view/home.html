@@ -1,0 +1,158 @@
+<!DOCTYPE HTML>
+<html th:replace="~{layout/layoutForm :: layout(~{::title}, ~{::link}, ~{::script},~{::section})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>Gym Home</title>
+    <link th:href="@{/css/bootstrap.min.css}" href="../css/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/home.css}" rel="stylesheet">
+    <script th:src="@{/js/home.js}"></script>
+</head>
+<body>
+<section>
+    <div id="mainPage" class="noto-sans-kr">
+        <div class="mainPageContainer">
+            <div id="mainPageFirstContainer">
+                <img id="mainPageFirst1" th:src="@{/image/mainPageFirst.jpg}">
+                <div id="mainPageFirstBox1">
+                    <div id="mainPageFirstExplain1">
+                        <div id="mainPageFirstTitle">
+                            편리하고 스마트한 훈련 <br>통합된 시스템으로 간편하게
+                        </div>
+                    </div>
+                    <div id="mainPageFirstLink">
+                        <a th:href="@{/gym/joinSelect}">무료로 시작하기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mainPageContainer">
+            <div id="mainPageMapContainer">
+                <div id="mainPageMapBox1">
+                    <div id="mainPageMapExplain1">
+                        <div id="mainPageMapTitle">
+                            탐색, <br>누구나 쉽고 빠르게
+                        </div>
+                    </div>
+                    <div id="mainPageMapBox2">
+                        <div id="mainPageMapExplain2">
+                            <div class="mainPageMapContents">
+                                내 위치 주변의 체육관을 <br>지도에서 한 눈에
+                            </div>
+                        </div>
+                        <img id="mainPageMap1" th:src="@{/image/mainPageMap.png}">
+                        <div id="mainPageMapExplain3">
+                            <div class="mainPageMapContents">
+                                체육관의 자세한 정보를 <br>직관적으로 신속하게
+                            </div>
+                        </div>
+                    </div>
+                    <div id="mainPageMapLink">
+                        <a th:href="@{/}">체육관 찾아보기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mainPageContainer">
+            <div id="mainPageGalleryContainer">
+                <div id="mainPageGalleryBox1">
+                    <div id="mainPageGalleryExplain1">
+                        <div id="mainPageGalleryTitle">
+                            체육관의 모든 순간을 한눈에, <br>동적인 활동을 담다
+                        </div>
+                        <div class="mainPageGalleryContents">
+                            우리의 갤러리에서 <br>훈련과 특별한 순간들을<br> 실시간으로 확인하세요.
+                        </div>
+                    </div>
+                    <img id="mainPageGallery1" th:src="@{/image/mainPageGallery1.jpg}">
+                </div>
+                <div id="mainPageGalleryBox2">
+                    <img id="mainPageGallery2" th:src="@{/image/mainPageGallery2.jpg}">
+                    <div id="mainPageGalleryExplain2">
+                        <div class="mainPageGalleryContents">
+                            훈련, 행사, 특별한 순간들을 담은 <br>우리의 갤러리를 확인해 보세요. <br>역동적인 순간들이 여러분을 기다립니다.
+                        </div>
+                        <div id="mainPageGalleryLink">
+                            <a th:href="@{/}">갤러리 방문하기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mainPageContainer">
+            <div id="mainPageUniformContainer">
+                <div id="mainPageUniformExplain">
+                    <div id="mainPageUniformTitle">
+                        최고의 훈련을 위한 <br> 완벽한 준비
+                    </div>
+                    <div id="mainPageUniformContents">
+                        필요한 모든 장비를 지금 바로 확인하고 주문하세요. 신속한 처리와 품질 보장으로 여러분의 훈련을 지원합니다.
+                    </div>
+                </div>
+                <div id="mainPageUniformLink">
+                    <a th:href="@{/}">상품 구매하기</a>
+                </div>
+                <div id="mainPageUniformBox">
+                    <img id="mainPageUniform1" th:src="@{/image/mainPageUniform1.jpg}">
+                    <img id="mainPageUniform2" th:src="@{/image/mainPageUniform2.jpg}">
+                    <img id="mainPageUniform3" th:src="@{/image/mainPageUniform3.jpg}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--/*<div class="container" style="max-width: 600px">
+        <div class="py-5 text-center">
+            <h2>홈 화면</h2>
+        </div>
+        <h4 class="mb-3" th:text="|로그인: ${loginMember?.memNick}|">로그인 사용자 이름</h4>
+        <h4 class="mb-3" th:text="|로그인: ${loginMember?.role}|">로그인 사용자 역할</h4>
+        <hr class="my-4">
+
+        <div class="row">
+
+            <div th:if="${loginMember == null}">
+
+                <div class="col">
+                    <button class="w-100 btn btn-secondary btn-lg" type="button"
+                            th:onclick="|location.href='@{/gym/joinSelect}'|">
+                        회원가입
+                    </button>
+                </div>
+
+                <div class="col" th:if="${loginMember == null}">
+                    <form th:action="@{/gym/login}" method="get">
+                        <button class="w-100 btn btn-dark btn-lg" type="submit">
+                            로그인
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+            <div th:if="${loginMember != null}">
+
+                <div class="col">
+                    <button class="w-100 btn btn-secondary btn-lg" type="button"
+                            th:onclick="|location.href='@{/gym/search}'|">
+                        도장 등록
+                    </button>
+                </div>
+
+                <div class="col">
+                    <form th:action="@{/gym/logout}" method="post">
+                        <button class="w-100 btn btn-dark btn-lg" type="submit">
+                            로그아웃
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+
+        </div>
+        <hr class="my-4">
+    </div>*/-->
+</section>
+</body>
+</html>

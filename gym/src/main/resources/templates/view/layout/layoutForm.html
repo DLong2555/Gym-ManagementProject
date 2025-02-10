@@ -1,0 +1,213 @@
+<html th:fragment="layout (title, link, scrpit, content)" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:replace="${title}">레이아웃 타이틀</title>
+
+    <!--공통-->
+    <link rel="stylesheet" type="text/css" th:href="@{/css/layoutBottom.css}">
+    <link rel="stylesheet" type="text/css" th:href="@{/css/layoutTop.css}">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script th:src="@{/js/layoutTop.js}"></script>
+
+    <!--추가-->
+    <th:block th:replace="${link}"/>
+    <th:block th:replace="${scrpit}"/>
+
+
+    <style>
+        a {
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: none;
+        }
+    </style>
+
+</head>
+
+<body>
+<header>
+    <div id="headerTop">
+        <div id="topContainer">
+            <div id="topLeftBox" class="noto-sans-kr">
+                <div id="logoBox">
+                    <a th:href="@{/}">
+                        <img id="logo" th:src="@{/image/logo.jpg}" alt="Logo">
+                        <div id="logoText" class="yeon-sung">FitHub</div>
+                    </a>
+                </div>
+
+                <div class="topMainMenu">
+                    <div class="topMenuEachBox">
+                        <a href="">기능
+                            <div class="menuDown"></div>
+                        </a>
+                    </div>
+                    <div class="topSubMenu">
+                        <div class="topSubMenuEach">
+                            <a th:href="@{/gym/search}">신규 등록</a>
+                        </div>
+                        <div class="topSubMenuEach">
+                            <a href="">회비 납부</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topMainMenu">
+                    <div class="topMenuEachBox">
+                        <a href="">상품
+                            <div class="menuDown"></div>
+                        </a>
+                    </div>
+                    <div class="topSubMenu">
+                        <div class="topSubMenuEach">
+                            <a href="">상품</a>
+                        </div>
+                        <div class="topSubMenuEach">
+                            <a href="">장바구니</a>
+                        </div>
+                        <div class="topSubMenuEach">
+                            <a href="">주문내역</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topMainMenu">
+                    <div class="topMenuEachBox">
+                        <a href="">활동
+                            <div class="menuDown"></div>
+                        </a>
+                    </div>
+                    <div class="topSubMenu">
+                        <div class="topSubMenuEach">
+                            <a href="">특수활동 공고</a>
+                        </div>
+                        <div class="topSubMenuEach">
+                            <a href="">갤러리</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="topMainMenu">
+                    <div class="topMenuEachBox">
+                        <a href="">게시판
+                            <div class="menuDown"></div>
+                        </a>
+                    </div>
+                    <div class="topSubMenu">
+                        <div class="topSubMenuEach">
+                            <a href="">공지사항</a>
+                        </div>
+                        <div class="topSubMenuEach">
+                            <a href="">중고거래</a>
+                        </div>
+                        <div class="topSubMenuEach">
+                            <a href="">문의사항</a>
+                        </div>
+                        <div class="topSubMenuEach">
+                            <a href="">자유게시판</a>
+                        </div>
+                        <div class="topSubMenuEach">
+                            <a href="">내 글</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="topRightBox" class="noto-sans-kr">
+                <div th:if="${loginUser} == null">
+                    <div id="topLogin">
+                        <a th:href="@{/gym/login}">로그인</a>
+<!--                        <button th:text="#{label.login}" id="loginBtn"></button>-->
+                    </div>
+
+                    <div id="topJoin">
+                        <a th:href="@{/gym/joinSelect}">무료로 시작하기</a>
+                    </div>
+                </div>
+
+                <div th:unless="${loginUser} == null">
+                    <div>
+                        <form th:action="@{/gym/logout}" method="post">
+                            <button type="submit" th:text="#{label.logout}">
+                                로그아웃
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+
+
+<div th:replace="${content}">
+    <p>레이아웃 컨텐츠</p>
+</div>
+
+<footer>
+    <div id="headerBottom">
+        <div id="bottomContainer">
+            <div id="bottomMenuContainer">
+                <div id="bottomMenuLeftBox">
+                    <div class="bottomMenuEachBox">
+                        <div class="bottomMenuTitle noto-sans-kr">기능</div>
+                        <ul class="bottomMenuContents noto-sans-kr">
+                            <li><a th:href="@{/}">체육관 정보</a></li>
+                            <li><a th:href="@{/}">회비 납부</a></li>
+                        </ul>
+                    </div>
+                    <div class="bottomMenuEachBox">
+                        <div class="bottomMenuTitle noto-sans-kr">상품</div>
+                        <ul class="bottomMenuContents noto-sans-kr">
+                            <li><a href="#">전체 상품</a></li>
+                            <li><a th:href="@{/}">장바구니</a></li>
+                            <li><a th:href="@{/}">주문내역</a></li>
+                        </ul>
+                    </div>
+                    <div class="bottomMenuEachBox">
+                        <div class="bottomMenuTitle noto-sans-kr">활동</div>
+                        <ul class="bottomMenuContents noto-sans-kr">
+                            <li><a th:href="@{/}">갤러리</a></li>
+                        </ul>
+                    </div>
+                    <div class="bottomMenuEachBox">
+                        <div class="bottomMenuTitle noto-sans-kr">게시판</div>
+                        <ul class="bottomMenuContents noto-sans-kr">
+                            <li><a th:href="@{/}">공지사항</a></li>
+                            <li><a th:href="@{/}">문의사항</a></li>
+                            <li><a th:href="@{/}">중고거래</a></li>
+                            <li><a th:href="@{/}">자유게시판</a></li>
+                            <li><a th:href="@{/}">내 글</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div id="bottomMenuRightBox">
+                    <div id="bottomMenuInfoBox">
+                        <div id="bottomMenuInfoTitle" class="yeon-sung">FitHub</div>
+                        <div id="bottomMenuInfoContents" class="noto-sans-kr">
+                            FitHub은 통합 체육관 관리 솔루션으로, 회원 관리, 결제 처리, 마케팅 도구 등을 하나의 플랫폼에서 손쉽게
+                            관리할 수 있게 해줍니다. 사용자 친화적인 인터페이스와 강력한 기능을 통해 체육관 운영의 효율성을 극대화하고, 고객
+                            만족도를 높일 수 있는 완벽한 도구를 제공합니다.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="bottomInfoContainer" class="noto-sans-kr">
+                <div id="bottomInfoBox">
+                    <span><a href="#">이용약관</a></span>
+                    <span class="divider"></span>
+                    <span><a href="#">개인정보 처리방침</a></span>
+                    <span class="divider"></span>
+                    <span>2025-2025 FitHub.com, Inc</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>
