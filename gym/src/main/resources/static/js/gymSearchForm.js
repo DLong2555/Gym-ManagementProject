@@ -261,9 +261,11 @@ document.addEventListener('DOMContentLoaded', () => {
                                 if (div.textContent === title) {
                                     div.style.backgroundColor = "lightgray";
                                     div.style.fontWeight = "bold";
+                                    div.style.borderColor = "lightgray";
                                 } else {
                                     div.style.backgroundColor = "white";
                                     div.style.fontWeight = "normal";
+                                    div.style.borderColor = "white";
                                 }
                             });
 
