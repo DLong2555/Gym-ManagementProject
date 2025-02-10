@@ -45,7 +45,7 @@
                     <div class="region-title">시/군/구</div>
                     <div class="cities">
                         <select id="city">
-                            <option value="전체">전체</option>
+                            <option value="">전체</option>
                         </select>
                     </div>
                 </div>
@@ -54,7 +54,7 @@
                     <div class="region-title">동/읍/면</div>
                     <div class="states">
                         <select id="state">
-                            <option value="전체">전체</option>
+                            <option value="">전체</option>
                         </select>
                     </div>
                 </div>
@@ -93,17 +93,15 @@
 
             </div>
 
+            <div id="registerChildBtnBox">
+                <form th:action="@{/gym/child/form}" method="post" th:object="${selectedGym}">
+                    <input type="hidden" value="" th:field="*{gymName}" readonly/>
+                    <input type="hidden" value="" th:field="*{gymAddress}" readonly/>
 
-            <form th:action="@{/gym/child/form}" method="post" th:if="${searchResult} != null">
-                <div th:each="gym, gymState : ${searchResult}">
-                    <input type="radio" th:id="${gymState.index}" name="gymName" th:value="${gym.title}"
-                           onchange="updateHiddenInput(this)">
-                    <input type="hidden" th:id="|${gymState.index}_address|" name="address" th:value="${gym.address}">
-                    <label th:for="${gymState.index}" th:text="${gym.title}"></label>
-                </div>
+                    <button class="registerChildBtn" type="submit">등록하러 가기</button>
+                </form>
+            </div>
 
-                <button type="submit">등록</button>
-            </form>
         </div>
     </div>
 </section>

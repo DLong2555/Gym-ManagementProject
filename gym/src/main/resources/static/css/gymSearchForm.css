@@ -153,3 +153,12 @@
     cursor: pointer;
     margin-right: 20px;
 }
+
+#registerChildBtnBox button{
+    display: none;
+    background-color: black;
+    color: white;
+    margin: 20px;
+    width: 200px;
+    height: 60px;
+}
