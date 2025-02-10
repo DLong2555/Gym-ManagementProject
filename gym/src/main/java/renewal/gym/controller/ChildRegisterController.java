@@ -12,6 +12,7 @@ import renewal.gym.constant.LoginSessionConst;
 import renewal.gym.domain.Child;
 import renewal.gym.dto.ChildRegisterForm;
 import renewal.gym.dto.LoginUserSession;
+import renewal.gym.dto.SelectedGymForm;
 import renewal.gym.repository.ChildRepository;
 import renewal.gym.service.child.ChildRegisterService;
 import renewal.gym.validator.ChildRegisterValidator;
@@ -31,16 +32,19 @@ public class ChildRegisterController {
     }
 
     @PostMapping("/form")
-    public String selectGymRegister(@RequestParam("gymName") String gymName,
-                                    @RequestParam("address") String address,
-                                    Model model) {
+    public String selectGymRegister(@Validated @ModelAttribute SelectedGymForm form, BindingResult bindingResult, Model model) {
 
-        log.debug("gymName: {}", gymName);
-        log.debug("address: {}", address);
+        if (bindingResult.hasErrors()) {
+            log.debug("errors: {}", bindingResult.getAllErrors());
+            return "gym/search";
+        }
+
+        log.debug("gymName: {}", form.getGymName());
+        log.debug("address: {}", form.getGymAddress());
 
         ChildRegisterForm childRegisterForm = new ChildRegisterForm();
-        childRegisterForm.setGymName(gymName);
-        childRegisterForm.setAddress(address);
+        childRegisterForm.setGymName(form.getGymName());
+        childRegisterForm.setAddress(form.getGymAddress());
 
         model.addAttribute("registerForm", childRegisterForm);
 

@@ -72,36 +72,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const gymType = document.getElementById("gymType");
     const gymListBox = document.getElementById("gymNameListBox");
     const markerMap = new Map();
+    const registerFormBtn = document.querySelector(".registerChildBtn");
 
     btn.addEventListener("click", function () {
         let searchBox = document.querySelector(".searchBox");
-        let region = document.getElementById("region");
-        let reqValue = "";
-
+        registerFormBtn.style.display = "none";
 
         if(region.value === ""){
             alert("지역 선택은 필수입니다.")
             return false;
         }
 
-        if(city.value === ""){
-            alert("시/군/구 선택은 필수입니다.")
-            return false;
-        }else{
-            if(state.value === ""){
-                if(searchBox.value === ""){
-                    reqValue = city.value + " " + gymType.value;
-                }else{
-                    reqValue = city.value + " " + searchBox.value;
-                }
-            }else{
-                if(searchBox.value === ""){
-                    reqValue = city.value + " " + state.value + " " + gymType.value;
-                }else{
-                    reqValue = city.value + " " + state.value + " " + searchBox.value;
-                }
-            }
-        }
+        let reqValue = createSearchQuery(region.value, city.value, state.value, gymType.value, searchBox.value);
 
         let reqJson = {}
         reqJson.searchQuery = reqValue;
@@ -141,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
                             const address = value.address;
                             const lat = value.mapy; // 위도
                             const lng = value.mapx; // 경도
-                            console.log(title);
 
                             const div = document.createElement("div");
                             const addressDiv = document.createElement("div");
@@ -257,13 +238,17 @@ document.addEventListener('DOMContentLoaded', () => {
                             let gymDivs = document.querySelectorAll(".gymDiv");
                             let gymAddressDivs = document.querySelectorAll(".gymAddressDiv");
 
+                            setSelectedBox(title, gymAddress);
+
                             gymDivs.forEach(div => {
                                 if (div.textContent === title) {
                                     div.style.backgroundColor = "lightgray";
                                     div.style.fontWeight = "bold";
+                                    div.style.borderColor = "lightgray";
                                 } else {
                                     div.style.backgroundColor = "white";
                                     div.style.fontWeight = "normal";
+                                    div.style.borderColor = "white";
                                 }
                             });
 
@@ -287,6 +272,17 @@ document.addEventListener('DOMContentLoaded', () => {
                                 div.style.backgroundColor = "white";
                                 div.style.fontWeight = "normal";
                             });
+                        }
+
+                        function setSelectedBox(title, address) {
+                            let selectedGymName = document.getElementById("gymName");
+                            let selectedGymAddress = document.getElementById("gymAddress");
+
+
+                            registerFormBtn.style.display = "block";
+
+                            selectedGymName.value = title;
+                            selectedGymAddress.value = address;
                         }
 
                     }
@@ -319,4 +315,23 @@ document.addEventListener('DOMContentLoaded', () => {
             event.target.style.color = "rgb(66, 73, 73)";
         }
     });
+
+    function createSearchQuery(region, city, state, gymType, query){
+        let q = "";
+
+        if(city === ""){
+            if(query === "") q = region + " " + gymType;
+            else q = region + " " + gymType + " " + query;
+        }else{
+            if(state === ""){
+                if(query !== "") q = city + " " + gymType + " " + query;
+                else q = city + " " + gymType.value;
+            }else{
+                if(query === "")  q = city + " " + state + " " + gymType;
+                else q = city + " " + state + " " + gymType + " " + query;
+            }
+        }
+
+        return q;
+    }
 })

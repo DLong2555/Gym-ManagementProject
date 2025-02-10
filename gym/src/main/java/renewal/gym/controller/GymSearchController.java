@@ -10,6 +10,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import renewal.gym.dto.ChildRegisterForm;
 import renewal.gym.dto.NaverSearchResultForm;
 import renewal.gym.dto.SearchForm;
+import renewal.gym.dto.SelectedGymForm;
 import renewal.gym.service.naver.NaverSearchService;
 import renewal.gym.service.GymService;
 
@@ -27,7 +28,7 @@ public class GymSearchController {
     //querydsl 방식
     @GetMapping("/search")
     public String gymListForm(Model model) {
-        model.addAttribute("searchForm", new SearchForm());
+        model.addAttribute("selectedGym", new SelectedGymForm());
         return "gym/gymSearchForm";
     }
 
