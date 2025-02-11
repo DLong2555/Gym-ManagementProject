@@ -1,0 +1,15 @@
+.genderBox{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 20px;
+}
+
+.genderBox label{
+    font-weight: 200;
+    margin-left: 10px;
+}
+
+.genderBox input{
+    width: 40px;
+}
+

@@ -20,7 +20,9 @@ public class Child {
     private String childName;
     private String childPhoneNum;
     private int childAge;
-    private String childGender;
+
+    @Enumerated(EnumType.STRING)
+    private Gender childGender;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
@@ -40,11 +42,11 @@ public class Child {
         this.gym = gym;
     }
 
-    public Child(String childName, String childPhoneNum, int childAge, String childGender) {
+    public Child(String childName, String childPhoneNum, int childAge, String gender) {
         this.childName = childName;
         this.childPhoneNum = childPhoneNum;
         this.childAge = childAge;
-        this.childGender = childGender;
+        this.childGender = Gender.valueOf(gender);
     }
 
     public void addMember(Member member) {

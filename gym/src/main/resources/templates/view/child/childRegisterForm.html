@@ -1,86 +1,104 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
+<html th:replace="~{layout/layoutForm :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}"
+      xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8">
-    <link th:href="@{/css/bootstrap.min.css}"
-          href="../css/bootstrap.min.css" rel="stylesheet">
+
+    <title>Children Register</title>
+    <link th:href="@{/css/childRegisterForm.css}" rel="stylesheet">
+    <link th:href="@{/css/joinForm.css}" rel="stylesheet">
+    <script th:src="@{/js/childRegisterForm.js}"></script>
 </head>
 <body>
+<section>
+    <div id="joinForm">
+        <div id="joinFormContainer">
 
-<div class="container">
+            <div id="joinTitleDiv">
+                <div id="joinTitle">등록</div>
+            </div>
 
-    <div class="py-5 text-center">
-        <h2 th:text="#{page.register}"></h2>
+            <form id="registerForm" th:object="${registerForm}" method="post">
+
+                <!--                <div th:if="${#fields.hasGlobalErrors()}">-->
+                <!--                    <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메세지</p>-->
+                <!--                </div>-->
+
+                <input type="hidden" id="gymId" th:field="*{gymId}" readonly>
+                <div class="field-error" th:errors="*{gymId}">
+                    오류
+                </div>
+
+                <div class="joinInputDiv">
+                    <div class="inputGroup">
+                        <label for="gymName">체육관</label>
+                        <input type="text" th:field="*{gymName}" th:errorclass="field-error" class="form-control"
+                               readonly>
+                        <div class="field-error"></div>
+                        <div class="field-error" th:errors="*{gymName}">
+                            오류
+                        </div>
+                    </div>
+                </div>
+
+                <div class="joinInputDiv">
+                    <div class="inputGroup">
+                        <label for="name" th:text="#{label.join.name}">이름</label>
+                        <input type="text" th:field="*{name}" th:errorclass="field-error"
+                               class="form-control" placeholder="이름">
+                        <div class="field-error" th:errors="*{name}"></div>
+                    </div>
+                </div>
+
+                <div class="joinInputDiv">
+                    <div class="inputGroup">
+                        <label for="age" th:text="#{label.join.age}">나이</label>
+                        <input type="text" th:field="*{age}"
+                               th:errorclass="field-error" class="form-control" placeholder="나이">
+                        <div class="field-error" th:errors="*{age}">
+                            오류
+                        </div>
+                    </div>
+                </div>
+
+                <div class="joinInputDiv">
+                    <div class="inputGroup">
+                        <label th:text="#{label.register.gender}">성별</label>
+                    </div>
+                    <div class="genderBox">
+                        <label for="male">남자</label>
+                        <input id="male" type="radio" name="gender" value="MALE"
+                               th:checked="${registerForm.gender == 'MALE'}"/>
+                        <label for="female">여자</label>
+                        <input id="female" type="radio" name="gender" value="FEMALE"
+                               th:checked="${registerForm.gender == 'FEMALE'}"/>
+                        <div class="field-error" th:errors="*{gender}"></div>
+                    </div>
+                </div>
+
+                <div class="joinInputDiv">
+                    <div class="inputGroup">
+                        <label for="phone" th:text="#{label.join.phone}">휴대번호번호</label>
+                        <input type="text" th:field="*{phone}"
+                               th:errorclass="field-error" class="form-control" placeholder="휴대번호번호">
+                        <div class="field-error" th:errors="*{phone}">
+                            오류
+                        </div>
+                    </div>
+                </div>
+
+                <div class="join-btn-box">
+                    <button class="join-btn" type="submit" th:text="#{button.join}">등록</button>
+                    <button class="cansel-btn"
+                            th:onclick="|location.href='@{/gym/search}'|"
+                            type="button" th:text="#{button.cancel}">취소
+                    </button>
+                </div>
+
+            </form>
+
+        </div>
     </div>
+</section>
 
-    <form th:action="@{/gym/child/new}" th:object="${registerForm}" method="post">
-
-        <div th:if="${#fields.hasGlobalErrors()}">
-            <p class="field-error" th:each="err : ${#fields.globalErrors()}" th:text="${err}">전체 오류 메세지</p>
-        </div>
-
-        <input type="hidden" id="address" th:field="*{address}" readonly>
-
-        <div>
-            <label for="name">체육관</label>
-            <input type="text" id="gymName" th:field="*{gymName}"
-                   th:errorclass="field-error" class="form-control" readonly>
-            <div class="field-error" th:errors="*{gymName}">
-                오류
-            </div>
-        </div>
-
-        <div>
-            <label for="name" th:text="#{label.join.name}">이름</label>
-            <input type="text" id="name" th:field="*{childName}"
-                   th:errorclass="field-error" class="form-control" placeholder="이름을 입력하세요">
-            <div class="field-error" th:errors="*{childName}">
-                오류
-            </div>
-        </div>
-
-        <div>
-            <label for="age" th:text="#{label.register.age}">나이</label>
-            <input type="text" id="age" th:field="*{childAge}"
-                   th:errorclass="field-error" class="form-control" placeholder="이름을 입력하세요">
-            <div class="field-error" th:errors="*{childAge}">
-                오류
-            </div>
-        </div>
-
-        <div>
-            <label th:text="#{label.register.gender}">성별</label>
-            <input type="radio" name="childGender" value="male" th:checked="${registerForm.childGender == 'male'}" /> 남자
-            <input type="radio" name="childGender" value="female" th:checked="${registerForm.childGender == 'female'}" /> 여자
-            <div class="field-error" th:errors="*{childGender}">
-        </div>
-
-        <div>
-            <label for="phoneNum" th:text="#{label.join.phoneNumber}">휴대번호번호</label>
-            <input type="text" id="phoneNum" th:field="*{childPhoneNum}"
-                   th:errorclass="field-error" class="form-control" placeholder="이름을 입력하세요">
-            <div class="field-error" th:errors="*{childPhoneNum}">
-                오류
-            </div>
-        </div>
-
-        <hr class="my-4">
-
-        <div class="row">
-            <div class="col">
-                <button class="w-100 btn btn-primary btn-lg" type="submit" th:text="#{button.save}">상품 등록</button>
-            </div>
-            <div class="col">
-                <button class="w-100 btn btn-secondary btn-lg"
-                        onclick="location.href='items.html'"
-                        th:onclick="|location.href='@{/gym/search}'|"
-                        type="button" th:text="#{button.cancel}">취소
-                </button>
-            </div>
-        </div>
-
-    </form>
-
-</div> <!-- /container -->
 </body>
 </html>

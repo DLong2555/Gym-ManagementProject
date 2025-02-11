@@ -25,14 +25,13 @@ public class ChildRegisterService {
     private final GymRepository gymRepository;
 
     @Transactional
-    public Long register(Long id, Child child, String gymName, String address) {
+    public Long register(Long id, Long gymId, Child child) {
 
         Member member = memberRepository.findById(id).orElseThrow(IllegalArgumentException::new);
-        Gym gym = gymRepository.findByGymName(gymName, address).orElseThrow(IllegalArgumentException::new);
+        Gym gym = gymRepository.findById(gymId).orElseThrow(IllegalArgumentException::new);
 
         log.debug("gym {}", gym.getId());
         log.debug("member {}", member.getId());
-
 
         Period period = new Period(LocalDateTime.now(), LocalDateTime.now().plusMonths(1L));
         child.registration(period);

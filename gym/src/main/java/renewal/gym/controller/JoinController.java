@@ -95,13 +95,13 @@ public class JoinController {
 
         Address address = new Address(joinForm.getZipcode(), joinForm.getRoadName(), joinForm.getDetailAddress());
 
-        return new Member(joinForm.getMemId(), joinForm.getPassword(), joinForm.getMemName(), joinForm.getMemPhoneNum(), address);
+        return new Member(joinForm.getMemId(), joinForm.getPassword(), joinForm.getName(), joinForm.getPhone(), address);
     }
 
     public Gym createManagerAndGym(JoinManagerForm joinForm){
 
         Address address = new Address(joinForm.getZipcode(), joinForm.getRoadName(), joinForm.getDetailAddress());
-        Manager manager = new Manager(joinForm.getMemId(), joinForm.getPassword(), joinForm.getMemName(), joinForm.getMemPhoneNum());
+        Manager manager = new Manager(joinForm.getMemId(), joinForm.getPassword(), joinForm.getName(), joinForm.getPhone());
 
         return new Gym(joinForm.getGymName(), joinForm.getGymPrice(), joinForm.getGymPhone(),address,manager);
     }

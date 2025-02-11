@@ -2,17 +2,26 @@ package renewal.gym.dto;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
+@ToString
 @Getter @Setter
 public class ChildRegisterForm {
 
-    private String childName;
+    private Long gymId;
+    private String name;
+    private String phone;
 
-    private String childPhoneNum;
-
-    private Integer childAge;
-    private String childGender;
+    private Integer age;
+    private String gender;
 
     private String gymName;
-    private String address;
+
+    public ChildRegisterForm() {
+    }
+
+    public ChildRegisterForm(Long gymId, String gymName) {
+        this.gymId = gymId;
+        this.gymName = gymName;
+    }
 }
