@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     if (request.response.success === "success") {
                         console.log("response: " + request.response);
 
-                        if(confirm("추가 등록하시겠습니까?")){
+                        if(confirm("등록 성공! 추가 등록하시겠습니까?")){
                             const form = document.createElement("form");
                             form.method = "POST";
                             form.action = "/gym/child/form";
