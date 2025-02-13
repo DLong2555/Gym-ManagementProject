@@ -95,8 +95,8 @@
 
             <div id="registerChildBtnBox">
                 <form th:action="@{/gym/child/form}" method="post" th:object="${selectedGym}">
+                    <input type="hidden" value="" th:field="*{gymId}" readonly/>
                     <input type="hidden" value="" th:field="*{gymName}" readonly/>
-                    <input type="hidden" value="" th:field="*{gymAddress}" readonly/>
 
                     <button class="registerChildBtn" type="submit">등록하러 가기</button>
                 </form>

@@ -6,9 +6,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import renewal.gym.domain.Gym;
 import renewal.gym.dto.GymListDto;
+import renewal.gym.dto.SelectedGymForm;
 import renewal.gym.repository.GymRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -27,6 +29,10 @@ public class GymService {
                 .map(gym -> new GymListDto(gym.getId(), gym.getGymName()))
                 .toList();
 
+    }
+
+    public Long findSelectedGym(String gymName, String address) {
+        return gymRepository.findByGymNameAndAddress(gymName, address).orElse(null);
     }
 
 }

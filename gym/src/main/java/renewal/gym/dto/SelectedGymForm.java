@@ -1,16 +1,17 @@
 package renewal.gym.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
 public class SelectedGymForm {
 
-    @NotBlank
-    private String gymName;
+    @NotNull
+    private Long gymId;
 
     @NotBlank
-    private String gymAddress;
+    private String gymName;
 
 }

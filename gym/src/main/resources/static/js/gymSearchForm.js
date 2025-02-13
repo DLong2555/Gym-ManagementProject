@@ -119,6 +119,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         // 모든 검색 결과에 대해 마커 추가
                         result.forEach(value => {
+                            const id = value.gymId;
                             const title = decoding(value.title);
                             const address = value.address;
                             const lat = value.mapy; // 위도
@@ -131,12 +132,13 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <div class="gymNames">
                                     <div class="gymDiv">${title}</div>
                                     <div class="gymAddressDiv" style="display: none">${address}</div>
+                                    <input type="hidden" class="gymId" value="${id}"></input>
                                 </div>                              
                             `;
 
                             names.innerHTML += (gymListDiv);
 
-                            addMarker(lat, lng, title, address);
+                            addMarker(lat, lng, id, title, address);
                         });
 
                         //클릭 시 마커 크지 조절
@@ -166,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
 
                         // 마커 추가 함수 및 마커 클릭시 하이라이트 및 취소
-                        function addMarker(lat, lng, title, address) {
+                        function addMarker(lat, lng, id, title, address) {
                             const marker = new naver.maps.Marker({
                                 position: new naver.maps.LatLng(lat, lng, title),
                                 map: map,
@@ -193,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                                 map.setCenter(marker.getPosition());
 
-                                highlight(title, address);
+                                highlight(id, title, address);
 
                             });
                         }
@@ -203,6 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             if (event.target.classList.contains("gymDiv")) {
                                 const gymName = event.target.textContent;
                                 const gymAddress = event.target.closest(".gymNames").querySelector(".gymAddressDiv").textContent;
+                                const gymId = event.target.closest(".gymNames").querySelector(".gymId").value;
 
                                 const marker = markerMap.get(gymName);
 
@@ -220,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                                     map.setCenter(marker.getPosition());
 
-                                    highlight(gymName, gymAddress);
+                                    highlight(gymId, gymName, gymAddress);
 
                                 }
                             }
@@ -234,11 +237,11 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
 
                         //선택대상 하이라이트 함수
-                        function highlight(title, gymAddress) {
+                        function highlight(id, title, gymAddress) {
                             let gymDivs = document.querySelectorAll(".gymDiv");
                             let gymAddressDivs = document.querySelectorAll(".gymAddressDiv");
 
-                            setSelectedBox(title, gymAddress);
+                            setSelectedBox(id, title);
 
                             gymDivs.forEach(div => {
                                 if (div.textContent === title) {
@@ -274,15 +277,14 @@ document.addEventListener('DOMContentLoaded', () => {
                             });
                         }
 
-                        function setSelectedBox(title, address) {
+                        function setSelectedBox(id, title) {
+                            let selectedId = document.getElementById("gymId");
                             let selectedGymName = document.getElementById("gymName");
-                            let selectedGymAddress = document.getElementById("gymAddress");
-
 
                             registerFormBtn.style.display = "block";
 
+                            selectedId.value = id;
                             selectedGymName.value = title;
-                            selectedGymAddress.value = address;
                         }
 
                     }

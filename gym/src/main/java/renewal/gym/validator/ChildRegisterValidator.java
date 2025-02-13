@@ -7,6 +7,7 @@ import org.springframework.validation.ObjectError;
 import org.springframework.validation.Validator;
 import renewal.gym.dto.ChildRegisterForm;
 
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -17,7 +18,14 @@ import static org.springframework.util.StringUtils.hasText;
 @Component
 public class ChildRegisterValidator implements Validator {
 
-    static Map<String, String> regexpMap = Map.of("name", "^[가-힣]+$", "phone", "^01(?:0|1|[6-9])(?:\\d{3}|\\d{4})\\d{4}$");
+    static private final Map<String, String> regexpMap = Map.of(
+            "name", "^[가-힣]+$",
+            "phone", "^01(?:0|1|[6-9])(?:\\d{3}|\\d{4})\\d{4}$"
+    );
+
+    static private final List<String> requiredFields = List.of(
+            "name", "gender","phone", "gymName"
+    );
 
     @Override
     public boolean supports(Class<?> clazz) {
@@ -30,33 +38,46 @@ public class ChildRegisterValidator implements Validator {
 
         ChildRegisterForm form = (ChildRegisterForm) target;
 
-        // 이름 null 체크
-        if(!hasText(form.getChildName())) errors.rejectValue("childName", "required");
+        if(!hasText(form.getAge())) errors.rejectValue("age", "required", "나이: 필수 정보입니다.");
+        else{
+            try {
+                int age  = Integer.parseInt(form.getAge());
+                if(age < 5 || age > 99) errors.rejectValue("age","range", "만 5세 이상부터 만 99세 이하만 등록 가능합니다.");
+            }catch(NumberFormatException e){
+                errors.rejectValue("age", "typeMismatch", "숫자만 입력가능합니다.");
+            }
+        }
 
-        // 나이 null 체크
-        if(form.getChildAge() == null && !errors.hasFieldErrors("childAge")) errors.rejectValue("childAge", "required");
 
-        // 성별 null 체크
-        if(!hasText(form.getChildGender())) errors.rejectValue("childGender", "required");
+//        if(form.getGymId() == null) errors.rejectValue("gymId", "required");
 
-        // 체육관 이름 null 체크
-        if(!hasText(form.getGymName())) errors.rejectValue("gymName", "required");
+        for (String requiredField : requiredFields) {
+            String value = getFieldValue(requiredField, form);
 
-        // 이름 패턴 체크
-        if(!errors.hasFieldErrors("childName") && patternCheck("name", form.getChildName())) errors.rejectValue("childName", "pattern.name");
-
-        //전화번호 패턴 체크
-        if(form.getChildPhoneNum() != null) {
-            if (patternCheck("phone", form.getChildPhoneNum())) errors.rejectValue("childPhoneNum", "pattern.phone");
+            if(!hasText(value)) errors.rejectValue(requiredField, "required", getDefaultMessageField(requiredField) + "필수 정보입니다.");
+            else if(regexpMap.containsKey(requiredField) && !Pattern.matches(regexpMap.get(requiredField), value)) {
+                errors.rejectValue(requiredField, "pattern", getDefaultMessageField(requiredField) + "옳바른 형식이 아닙니다.");
+            }
         }
     }
 
-    public boolean patternCheck(String valName, String value){
-        String regexp = regexpMap.get(valName);
+    private String getFieldValue(String requiredField, ChildRegisterForm form) {
+        return switch (requiredField) {
+            case "name" -> form.getName();
+            case "gender" -> form.getGender();
+            case "phone" -> form.getPhone();
+            case "gymName" -> form.getGymName();
+            default -> null;
+        };
+    }
 
-        Pattern pattern = Pattern.compile(regexp);
-        Matcher matcher = pattern.matcher(value);
-
-        return !matcher.matches();
+    private String getDefaultMessageField(String requiredField) {
+        return switch (requiredField) {
+            case "name" -> "이름: ";
+            case "gender" -> "성별: ";
+            case "phone" -> "휴대전화번호: ";
+            case "gymName" -> "체육관 정보: ";
+            default -> null;
+        };
     }
 }
