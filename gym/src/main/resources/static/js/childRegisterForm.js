@@ -14,29 +14,60 @@ document.addEventListener('DOMContentLoaded', () => {
             if (request.readyState === 4) {
                 if (request.status === 200) {
 
-                    let result = request.response;
+                    if (request.response.success === "success") {
+                        console.log("response: " + request.response);
 
-                    if (result.length === 0) {
-                        console.log(error);
-                    }else{
                         if(confirm("추가 등록하시겠습니까?")){
-                            const addChild = new FormData();
-                            addChild.append("gymId", gymId);
-                            addChild.append("gymName", gymName);
+                            const form = document.createElement("form");
+                            form.method = "POST";
+                            form.action = "/gym/child/form";
 
-                            console.log(addChild);
+                            const gymIdInput = document.createElement("input");
+                            gymIdInput.type = "hidden";
+                            gymIdInput.name = "gymId";
+                            gymIdInput.value = gymId;
 
-                            request.open("POST", "/gym/child/form", false);
-                            request.send(addChild);
+                            const gymNameInput = document.createElement("input");
+                            gymNameInput.type = "hidden";
+                            gymNameInput.name = "gymName";
+                            gymNameInput.value = gymName;
+
+                            form.appendChild(gymIdInput);
+                            form.appendChild(gymNameInput);
+                            document.body.appendChild(form);
+
+                            form.submit();
                         }else{
                             window.location.href="/";
                         }
+                    }else{
+                        let result = request.response;
+                        console.log(result);
+
+                        document.querySelectorAll(".field-error").forEach(field => {
+                            field.textContent = "";
+                        })
+
+                        Object.keys(result).forEach((key) => {
+                            let field = document.getElementById(key);
+
+                            if(field){
+                                let errorField = field.closest('.joinInputDiv').querySelector('.field-error');
+
+                                if (errorField) {
+                                    errorField.textContent = "X " + result[key];
+                                }
+                            }
+                        })
+
+                        return false;
                     }
                 }
             }
         }
 
-        request.open("POST", "/gym/child/new", false);
+        request.responseType = "json";
+        request.open("POST", "/gym/child/new", true);
         request.send(formData);
     })
 

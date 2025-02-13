@@ -5,10 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import renewal.gym.constant.LoginSessionConst;
+import renewal.gym.controller.argument.Login;
 import renewal.gym.domain.Child;
 import renewal.gym.dto.ChildRegisterForm;
 import renewal.gym.dto.LoginUserSession;
@@ -17,6 +20,10 @@ import renewal.gym.repository.ChildRepository;
 import renewal.gym.service.GymService;
 import renewal.gym.service.child.ChildRegisterService;
 import renewal.gym.validator.ChildRegisterValidator;
+import renewal.gym.validator.groups.ValidationSequence;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Slf4j
 @Controller
@@ -52,29 +59,39 @@ public class ChildRegisterController {
         return "child/childRegisterForm";
     }
 
+    @ResponseBody
     @PostMapping("/new")
-    public String registerChild(@Validated @ModelAttribute("registerForm") ChildRegisterForm childRegisterForm, BindingResult bindingResult,
-                                @SessionAttribute(name = LoginSessionConst.LoginSESSION_KEY, required = false) LoginUserSession session){
+    public Map<String, String> registerChild(@Validated @ModelAttribute("registerForm") ChildRegisterForm childRegisterForm, BindingResult bindingResult,
+                                             @Login LoginUserSession session){
 
         log.debug("gymAddress: {}", childRegisterForm);
 
         if(bindingResult.hasErrors()) {
-            log.error("errors: {}", bindingResult.getAllErrors());
-            return "child/childRegisterForm";
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                errors.put(fieldError.getField(), fieldError.getDefaultMessage());
+            }
+
+            log.debug("fieldError: {}", errors);
+            return errors;
         }
 
         Long gymId = childRegisterService.register(session.getId(), childRegisterForm.getGymId(), createChild(childRegisterForm));
 
+        if(gymId == null) {
+            return Map.of("name", "이미 등록되어있습니다.");
+        }
+
         session.getGymIds().add(gymId);
         log.debug("session: {}", session);
 
-        return "redirect:/";
+        return Map.of("success", "success");
     }
 
     private Child createChild(ChildRegisterForm childRegisterForm) {
 
         return new Child(childRegisterForm.getName(), childRegisterForm.getPhone(),
-                childRegisterForm.getAge(), childRegisterForm.getGender());
+                Integer.parseInt(childRegisterForm.getAge()), childRegisterForm.getGender());
     }
 
 
