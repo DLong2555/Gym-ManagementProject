@@ -45,11 +45,21 @@
                         </a>
                     </div>
                     <div class="topSubMenu">
-                        <div class="topSubMenuEach">
-                            <a th:href="@{/gym/search}">신규 등록</a>
+                        <div th:if="${loginUser?.role == 'Role_유저' || loginUser == null}">
+                            <div class="topSubMenuEach">
+                                <a th:href="@{/gym/search}">신규 등록</a>
+                            </div>
+                            <div class="topSubMenuEach">
+                                <a href="">회비 납부</a>
+                            </div>
+                            <div class="topSubMenuEach">
+                                <a th:href="@{/gym/manage}">회원 관리</a>
+                            </div>
                         </div>
-                        <div class="topSubMenuEach">
-                            <a href="">회비 납부</a>
+                        <div th:if="${loginUser?.role == 'Role_관장'}">
+                            <div class="topSubMenuEach">
+                                <a th:href="@{/gym/manage}">회원 관리</a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -116,10 +126,10 @@
             </div>
 
             <div id="topRightBox" class="noto-sans-kr">
-                <div th:if="${loginUser} == null">
+                <div id="topRightBtnBox" th:if="${loginUser} == null">
                     <div id="topLogin">
                         <a th:href="@{/gym/login}">로그인</a>
-<!--                        <button th:text="#{label.login}" id="loginBtn"></button>-->
+                        <!--                        <button th:text="#{label.login}" id="loginBtn"></button>-->
                     </div>
 
                     <div id="topJoin">
@@ -128,19 +138,41 @@
                 </div>
 
                 <div th:unless="${loginUser} == null">
-                    <div>
-                        <form th:action="@{/gym/logout}" method="post">
-                            <button type="submit" th:text="#{label.logout}">
-                                로그아웃
-                            </button>
-                        </form>
+                    <div id="profileBox">
+                        <div id="profile">
+                            <div id="profileText">
+                                <p th:text="${loginUser.loginId}"></p>
+                            </div>
+                            <div id="profileImg">
+                                <img th:src="@{/image/logo.jpg}" alt="Profile">
+                            </div>
+                        </div>
+                        <div id="profileSubBox">
+                            <div id="subProfileImg">
+                                <img th:src="@{/image/logo.jpg}" alt="Profile">
+                                <p th:text="${loginUser.loginId}"></p>
+                            </div>
+                            <div id="subProfileBtn">
+                                <div class="profileBtn">
+                                    <button type="button">
+                                        마이페이지
+                                    </button>
+                                </div>
+                                <div class="profileBtn">
+                                    <form th:action="@{/gym/logout}" method="post">
+                                        <button type="submit" th:text="#{label.logout}">
+                                            로그아웃
+                                        </button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </header>
-
 
 
 <div th:replace="${content}">

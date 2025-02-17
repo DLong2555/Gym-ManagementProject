@@ -1,28 +1,27 @@
 package renewal.gym.dto;
 
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
-import org.springframework.lang.Nullable;
 import renewal.gym.domain.Role;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 @Getter @Setter
-@ToString
-public class LoginUserSession {
+public class LoginDTO {
 
     private Long id;
     private String loginId;
-    private String role;
+    private String password;
+    private Role role;
 
     private List<Long> gymIds;
 
-    public LoginUserSession(Long id, String loginId, String role, List<Long> gymIds) {
+    @QueryProjection
+    public LoginDTO(Long id, String loginId, String password, Role role, List<Long> gymIds) {
         this.id = id;
         this.loginId = loginId;
+        this.password = password;
         this.role = role;
         this.gymIds = gymIds;
     }

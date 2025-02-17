@@ -31,5 +31,16 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    const profileBox = document.getElementById('profile');
+    const profileSubBox = document.getElementById('profileSubBox');
+    profileBox.addEventListener('click', () => {
+        profileSubBox.style.display = profileSubBox.style.display === 'flex' ? 'none' : 'flex';
+    })
+
+    document.addEventListener("click", (e) => {
+        if(!profileSubBox.contains(e.target) && !profileBox.contains(e.target)) {
+            profileSubBox.style.display = 'none';
+        }
+    })
 
 })

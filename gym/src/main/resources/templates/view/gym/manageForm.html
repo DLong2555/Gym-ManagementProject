@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/layoutForm :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>gymList</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/manageForm.css}">
+    <script th:src="@{/js/gymSearchForm.js}"></script>
+    <script th:src="@{/js/gymSearchFormCssController.js}"></script>
+
+</head>
+<body>
+<section>
+    <div id="manageForm">
+        <div id="manageContainer">
+            <div id="leftBox">
+                <div id="myGymList">
+                    <ui>
+
+                    </ui>
+                </div>
+            </div>
+            <div id="rightBox">
+
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
