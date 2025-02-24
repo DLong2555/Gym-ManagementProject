@@ -27,7 +27,7 @@ public class Gym {
     private String gymPhoneNum;
     private Address address;
 
-    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "manager_id")
     private Manager manager;
 

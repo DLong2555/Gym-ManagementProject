@@ -20,6 +20,7 @@ public class Child {
     private String childName;
     private String childPhoneNum;
     private int childAge;
+    private String belt;
 
     @Enumerated(EnumType.STRING)
     private Gender childGender;
@@ -60,6 +61,11 @@ public class Child {
     }
 
     public void registration(Period period) {
+        this.period = period;
+    }
+
+    public void updateChild(String belt, Period period){
+        this.belt = belt;
         this.period = period;
     }
 

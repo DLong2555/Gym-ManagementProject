@@ -1,11 +1,8 @@
 package renewal.gym.dto;
 
-import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import static renewal.gym.validator.groups.ValidationGroups.*;
 
 @ToString
 @Getter @Setter

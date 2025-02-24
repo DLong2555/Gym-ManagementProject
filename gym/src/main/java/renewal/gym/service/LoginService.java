@@ -51,7 +51,7 @@ public class LoginService {
         List<Long> myMemberGymLists = memberRepository.findMyMemberGymLists(childList);
         log.info("myMemberGymLists: {}", myMemberGymLists);
 
-        return new LoginUserSession(member.getId(), member.getMemId(), member.getRole(), myMemberGymLists);
+        return new LoginUserSession(member.getId(), member.getMemId(), member.getRole().getRoleName(), myMemberGymLists);
 
     }
 
@@ -59,6 +59,6 @@ public class LoginService {
         List<Long> gymIds = gymRepository.findByManagerId(manager.getId())
                 .stream().map(Gym::getId).toList();
 
-        return new LoginUserSession(manager.getId(), manager.getManageId(), manager.getRole(), gymIds);
+        return new LoginUserSession(manager.getId(), manager.getManageId(), manager.getRole().getRoleName(), gymIds);
     }
 }

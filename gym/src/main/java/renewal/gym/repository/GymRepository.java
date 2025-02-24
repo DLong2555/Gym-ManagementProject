@@ -14,4 +14,7 @@ public interface GymRepository extends JpaRepository<Gym, Long>, GymRepositoryCu
 
     @Query("select g.id from Gym g where g.gymName = :gymName and CONCAT(g.address.roadName,' ', g.address.detailAddress) = :address")
     Optional<Long> findByGymNameAndAddress(String gymName, String address);
+
+    @Query("select g.gymName from Gym g where g.id = :id")
+    String findGymNameById(Long id);
 }

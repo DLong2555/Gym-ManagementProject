@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Embeddable
@@ -13,15 +14,15 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Period {
 
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDate startDate;
+    private LocalDate endDate;
 
     public void changeStartDate() {
-        startDate = LocalDateTime.now();
+        startDate = LocalDate.now();
     }
 
     public void changeEndDate() {
-        endDate = LocalDateTime.now();
+        endDate = LocalDate.now();
     }
 
 }

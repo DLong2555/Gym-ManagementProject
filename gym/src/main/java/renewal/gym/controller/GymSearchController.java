@@ -1,14 +1,11 @@
 package renewal.gym.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-import renewal.gym.dto.ChildRegisterForm;
-import renewal.gym.dto.NaverSearchResultForm;
+import renewal.gym.dto.map.NaverSearchResultForm;
 import renewal.gym.dto.SearchForm;
 import renewal.gym.dto.SelectedGymForm;
 import renewal.gym.service.naver.NaverSearchService;

@@ -1,5 +1,6 @@
 package renewal.gym.controller;
 
+import com.querydsl.core.Tuple;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
@@ -10,9 +11,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import renewal.gym.constant.LoginSessionConst;
+import renewal.gym.dto.LoginDTO;
 import renewal.gym.dto.LoginForm;
 import renewal.gym.dto.LoginUserSession;
+import renewal.gym.repository.ManagerRepository;
 import renewal.gym.service.LoginService;
+
+import java.util.List;
 
 @Slf4j
 @Controller
@@ -55,6 +60,14 @@ public class LoginController {
         if(session != null) session.invalidate();
 
         return "redirect:/";
+    }
+
+    private final ManagerRepository managerRepository;
+
+    @ResponseBody
+    @PostMapping("/loginTest")
+    public LoginDTO loginTest(@RequestParam String loginId) {
+        return managerRepository.getLoginInfo(loginId);
     }
 
 }

@@ -1,7 +1,5 @@
 package renewal.gym.service.naver;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -10,8 +8,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.Disposable;
-import renewal.gym.dto.NaverSearchResultForm;
+import renewal.gym.dto.map.NaverSearchResultForm;
 import renewal.gym.service.GymService;
 
 import java.util.ArrayList;
