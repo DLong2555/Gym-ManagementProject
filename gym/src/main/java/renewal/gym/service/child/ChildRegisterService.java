@@ -12,7 +12,7 @@ import renewal.gym.repository.ChildRepository;
 import renewal.gym.repository.GymRepository;
 import renewal.gym.repository.MemberRepository;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Slf4j
 @Service
@@ -37,7 +37,7 @@ public class ChildRegisterService {
         log.debug("gym {}", gym.getId());
         log.debug("member {}", member.getId());
 
-        Period period = new Period(LocalDateTime.now(), LocalDateTime.now().plusMonths(1L));
+        Period period = new Period(LocalDate.now(), LocalDate.now().plusMonths(1L));
         child.registration(period);
 
         child.addMember(member);

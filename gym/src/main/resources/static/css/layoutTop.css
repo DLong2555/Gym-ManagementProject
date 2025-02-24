@@ -214,6 +214,13 @@
 	cursor: pointer;
 }
 
+header, section{
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+}
+
 /* 상단 오른족 박스 전체 */
 /*#headerTop #topRightImageBox {*/
 /*	display: flex;*/

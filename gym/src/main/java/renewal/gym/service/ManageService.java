@@ -4,12 +4,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import renewal.gym.dto.ChildInfoForm;
+import renewal.gym.domain.Child;
+import renewal.gym.domain.Period;
+import renewal.gym.dto.manage.EditChildForm;
+import renewal.gym.dto.manage.ParentsInfoForm;
 import renewal.gym.repository.ChildRepository;
-import renewal.gym.repository.GymRepository;
 import renewal.gym.repository.ManagerRepository;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -19,28 +20,29 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class ManageService {
 
-    private final GymRepository gymRepository;
-    private final ChildRepository childRepository;
     private final ManagerRepository managerRepository;
+    private final ChildRepository childRepository;
 
-    public Map<String, Map<String, List<ChildInfoForm>>> findChildInMyGyms(List<Long> gymIds) {
-//        Map<Gym, List<Child>> childrenMap = new HashMap<>();
-//        for (Long gymId : gymIds) {
-//            Gym gym = gymRepository.findById(gymId).orElseThrow(IllegalArgumentException::new);
-//            List<Child> children = childRepository.findByGymId(gymId);
-//
-//            childrenMap.put(gym, children);
-//        }
-
-        Map<String, Map<String, List<ChildInfoForm>>> childrenMap = new HashMap<>();
-        for (Long gymId : gymIds) {
-            Map<String, List<ChildInfoForm>> childInfo = managerRepository.getChildInfo(gymId);
-            String gymName = gymRepository.findGymNameById(gymId);
-
-            childrenMap.put(gymName, childInfo);
-        }
+    public Map<String, List<ParentsInfoForm>> findChildInMyGyms(List<Long> gymIds) {
+        Map<String, List<ParentsInfoForm>> childrenMap = managerRepository.getChildInfo(gymIds);
 
         log.debug("findChildInMyGyms: gymIds = {}", childrenMap);
         return childrenMap;
     }
+
+    public Map<String, List<ParentsInfoForm>> findChildInMyGyms2(List<Long> gymIds) {
+        return managerRepository.getChildInfo2(gymIds);
+    }
+
+    @Transactional
+    public boolean updateChild(EditChildForm editChildForm) {
+        Child findChild = childRepository.findById(editChildForm.getId()).orElse(null);
+
+        if (findChild == null) return true;
+
+        findChild.updateChild(editChildForm.getBelt(), new Period(editChildForm.getStartDate(), editChildForm.getEndDate()));
+
+        return false;
+    }
+
 }
