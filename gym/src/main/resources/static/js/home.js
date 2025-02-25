@@ -1,7 +1,9 @@
-/**
- * 
- */
+
  $(document).ready(function () {
+     let body = document.querySelector('.bodyContents');
+     body.style.marginTop = "0px";
+
+
     // 페이지가 로드될 때 스크롤을 맨 위로 이동
     $(window).on('beforeunload', function() {
         window.scrollTo(0, 0);

@@ -12,6 +12,7 @@ import renewal.gym.dto.manage.EditChildForm;
 import renewal.gym.dto.manage.EditChildResultForm;
 import renewal.gym.dto.manage.ParentsInfoForm;
 import renewal.gym.service.ManageService;
+import renewal.gym.service.update.UpdateService;
 
 import java.util.List;
 import java.util.Map;
@@ -23,6 +24,7 @@ import java.util.Map;
 public class ManageController {
 
     private final ManageService manageService;
+    private final UpdateService updateService;
 
 
     @GetMapping("/manage")
@@ -48,7 +50,7 @@ public class ManageController {
         EditChildResultForm result = new EditChildResultForm();
         for (EditChildForm editChildForm : editChildForms) {
             log.debug("editChildForm: {}", editChildForm.toString());
-            if(manageService.updateChild(editChildForm)) result.getFailIds().add(editChildForm.getId());
+            if(updateService.updateChild(editChildForm)) result.getFailIds().add(editChildForm.getId());
             else result.getSuccessIds().add(editChildForm.getId());
         }
 

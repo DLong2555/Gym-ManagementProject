@@ -47,15 +47,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     profileBtn.forEach(box => {
         box.addEventListener('mouseover', (e) => {
-            const btn = e.target.closest('.profileBtn').getElementsByTagName('button')[0];
-            btn.style.backgroundColor = 'whitesmoke';
+            const btn = e.target.closest('.profileBtn').querySelector('button, a');
+            box.style.backgroundColor = 'whitesmoke';
             btn.style.color = 'gray';
         })
 
         box.addEventListener('mouseout', (e) => {
-            const btn = e.target.closest('.profileBtn').getElementsByTagName('button')[0];
-            btn.style.backgroundColor = '#dcdcdc';
-            btn.style.color = 'black';
+            const btn = e.target.closest('.profileBtn').querySelector('button, a');
+            box.style.backgroundColor = 'white';
+            btn.style.color = 'rgb(66, 73, 73)';
         })
     })
 

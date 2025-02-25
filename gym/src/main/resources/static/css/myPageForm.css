@@ -1,0 +1,519 @@
+
+/* 마이페이지 전체 폼 */
+#myPageForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 마이페이지 컨테이너 */
+#myPageForm #myPageContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    margin-top: 50px;
+}
+
+/* 마이페이지 제목 박스 */
+#myPageForm #myPageTitleBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 60px;
+}
+
+/* 마이페이지 제목 */
+#myPageForm #myPageTitle {
+    text-align: center;
+    font-size: 38px;
+    font-weight: 600;
+    padding-bottom: 20px;
+}
+
+/* 마이페이지 컨텐츠 박스 */
+#myPageForm #myPageContentsBox {
+    display: flex;
+    justify-content: center;
+}
+
+/* 마이페이지 왼쪽 박스 */
+#myPageForm #myPageLeftBox {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 마이페이지 유저 정보 박스 */
+#myPageForm #myPageInfoBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto; /* 높이는 컨텐츠에 맞게 자동 설정 */
+    margin: 10px 100px 0 70px;
+    gap: 10px;
+}
+
+/* 마이페이지 이미지 파일인풋 */
+#myPageForm #fileInput {
+    display: none;
+}
+
+/* 마이페이지 유저 이미지 박스 */
+#myPageForm #myPageImageBox {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: auto; /* 높이는 컨텐츠에 맞게 자동 설정 */
+    cursor: pointer;
+}
+
+/* 마이페이지 유저 이미지 */
+#myPageForm #memImg {
+    border-radius: 100%;
+    object-fit: cover;
+    background-color: whitegray;
+    width: 120px;
+    height: 120px;
+    border: 1px solid whitesmoke;
+    cursor: pointer;
+}
+
+/* 마이페이지 유저 수정미이지 */
+#myPageForm #memImgModify {
+    position: absolute;
+    border-radius: 100%;
+    object-fit: cover;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+}
+
+/* 마이페이지 유저 닉네임 */
+#myPageForm #myPageInfoNick {
+    font-weight: 500;
+    font-size: 20px;
+}
+
+/* 마이페이지 유저 이메일 */
+#myPageForm #myPageInfoEmail {
+    font-size: 17px;
+}
+
+/* 마이페이지 메뉴 박스 */
+#myPageForm #myPageMenuBox {
+    display: flex;
+    flex-direction: column;
+    margin: 80px 0px;
+    gap: 10px;
+}
+
+/* 마이페이지 메뉴 */
+#myPageForm .myPageMenuEach{
+    padding: 17px 0px 15px 20px;
+    margin: 0px 25px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
+#myPageForm #memberManageBtn {
+    outline : none;
+}
+
+
+/* 마이페이지 오른쪽 박스 */
+#myPageForm #myPageRightBox {
+    display: flex;
+    width: 900px;
+    padding: 10px 0px 0 110px;
+    border-left: 1px solid #f5f5f5;
+}
+
+/* 마이페이지 내 정보 박스 */
+#myPageForm #myPageMyInfo {
+    display: flex;
+    flex-direction: column;
+    width: 650px;
+}
+
+/* 마이페이지 내 정보 */
+#myPageForm .myPageMyContents {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* 마이페이지 경고 */
+#myPageForm .status-message {
+    margin-left: 56px;
+}
+
+/* 마이페이지 이미지 */
+#myPageForm .myPageImage {
+    width: 30px;
+    height: 30px;
+    margin-right: 19px;
+}
+
+/* 마이페이지 아이디 */
+#myPageForm #myPageId {
+    width: 26px;
+    height: 18px;
+    padding: 6px 2px;
+    margin-right: 19px;
+}
+
+/* 마이페이지 닉네임 */
+#myPageForm #myPageNick {
+    width: 26px;
+    height: 26px;
+    padding: 2px 2px;
+    margin-right: 19px;
+}
+
+/* 마이페이지 이메일 */
+#myPageForm #myPageEmail {
+    width: 22px;
+    height: 22px;
+    padding: 4px 4px;
+    margin-right: 19px;
+}
+
+/* 마이페이지 주소 */
+#myPageForm #myPageAddress {
+    width: 22px;
+    height: 22px;
+    padding: 4px 4px;
+    margin-right: 19px;
+}
+
+/* 마이페이지 인풋 버튼 */
+#myPageForm .inBtn {
+    position: absolute;
+    padding: 7px 18px;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    font-size: 12px;
+    margin-right: 10px;
+    background-color: black;
+    display: none;
+}
+
+/* 마이페이지 수정 인풋 */
+#myPageForm .myPageMyContents input {
+    padding: 13px 8px;
+    font-size: 16px;
+    border: 1px solid white;
+    box-sizing: border-box;
+    flex: 1;
+    border-radius: 0;
+    margin: 5px 0;
+    cursor: default;
+}
+
+/* 마이페이지 가입 날짜 */
+#mypageForm #myPageDate {
+    pointer-events: none;
+}
+
+/* 마이페이지 홈페이지 버튼 */
+#myPageForm .modifyBtn {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 650px;
+    padding: 15px;
+    font-size: 18px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 1500px;
+    cursor: pointer;
+    margin-top: 60px;
+    font-weight: 500;
+}
+
+/* 저장 버튼 기본 상태는 숨김 */
+#myPageForm #saveBtn {
+    display: none;
+}
+
+
+/* -------------------------------------등록정보--------------------------------------------- */
+
+
+/* 마이페이지 등록정보 */
+#myPageForm #myPageRegisterInfo {
+    display: flex;
+    flex-direction: column;
+    width: 650px;
+    padding: 0 50px;
+}
+
+#myPageForm #myPageRegisterInfo::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+#myPageForm #myPageRegisterInfo::-webkit-scrollbar {
+    width: 12px;
+    background-color: #F5F5F5;
+}
+
+#myPageForm #myPageRegisterInfo::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #c4c4c4;
+}
+
+/* 마이페이지 유저 등록 박스 */
+#myPageForm #myPageRegisterUser {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 마이페이지 유저 추가 */
+#myPageForm #myPageRegisterUserPlus {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 650px;
+    height: 40px;
+    padding: 5px 20px;
+    margin: 10px 0px;
+    border-radius: 1500px;
+    border: 1px solid #d5d5d5;
+}
+
+/* 마이페이지 유저 추가 */
+#myPageForm .myPageRegisterUserEach {
+    display: flex;
+    position: relative;
+    align-items: center;
+    width: 650px;
+    height: 45px;
+    padding: 5px 20px;
+    margin: 10px 20px;
+    border-radius: 1500px;
+    border: 1px solid #a3a3a3;
+    font-weight: 500;
+    color: #555555;
+    font-size: 18px;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 마이페이지 플러스 이미지 */
+#myPageForm #myPagePlus {
+    width: 25px;
+    height: 25px;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+/* 마이페이지 아래 화살표 이미지 */
+#myPageForm .myPageDown {
+    position: absolute;
+    right: 0px;
+    width: 25px;
+    height: 25px;
+    padding: 8px 15px;
+    cursor: pointer;
+}
+
+/* 마이페이지 서브 전체 */
+#myPageForm .myPageRegisterUserSub {
+    position: relative;
+    display: none;
+    align-items: center;
+    width: 650px;
+    border-radius: 30px;
+    padding: 5px 20px;
+    margin: 30px 20px 70px 20px;
+    border: 1px solid #a3a3a3;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 마이페이지 서브 박스 */
+#myPageForm .myPageRegisterSubBox {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+/* 마이페이지 서브 수정 */
+#myPageForm #myPageSubModify {
+    width: 100%; display : flex;
+    justify-content: flex-end;
+    display: flex;
+}
+
+/* 마이페이지 서브 수정 박스 */
+#myPageForm #myPageSubModifyBox {
+    display: flex;
+    border: 1px solid #f3f3f3;
+    border-radius: 100px;
+    margin-top: 5px;
+}
+
+/* 마이페이지 서브 컨텐츠 */
+#myPageForm .myPageSubContents {
+    display: flex;
+    align-items: center;
+    padding: 0 60px 0 0;
+}
+
+
+/* 마이페이지 연필 */
+#myPageForm #myPagePencil {
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    padding: 15px;
+    margin: 2px;
+}
+
+/* 마이페이지 연필 */
+#myPageForm #myPageSave {
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    padding: 18px;
+    margin: 2px;
+    display: none;
+}
+
+/* 마이페이지 쓰레기통 */
+#myPageForm #myPageDelete {
+    width: 26px;
+    height: 26px;
+    cursor: pointer;
+    padding: 15px;
+    margin: 2px;
+    margin-top: 4px;
+}
+
+/* 마이페이지 숨긴 인풋 */
+#myPageForm #subSaveBtn {
+    display: none;
+}
+
+/* -------------------------------------회원관리--------------------------------------------- */
+
+#myPageForm #memberManageContentsBox {
+    display: flex;
+    justify-content: center;
+}
+
+#myPageForm #memberManageLeftBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top : 15px;
+}
+
+#myPageForm #memberManageNameSearch {
+    background-color : #f5f5f5;
+    padding: 15px 10px 15px 60px;
+    margin: 0px 20px 25px 20px;
+    border: 0px;
+    border-radius : 100px;
+    width: 90px;
+}
+
+#myPageForm #memberManageNameSearchBox {
+    position:relative;
+    display: flex;
+    align-items: center;
+}
+
+#myPageForm #memberManageNameSearchImage {
+    position: absolute;
+    width: 21px;
+    height: 21px;
+    top : 15px;
+    left: 45px;
+}
+
+#myPageForm #memberManageNameBox1, #myPageForm #memberManageNameBox2 {
+    display: flex;
+    flex-direction: column;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+#myPageForm #memberManageNameBox2 {
+    overflow-y: none;
+    display: none;
+}
+
+#myPageForm #memberManageNameBox1::-webkit-scrollbar-track, #myPageForm #memberManageNameBox2::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+    background-color: #F5F5F5;
+}
+
+#myPageForm #memberManageNameBox1::-webkit-scrollbar, #myPageForm #memberManageNameBox2::-webkit-scrollbar {
+    width: 8px;
+    background-color: #F5F5F5;
+}
+
+#myPageForm #memberManageNameBox1::-webkit-scrollbar-thumb, #myPageForm #memberManageNameBox2::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+    background-color: #c4c4c4;
+}
+
+#myPageForm .memberManageNameEach {
+    padding: 7px 20px 7px 10px;
+    margin: 5px 20px 5px 30px;
+    border-radius : 10px;
+    cursor: pointer;
+    width: 50px;
+    color: #424949;
+    font-size:15px;
+}
+
+#myPageForm #memberManageRightBox {
+    display: flex;
+    padding: 0 0px 0 150px;
+}
+
+/* 맵뷰 체육관 정보 */
+#myPageForm #memberManageMemberInfo {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top : 30px;
+}
+
+/* 맵 이미지 */
+#myPageForm #memberManageMainImage {
+    width:300px;
+    height: auto;
+    max-height:250px;
+}
+
+
+/* 맵 이미지 */
+#myPageForm .memberImage {
+    width: 25px;
+    height: 25px;
+    margin-left: 70px;
+    margin-right: 20px;
+}
+
+#myPageForm .memberManageMemberContents {
+    display: flex;
+    align-items: center;
+    font-size:15px;
+}

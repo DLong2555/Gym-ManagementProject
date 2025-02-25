@@ -9,6 +9,8 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import renewal.gym.controller.argument.LoginUserArgumentResolver;
+import renewal.gym.controller.argument.PhoneNumberFormatter;
+import renewal.gym.controller.argument.PhoneNumberFormatterResolver;
 import renewal.gym.converter.EnumToValueConverter;
 import renewal.gym.interceptor.LoginInterceptor;
 
@@ -41,5 +43,6 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new EnumToValueConverter());
+        registry.addFormatterForFieldAnnotation(new PhoneNumberFormatterResolver());
     }
 }

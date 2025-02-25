@@ -44,12 +44,6 @@
 	color: #1b2631;
 }
 
-/*!* 상단 메뉴 박스 *!*/
-/*#headerTop #topMenuBox {*/
-/*	display: flex;*/
-/*	gap: 10px;*/
-/*}*/
-
 /* 상단 메뉴 개별 박스 */
 #headerTop .topMenuEachBox a{
 	display: flex;
@@ -170,48 +164,75 @@
 
 
 #profileBox #profileSubBox{
-	display: none;
+	width: 250px;
+	display : none;
+	flex-direction: column;
+	border : 1px solid whitesmoke;
+	border-radius : 8px;
 	position: absolute;
-	top: 70px;
-	right: 0;
-	width: 300px;
-	background-color: white;
-	border: 1px solid #e0e0e0;
-	border-radius: 8px;
-	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-	padding: 10px;
+	padding-top: 10px;
+	margin-top : 10px;
+	top : 70px;
+	right: 30px;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+	background-color : white;
+}
+
+#profileSubBox #subProfileImg{
+	display: flex;
 	flex-direction: column;
 	align-items: center;
-	z-index: 1000;
+	gap: 3px;
+	font-size: 14px;
+	color: #1b2631;
 }
 
 #profileSubBox img{
-	width: 80px;
-	height: 80px;
 	border-radius: 100%;
-	margin-bottom: 10px;
+	object-fit: cover;
+	background-color : whitesmoke;
+	width: 45px;
+	height: 45px;
+	border: 1px solid whitesmoke;
+	margin-bottom: 5px;
 }
 
 #profileSubBox p{
 	font-size: 16px;
-	font-weight: bold;
+	font-weight: 500;
 }
 
-#profileBox #subProfileBtn{
+#profileBox #subProfileBtn {
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
 	width: 100%;
+	padding-top: 20px;
 }
 
-#profileBox #subProfileBtn .profileBtn button{
-	width: 135px;
-	height: 40px;
-	color: black;
-	background-color: #dcdcdc;
-	border-radius: 10px;
+.profileBtn {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 50%;  /* 두 개의 요소가 정확히 반씩 차지하도록 설정 */
+	border-top: 1px solid #E0E3E5;
+	font-size: 14px;
+}
+
+.profileBtn:first-child {
+	border-right: 1px solid #E0E3E5; /* 첫 번째 버튼 오른쪽 테두리 */
+}
+
+.profileBtn a,
+.profileBtn button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;  /* 부모 `.profileBtn`의 100% 차지 */
+	padding: 10px;
+	text-decoration: none;
 	border: none;
+	background: none;
 	cursor: pointer;
+	color: rgb(66, 73, 73);
 }
 
 header, section{
@@ -221,107 +242,7 @@ header, section{
 	user-select:none;
 }
 
-/* 상단 오른족 박스 전체 */
-/*#headerTop #topRightImageBox {*/
-/*	display: flex;*/
-/*	align-items: center;*/
-/*	gap : 25px;*/
-/*	font-size : 15px;*/
-/*}*/
-
-/*!* 상단 마이페이지 *!*/
-/*#headerTop #topMyPage {*/
-/*	font-size: 14px;*/
-/*	font-weight: 500;*/
-/*	color: #1b2631;*/
-/*	padding: 20px;*/
-/*}*/
-
-/*!* 상단 프로필 사진 *!*/
-/*#headerTop #myImage {*/
-/*	border-radius: 100%;*/
-/*	object-fit: cover;*/
-/*	background-color : lightgray;*/
-/*	width: 45px;*/
-/*	height: 45px;*/
-/*	margin-top : 5px;*/
-/*	margin-right: 30px;*/
-/*	border: 1px solid whitesmoke;*/
-/*	transition: filter 0.3s ease-out;*/
-/*	cursor: pointer;*/
-/*}*/
-
-/*!* 상단 프로필 사진 박스*!*/
-/*#headerTop #imageSubBox {*/
-/*	width: 250px;*/
-/*	display : flex;*/
-/*	flex-direction: column;*/
-/*	border : 1px solid whitesmoke;*/
-/*	border-radius : 8px;*/
-/*	position: absolute;*/
-/*	padding-top: 10px;*/
-/*	margin-top : 10px;*/
-/*	top : 70px;*/
-/*	right: 30px;*/
-/*	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);*/
-/*	background-color : white;*/
-/*	visibility : hidden;*/
-/*}*/
-
-/*!* 상단 프로필 유저 박스 *!*/
-/*#headerTop #imageUserBox {*/
-/*	display: flex;*/
-/*	flex-direction: column;*/
-/*	align-items: center;*/
-/*	gap: 3px;*/
-/*	font-size: 14px;*/
-/*	color: #1b2631;*/
-/*}*/
-
-/*!* 상단 프로필 유저 아이디 *!*/
-/*#headerTop #imageUserID {*/
-/*	font-size: 16px;*/
-/*	font-weight: 500;*/
-/*}*/
-
-/*!* 상단 프로필 유저 이미지 *!*/
-/*#headerTop #myImageUser {*/
-/*	border-radius: 100%;*/
-/*	object-fit: cover;*/
-/*	background-color : lightgray;*/
-/*	width: 45px;*/
-/*	height: 45px;*/
-/*	border: 1px solid whitesmoke;*/
-/*	margin-bottom: 5px;*/
-/*}*/
-
-
-/*!* 마이페이지 로그아웃 전체 박스 *!*/
-/*#headerTop #imageFuncBox {*/
-/*	display: flex;*/
-/*	justify-content: space-between;*/
-/*	width: 100%;*/
-/*	padding-top : 20px;*/
-/*}*/
-
-/*!* 마이페이지 로그아웃 각자 *!*/
-/*#headerTop .imageFuncEach {*/
-/*	display: flex;*/
-/*	justify-content: center;*/
-/*	align-items : center;*/
-/*	width:100%;*/
-/*	border-top: 1px solid #E0E3E5;*/
-/*	border-right: 1px solid #E0E3E5;*/
-/*	font-size: 14px;*/
-/*}*/
-
-/*#imageFuncBox .imageFuncEach a{*/
-/*	display : flex;*/
-/*	justify-content: center;*/
-/*	width: 100%;*/
-/*	padding: 10px;*/
-/*}*/
-
-/*button{*/
-/*	cursor: pointer;*/
-/*}*/
+.bodyContents{
+	position: relative;
+	margin-top: 80px;
+}

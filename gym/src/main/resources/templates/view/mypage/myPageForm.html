@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/layoutForm :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyPage</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/myPageForm.css}">
+    <script th:src="@{/js/myPageForm.js}"></script>
+</head>
+<body>
+<section>
+    <div id="myPageForm">
+        <div id="myPageContainer" class="noto-sans-kr">
+            <div id="myPageTitleBox">
+                <div id="myPageTitle">마이페이지</div>
+            </div>
+            <div id="myPageContentsBox">
+                <div id="myPageLeftBox">
+                    <div id="myPageInfoBox">
+                        <input type="file" id="fileInput" name="profileImage">
+                        <div id="myPageImageBox">
+                            <img id="memImg" th:src="@{/image/logo.jpg}">
+                            <img id="memImgModify" th:src="@{/image/myPageImageModify.png}">
+                        </div>
+                        <div id="myPageInfoNick"></div>
+                        <div id="myPageInfoEmail"></div>
+                    </div>
+                    <div id="myPageMenuBox">
+                        <div class="myPageMenuEach" id="memProfile"
+                             style="font-weight: 600; font-size: 21px; text-decoration: underline; text-underline-offset: 15px; text-decoration-thickness: 2px;">
+                            내 프로필
+                        </div>
+                        <div th:if="${loginUser.role.name() eq 'USER'}" class="myPageMenuEach" id="memberManage">등록정보</div>
+                        <div class="myPageMenuEach" id="memDeleteAccount">회원탈퇴</div>
+                    </div>
+                </div>
+                <div id="myPageRightBox">
+                    <div id="myPageMyInfo">
+                        <!-- 수정 가능한 input 필드들 -->
+                        <div class="myPageMyContents">
+                            <img id="myPageId" th:src="@{/image/myPageId.jpg}"
+                                 class="myPageImage" onclick="editField('memId')">
+                            <input id="memId" name="memId" type="text" th:value="${loginUser.loginId}" readonly>
+                        </div>
+                        <form method="post" th:action="@{/gym/myPage/edit}" th:object="${myPageForm}">
+
+                            <div class="myPageMyContents">
+                                <img th:src="@{/image/mapManager.png}"
+                                     class="myPageImage" onclick="editField('memName')">
+                                <input id="memName" th:field="*{name}" readonly>
+                            </div>
+
+                            <div class="myPageMyContents">
+                                <img th:src="@{/image/mapNumber.png}"
+                                     class="myPageImage" onclick="editField('memHp')">
+                                <input id="memHp" th:field="*{phoneNumber}" readonly>
+                            </div>
+
+                            <div class="myPageMyContents">
+                                <img th:src="@{/image/mapGymAddress.png}"
+                                     class="myPageImage" onclick="editField('memAddress')">
+                                <input id="memZipcode" type="hidden" th:field="*{address.zipCode}" readonly required>
+                                <input id="memAddress1" th:field="*{address.roadName}" readonly required>
+                                <input type="button" id="searchZipBtn" name="searchZipBtn" value="주소검색" class="inBtn">
+                            </div>
+                            <div class="myPageMyContents">
+                                <img id="myPageAddress" th:src="@{/image/myPageAddress.png}"
+                                     class="myPageImage" onclick="editField('memAddress')">
+                                <input id="memAddress2" th:field="*{address.detailAddress}" readonly required>
+                            </div>
+                            <div class="myPageMyContents">
+                                <input id="myPageDate" type="text" value="" readonly>
+                            </div>
+
+                            <!-- 정보 수정 및 저장 버튼 -->
+                            <div id="myPageModify">
+                                <input type="button" class="modifyBtn" id="editBtn" value="정보 수정하기">
+                                <input type="submit" class="modifyBtn" id="saveBtn" value="저장하기">
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
