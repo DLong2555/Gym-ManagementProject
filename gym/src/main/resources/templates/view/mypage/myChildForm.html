@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/layoutForm :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyPage</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/myChildForm.css}">
+    <script th:src="@{/js/myChildForm.js}"></script>
+    <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+</head>
+<body>
+<section>
+    <div id="myPageForm">
+        <div id="myPageContainer" class="noto-sans-kr">
+            <div id="myPageTitleBox">
+                <div id="myPageTitle">마이페이지</div>
+            </div>
+            <div id="myPageContentsBox">
+                <div id="myPageLeftBox">
+                    <div id="myPageInfoBox">
+                        <input type="file" id="fileInput" name="profileImage">
+                        <div id="myPageImageBox">
+                            <img id="memImg" th:src="@{/image/logo.jpg}">
+                            <img id="memImgModify" th:src="@{/image/myPageImageModify.png}">
+                        </div>
+                    </div>
+                    <div id="myPageMenuBox">
+                        <div class="myPageMenuEach" id="memProfile">
+                            내 프로필
+                        </div>
+                        <div th:if="${loginUser.role.name() eq 'USER'}" class="myPageMenuEach" id="memberManage"
+                             style="font-weight: 600; font-size: 21px; text-decoration: underline; text-underline-offset: 15px; text-decoration-thickness: 2px;">
+                            자녀정보
+                        </div>
+                        <div class="myPageMenuEach" id="memDeleteAccount">회원탈퇴</div>
+                    </div>
+                </div>
+                <div id="myPageRightBox">
+                    <div id="myPageMyInfo">
+                        <!-- 수정 가능한 input 필드들 -->
+                        <div class="childInfoBox" th:each="child : ${myChildForm}">
+                            <div class="myPageMyContents">
+                                <img th:src="@{/image/mapManager.png}" class="myPageImage">
+                                <input type="hidden" class="id" name="id" th:value="${child.id}" readonly required>
+                                <input class="name" name="name" th:value="${child.name}" readonly required>
+                                <div class="childFunctionBtns">
+                                    <img th:src="@{/image/myPagePencil.png}" class="myPageImage editIcon">
+                                    <img th:src="@{/image/myPageSave.png}" class="myPageImage saveIcon">
+                                    <img th:src="@{/image/myPageDelete.png}" class="myPageImage deleteIcon">
+                                    <img th:src="@{/image/xicon.png}" class="myPageImage cancelIcon">
+                                    <img th:src="@{/image/myPageDown.jpg}" class="myPageImage myPageDownIcon">
+                                </div>
+                            </div>
+
+                            <div class="childInfoEachBox">
+                                <div class="myPageMyContents">
+                                    <img th:src="@{/image/myPageAge.png}" class="myPageImage">
+                                    <input class="age" name="age" th:value="${child.age}" readonly required>
+                                </div>
+
+                                <div class="myPageMyContents">
+                                    <img th:src="@{/image/myPageGender.png}" class="myPageImage">
+                                    <input class="gender" name="gender" th:value="${{child.gender}}" readonly required>
+                                    <div class="genderBox">
+                                        <label for="male">남자</label>
+                                        <input id="male" type="radio" th:name="|gender${childStat.index}|" value="MALE"
+                                               th:checked="${child.gender.name() eq 'MALE'}"/>
+                                        <label for="female">여자</label>
+                                        <input id="female" type="radio" th:name="|gender${childStat.index}|" value="FEMALE"
+                                               th:checked="${child.gender.name() eq 'FEMALE'}"/>
+                                    </div>
+                                </div>
+
+                                <div class="myPageMyContents">
+                                    <img th:src="@{/image/mapNumber.png}" class="myPageImage">
+                                    <input class="phoneNumber" name="phoneNumber" th:value="${{child.phoneNumber}}"
+                                           readonly required>
+                                </div>
+
+                                <div class="myPageMyContents">
+                                    <img th:src="@{/image/myPageGym.png}" class="myPageImage">
+                                    <input class="gymName" name="gymName" th:value="${child.gymName}" readonly required>
+                                </div>
+
+                                <div class="myPageMyContents">
+                                    <img th:src="@{/image/myPageBelt.png}" class="myPageImage">
+                                    <input class="belt" name="belt" th:value="${child.belt}" readonly required>
+                                </div>
+
+                                <div class="myPageMyContents">
+                                    <img th:src="@{/image/myPageDate.png}" class="myPageImage">
+                                    <input class="startDate" name="startDate" th:value="${child.startDate}" readonly
+                                           required>
+                                </div>
+
+                                <div class="myPageMyContents">
+                                    <img th:src="@{/image/endDate.jpg}" class="myPageImage">
+                                    <input class="endDate" name="endDate" th:value="${child.endDate}" readonly required>
+                                </div>
+
+                            </div>
+                        </div>
+                        <!-- 정보 수정 및 저장 버튼 -->
+                        <div id="myPageModify">
+                            <input type="button" class="modifyBtn" id="editBtn" value="정보 수정하기">
+                            <input type="button" class="modifyBtn" id="saveBtn" value="저장하기">
+                            <input type="button" class="modifyBtn" id="cancelBtn" value="취소">
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

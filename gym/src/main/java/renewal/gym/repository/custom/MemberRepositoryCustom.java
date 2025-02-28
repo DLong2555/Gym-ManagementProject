@@ -1,6 +1,6 @@
 package renewal.gym.repository.custom;
 
-import renewal.gym.dto.MyPageForm;
+import renewal.gym.dto.mypage.MyPageForm;
 
 import java.util.List;
 

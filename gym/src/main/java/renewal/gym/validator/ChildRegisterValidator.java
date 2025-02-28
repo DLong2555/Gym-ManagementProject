@@ -3,13 +3,11 @@ package renewal.gym.validator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
-import org.springframework.validation.ObjectError;
 import org.springframework.validation.Validator;
 import renewal.gym.dto.ChildRegisterForm;
 
 import java.util.List;
 import java.util.Map;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.springframework.util.StringUtils.hasText;

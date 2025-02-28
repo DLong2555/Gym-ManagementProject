@@ -108,9 +108,9 @@
 }
 
 .scrollbar {
-    width: 250px;
+    width: 380px;
     height: 200px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .scrollbar::-webkit-scrollbar {

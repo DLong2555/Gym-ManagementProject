@@ -126,7 +126,6 @@
 #myPageForm .myPageMyContents {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
 }
 
 /* 마이페이지 경고 */
@@ -185,6 +184,10 @@
     cursor: default;
 }
 
+#myPageForm .myPageMyContents input:focus {
+    outline: none;
+}
+
 /* 마이페이지 가입 날짜 */
 #myPageForm #myPageDate {
     pointer-events: none;
@@ -224,3 +227,40 @@
 #myPageForm .field-error{
     margin-left: 50px;
 }
+
+/*-------------------자녀 정보-----------------------*/
+
+.childInfoEachBox{
+    display: none;
+}
+
+.childInfoBox{
+    border: 1px solid #cdcdcd;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+.childFunctionBtns{
+    display: flex;
+    flex-direction: row;
+}
+
+.editIcon, .saveIcon, .deleteIcon, .cancelIcon{
+    display: none;
+}
+
+
+.genderBox{
+    display: flex;
+    flex-direction: row;
+    padding: 13px 8px;
+    margin: 5px 0;
+    border: 1px solid white;
+    gap: 10px;
+    visibility: hidden;
+}
+
+
+
+

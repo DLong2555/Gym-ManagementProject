@@ -2,9 +2,8 @@ package renewal.gym.repository.custom;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
-import renewal.gym.domain.QMember;
-import renewal.gym.dto.MyPageForm;
-import renewal.gym.dto.QMyPageForm;
+import renewal.gym.dto.mypage.MyPageForm;
+import renewal.gym.dto.mypage.QMyPageForm;
 
 import java.util.List;
 
@@ -34,7 +33,9 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
         return queryFactory.select(new QMyPageForm(
                         member.memName.as("name"),
                         member.memPhoneNum.as("phoneNumber"),
-                        member.address
+                        member.address.zipCode,
+                        member.address.roadName,
+                        member.address.detailAddress
                 ))
                 .from(member)
                 .where(member.id.eq(id))
