@@ -9,7 +9,7 @@ import renewal.gym.domain.Gender;
 import java.time.LocalDate;
 
 @Getter @Setter
-public class myChildForm {
+public class MyChildForm {
 
     private Long id;
     private String name;
@@ -25,7 +25,7 @@ public class myChildForm {
     private LocalDate endDate;
 
     @QueryProjection
-    public myChildForm(Long id, String name, String phoneNumber, Integer age, Gender gender, String gymName, String belt, LocalDate startDate, LocalDate endDate) {
+    public MyChildForm(Long id, String name, String phoneNumber, Integer age, Gender gender, String gymName, String belt, LocalDate startDate, LocalDate endDate) {
         this.id = id;
         this.name = name;
         this.phoneNumber = phoneNumber;

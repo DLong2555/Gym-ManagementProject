@@ -1,10 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const name = document.getElementById('name');
     const phone = document.getElementById('phoneNumber');
-    const zipcode = document.getElementById('zipcode');
-    const roadName = document.getElementById('roadName');
-    const detailAddress = document.getElementById('detailAddress');
-    const searchBtn = document.getElementById('searchZipBtn');
 
     const editBtn = document.getElementById('editBtn');
     const saveBtn = document.getElementById('saveBtn');
@@ -12,10 +8,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     let previousName = "";
     let previousPhoneNumber = "";
-    let previousZipcode = "";
-    let previousRoadName = "";
-    let previousDetailAddress = "";
-
     phone.addEventListener('keyup', (e) => {
         let value = e.target.value.replace(/\D/g, '');
         let formatted = '';
@@ -34,9 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         previousName = name.value;
         previousPhoneNumber = phone.value;
-        previousZipcode = zipcode.value;
-        previousRoadName = roadName.value;
-        previousDetailAddress = detailAddress.value;
 
         name.readOnly = false;
         name.style.backgroundColor = "whitesmoke";
@@ -44,10 +33,6 @@ document.addEventListener('DOMContentLoaded', () => {
         phone.readOnly = false;
         phone.style.backgroundColor = "whitesmoke";
 
-        detailAddress.readOnly = false;
-        detailAddress.style.backgroundColor = "whitesmoke";
-
-        searchBtn.style.display = 'block';
         editBtn.style.display = 'none';
         saveBtn.style.display = 'block';
         cancelBtn.style.display = 'block';
@@ -58,9 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         name.value = previousName;
         phone.value = previousPhoneNumber;
-        zipcode.value = previousZipcode;
-        roadName.value = previousRoadName;
-        detailAddress.value = previousDetailAddress;
 
         name.readOnly = true;
         name.style.backgroundColor = "white";
@@ -68,33 +50,9 @@ document.addEventListener('DOMContentLoaded', () => {
         phone.readOnly = true;
         phone.style.backgroundColor = "white";
 
-        detailAddress.readOnly = true;
-        detailAddress.style.backgroundColor = "white";
-
-        searchBtn.style.display = 'none';
         editBtn.style.display = 'block';
         saveBtn.style.display = 'none';
         cancelBtn.style.display = 'none';
-    })
-
-    searchBtn.addEventListener('click', (e) => {
-        e.preventDefault();
-
-        new daum.Postcode({
-            oncomplete: function (data) {
-                let address = "";
-
-                if (data.userSelectedType === 'R') address = data.roadAddress;
-                else address = data.jibunAddress;
-
-                console.log(address);
-                zipcode.value = data.zonecode;
-                roadName.value = address;
-
-                detailAddress.value = "";
-                detailAddress.focus();
-            }
-        }).open();
     })
 
     saveBtn.addEventListener('click', async (e) => {
@@ -102,13 +60,10 @@ document.addEventListener('DOMContentLoaded', () => {
         let formData = {
             name: name.value,
             phoneNumber: phone.value.replace(/ - /g, ""),
-            zipCode: zipcode.value,
-            roadName: roadName.value,
-            detailAddress: detailAddress.value
         };
 
         try {
-            const response = await fetch('/gym/myPage/edit', {
+            const response = await fetch('/gym/myPage/manager/edit', {
                 method: 'POST',
                 headers: {"content-type": "application/json; charset=UTF-8"},
                 body: JSON.stringify(formData)
@@ -142,10 +97,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 phone.readOnly = true;
                 phone.style.backgroundColor = "white";
 
-                detailAddress.readOnly = true;
-                detailAddress.style.backgroundColor = "white";
-
-                searchBtn.style.display = 'none';
                 editBtn.style.display = 'block';
                 saveBtn.style.display = 'none';
                 cancelBtn.style.display = 'none';
@@ -158,11 +109,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     });
 
-    const myChildForm = document.getElementById('myChildForm');
+    const myGymForm = document.getElementById('myGymForm');
 
-    myChildForm.addEventListener('click', () => {
-        location.href="/gym/myPage/child";
+    myGymForm.addEventListener('click', () => {
+        location.href="/gym/myPage/myGym";
     })
-
 })
 

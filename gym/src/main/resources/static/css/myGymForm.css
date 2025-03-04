@@ -230,11 +230,11 @@
 
 /*-------------------자녀 정보-----------------------*/
 
-.childInfoEachBox{
+.gymInfoEachBox{
     display: none;
 }
 
-.childInfoBox{
+.gymInfoBox{
     border: 1px solid #cdcdcd;
     border-radius: 10px;
     margin-bottom: 10px;
@@ -246,7 +246,7 @@
     flex-direction: row;
 }
 
-.editIcon, .saveIcon, .deleteIcon, .cancelIcon{
+.editIcon, .saveIcon, .deleteIcon, .cancelIcon, .addressIcon{
     display: none;
     cursor: pointer;
 }

@@ -6,7 +6,6 @@
     <title>MyPage</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/myChildForm.css}">
     <script th:src="@{/js/myChildForm.js}"></script>
-    <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 </head>
 <body>
 <section>
@@ -56,6 +55,7 @@
                                 <div class="myPageMyContents">
                                     <img th:src="@{/image/myPageAge.png}" class="myPageImage">
                                     <input class="age" name="age" th:value="${child.age}" readonly required>
+                                    <input type="hidden" name="type" readonly required>
                                 </div>
 
                                 <div class="myPageMyContents">
@@ -63,10 +63,10 @@
                                     <input class="gender" name="gender" th:value="${{child.gender}}" readonly required>
                                     <div class="genderBox">
                                         <label for="male">남자</label>
-                                        <input id="male" type="radio" th:name="|gender${childStat.index}|" value="MALE"
+                                        <input id="male" class="male" type="radio" th:name="|gender${childStat.index}|" value="MALE"
                                                th:checked="${child.gender.name() eq 'MALE'}"/>
                                         <label for="female">여자</label>
-                                        <input id="female" type="radio" th:name="|gender${childStat.index}|" value="FEMALE"
+                                        <input id="female" class="female" type="radio" th:name="|gender${childStat.index}|" value="FEMALE"
                                                th:checked="${child.gender.name() eq 'FEMALE'}"/>
                                     </div>
                                 </div>
@@ -78,7 +78,7 @@
                                 </div>
 
                                 <div class="myPageMyContents">
-                                    <img th:src="@{/image/myPageGym.png}" class="myPageImage">
+                                    <img th:src="@{/image/gym.png}" class="myPageImage">
                                     <input class="gymName" name="gymName" th:value="${child.gymName}" readonly required>
                                 </div>
 
@@ -100,13 +100,6 @@
 
                             </div>
                         </div>
-                        <!-- 정보 수정 및 저장 버튼 -->
-                        <div id="myPageModify">
-                            <input type="button" class="modifyBtn" id="editBtn" value="정보 수정하기">
-                            <input type="button" class="modifyBtn" id="saveBtn" value="저장하기">
-                            <input type="button" class="modifyBtn" id="cancelBtn" value="취소">
-                        </div>
-
                     </div>
                 </div>
             </div>

@@ -19,7 +19,7 @@ public class Child {
 
     private String childName;
     private String childPhoneNum;
-    private int childAge;
+    private Integer childAge;
     private String belt;
 
     @Enumerated(EnumType.STRING)
@@ -67,6 +67,13 @@ public class Child {
     public void updateChild(String belt, Period period){
         this.belt = belt;
         this.period = period;
+    }
+
+    public void updateChildInfo(String name, Integer age, String gender, String phoneNumber) {
+        this.childName = name;
+        this.childAge = age;
+        this.childGender = Gender.valueOf(gender);
+        this.childPhoneNum = phoneNumber;
     }
 
 }

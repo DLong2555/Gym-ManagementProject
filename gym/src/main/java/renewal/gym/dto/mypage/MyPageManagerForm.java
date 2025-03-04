@@ -11,7 +11,7 @@ import renewal.gym.validator.groups.ValidationGroups;
 
 @ToString
 @Getter @Setter
-public class MyPageForm {
+public class MyPageManagerForm {
 
     @NotBlank(message = "이름 : 필수 정보입니다.", groups = ValidationGroups.NotEmptyGroup.class)
     @Pattern(regexp = "^[가-힣]+$", message = "한글 이름만 가능합니다",groups = ValidationGroups.PatternGroup.class)
@@ -22,20 +22,9 @@ public class MyPageForm {
     @PhoneNumberFormatter
     private String phoneNumber;
 
-    private String zipCode;
-
-    @NotBlank(message = "주소 : 필수 정보입니다.", groups = ValidationGroups.NotEmptyGroup.class)
-    private String roadName;
-
-    private String detailAddress;
-
     @QueryProjection
-    public MyPageForm(String name, String phoneNumber, String zipCode, String roadName, String detailAddress) {
+    public MyPageManagerForm(String name, String phoneNumber) {
         this.name = name;
         this.phoneNumber = phoneNumber;
-        this.zipCode = zipCode;
-        this.roadName = roadName;
-        this.detailAddress = detailAddress;
     }
-
 }

@@ -42,9 +42,11 @@ public class Gym {
         this.manager = manager;
     }
 
-    //테스트용
-    public Gym(String gymName) {
+    public void updateGym(String gymName, Integer gymPrice, String gymPhoneNum, Address address) {
         this.gymName = gymName;
+        this.gymPrice = gymPrice;
+        this.gymPhoneNum = gymPhoneNum;
+        this.address = address;
     }
 
 

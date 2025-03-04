@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>MyPage</title>
     <link rel="stylesheet" type="text/css" th:href="@{/css/myPageForm.css}">
-    <script th:src="@{/js/myPageForm.js}"></script>
+    <script th:src="@{/js/myPageManagerForm.js}"></script>
     <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 </head>
 <body>
@@ -29,8 +29,11 @@
                              style="font-weight: 600; font-size: 21px; text-decoration: underline; text-underline-offset: 15px; text-decoration-thickness: 2px;">
                             내 프로필
                         </div>
-                        <div class="myPageMenuEach" id="myChildForm">
+                        <div th:if="${loginUser.role.name() eq 'USER'}" class="myPageMenuEach" id="myChildForm">
                             자녀정보
+                        </div>
+                        <div th:if="${loginUser.role.name() eq 'MANAGER'}" class="myPageMenuEach" id="myGymForm">
+                            내 체육관
                         </div>
                         <div class="myPageMenuEach" id="memDeleteAccount">회원탈퇴</div>
                     </div>
@@ -51,21 +54,6 @@
                         <div class="myPageMyContents">
                             <img th:src="@{/image/mapNumber.png}" class="myPageImage">
                             <input id="phoneNumber" name="phoneNumber" th:value="${{myPageForm.phoneNumber}}" readonly required>
-                        </div>
-
-                        <div class="myPageMyContents">
-                            <img th:src="@{/image/mapGymAddress.png}" class="myPageImage">
-                            <input type="hidden" id="zipcode" th:value="${myPageForm.zipCode}" readonly
-                                   required>
-                            <input id="roadName" th:value="${myPageForm.roadName}" readonly required>
-                            <button id="searchZipBtn" name="searchZipBtn" class="inBtn">주소검색</button>
-                        </div>
-                        <div class="myPageMyContents">
-                            <img id="myPageAddress" th:src="@{/image/myPageAddress.png}" class="myPageImage">
-                            <input id="detailAddress" name="roadName" th:value="${myPageForm.detailAddress}" readonly required>
-                        </div>
-                        <div class="myPageMyContents">
-                            <input id="myPageDate" type="text" value="" readonly>
                         </div>
 
                         <!-- 정보 수정 및 저장 버튼 -->

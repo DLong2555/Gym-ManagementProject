@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -11,9 +12,9 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import renewal.gym.controller.argument.Login;
+import renewal.gym.domain.Role;
 import renewal.gym.dto.LoginUserSession;
-import renewal.gym.dto.mypage.MyPageForm;
-import renewal.gym.dto.mypage.myChildForm;
+import renewal.gym.dto.mypage.*;
 import renewal.gym.service.MyPageService;
 import renewal.gym.service.update.UpdateService;
 import renewal.gym.validator.groups.ValidationSequence;
@@ -35,10 +36,19 @@ public class MyPageController {
     @GetMapping
     public String myPage(@Login LoginUserSession session, Model model) {
 
-        MyPageForm myPageForm = myPageService.getMyPageForm(session.getId());
-        model.addAttribute("myPageForm", myPageForm);
+        if(session.getRole() == Role.USER){
+            MyPageForm myPageForm = myPageService.getMyPageForm(session.getId());
+            model.addAttribute("myPageForm", myPageForm);
 
-        return "mypage/myPageForm";
+            return "mypage/myPageForm";
+        }else if(session.getRole() == Role.MANAGER){
+            MyPageManagerForm myPageForm = myPageService.getMyManagerForm(session.getId());
+            model.addAttribute("myPageForm", myPageForm);
+
+            return "mypage/myPageManagerForm";
+        }
+
+        return "500";
     }
 
     @ResponseBody
@@ -59,7 +69,38 @@ public class MyPageController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
         }
 
-        boolean result = updateService.updateUser(session.getLoginId(), session.getRole(), myPageForm);
+        boolean result = updateService.updateUser(session.getLoginId(), myPageForm);
+
+        if (result) {
+            return null;
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ResponseBody
+    @PostMapping("/manager/edit")
+    public ResponseEntity managerEdit(@RequestBody @Validated(ValidationSequence.class) MyPageManagerForm myPageForm, BindingResult bindingResult,
+                               @Login LoginUserSession session) {
+
+        log.debug("myPageForm: {}",myPageForm);
+
+        if (bindingResult.hasErrors()) {
+            log.debug("errors : {}", bindingResult.getAllErrors());
+
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                errors.put(fieldError.getField(), fieldError.getDefaultMessage());
+            }
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        }
+
+        boolean result = updateService.updateManager(session.getLoginId(), myPageForm);
+
+        if (result) {
+            return null;
+        }
 
         return ResponseEntity.status(HttpStatus.OK).body(result);
     }
@@ -67,7 +108,7 @@ public class MyPageController {
     @GetMapping("/child")
     public String myChildForm(@Login LoginUserSession session, Model model) {
 
-        List<myChildForm> myChildForm = myPageService.getMyChildForm(session.getId());
+        List<MyChildForm> myChildForm = myPageService.getMyChildForm(session.getId());
 
         if (myChildForm == null) {
             return "500";
@@ -75,6 +116,76 @@ public class MyPageController {
 
         model.addAttribute("myChildForm", myChildForm);
 
-        return "mypage/myChildForm";
+        return "mypage/MyChildForm";
+    }
+
+    @ResponseBody
+    @PostMapping("/child/edit")
+    public ResponseEntity childEdit(@RequestBody @Validated(ValidationSequence.class) MyChildEditForm form, BindingResult bindingResult){
+        log.debug("myChildEditForm: {}",form);
+
+        if (bindingResult.hasErrors()) {
+            log.debug("errors : {}", bindingResult.getAllErrors());
+
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                errors.put(fieldError.getField(), fieldError.getDefaultMessage());
+            }
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        }
+
+        boolean result = updateService.updateMyChild(form);
+
+        if (result) {
+            return null;
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @GetMapping("/myGym")
+    public String myGym(@Login LoginUserSession session, Model model) {
+
+        List<MyGymForm> myGyms = myPageService.getMyGym(session.getId());
+        model.addAttribute("myGyms", myGyms);
+
+        for (MyGymForm myGym : myGyms) {
+            log.debug("myGym: {}", myGym);
+        }
+
+        return "mypage/myGymForm";
+    }
+
+    @ResponseBody
+    @PostMapping("/myGym/edit")
+    public ResponseEntity myGymEdit(@RequestBody @Validated(ValidationSequence.class) MyGymForm form, BindingResult bindingResult){
+
+        if (bindingResult.hasErrors()) {
+            log.debug("errors : {}", bindingResult.getAllErrors());
+
+            Map<String, String> errors = new HashMap<>();
+            for (FieldError fieldError : bindingResult.getFieldErrors()) {
+                errors.put(fieldError.getField(), fieldError.getDefaultMessage());
+            }
+
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
+        }
+
+        boolean result = updateService.updateMyGym(form);
+
+        if(result) {
+            return null;
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).body(result);
+    }
+
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<Map<String, String>> handleHttpMessageNotReadableException(HttpMessageNotReadableException e) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("type", "숫자만 입력 가능합니다.");
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errors);
     }
 }

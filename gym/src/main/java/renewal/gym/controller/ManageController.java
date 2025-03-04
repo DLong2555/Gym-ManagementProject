@@ -50,6 +50,7 @@ public class ManageController {
         EditChildResultForm result = new EditChildResultForm();
         for (EditChildForm editChildForm : editChildForms) {
             log.debug("editChildForm: {}", editChildForm.toString());
+
             if(updateService.updateChild(editChildForm)) result.getFailIds().add(editChildForm.getId());
             else result.getSuccessIds().add(editChildForm.getId());
         }

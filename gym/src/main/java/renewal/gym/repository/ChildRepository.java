@@ -2,7 +2,6 @@ package renewal.gym.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import renewal.gym.domain.Child;
-import renewal.gym.dto.mypage.myChildForm;
 import renewal.gym.repository.custom.ChildRepositoryCustom;
 
 import java.util.List;

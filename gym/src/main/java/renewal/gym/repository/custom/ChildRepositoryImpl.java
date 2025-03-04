@@ -2,11 +2,8 @@ package renewal.gym.repository.custom;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import renewal.gym.domain.QChild;
-import renewal.gym.domain.QGym;
-import renewal.gym.dto.mypage.QmyChildForm;
-import renewal.gym.dto.mypage.myChildForm;
-import renewal.gym.repository.ChildRepository;
+import renewal.gym.dto.mypage.MyChildForm;
+import renewal.gym.dto.mypage.QMyChildForm;
 
 import java.util.List;
 
@@ -19,8 +16,8 @@ public class ChildRepositoryImpl implements ChildRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<myChildForm> findByMemberId(Long memberId) {
-        return queryFactory.select(new QmyChildForm(
+    public List<MyChildForm> findByMemberId(Long memberId) {
+        return queryFactory.select(new QMyChildForm(
                         child.id,
                         child.childName.as("name"),
                         child.childPhoneNum.as("phoneNumber"),
