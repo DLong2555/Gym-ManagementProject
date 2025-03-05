@@ -2,12 +2,15 @@ package renewal.gym.repository.custom;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import renewal.gym.dto.mypage.MyPageForm;
+import renewal.gym.dto.mypage.QMyPageForm;
 
 import java.util.List;
 
 import static renewal.gym.domain.QChild.child;
+import static renewal.gym.domain.QMember.member;
 
-public class MemberRepositoryImpl implements MemberSessionRepositoryCustom {
+public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
@@ -23,5 +26,19 @@ public class MemberRepositoryImpl implements MemberSessionRepositoryCustom {
                 .from(child)
                 .where(child.id.in(childList))
                 .fetch();
+    }
+
+    @Override
+    public MyPageForm getMyPageForm(Long id) {
+        return queryFactory.select(new QMyPageForm(
+                        member.memName.as("name"),
+                        member.memPhoneNum.as("phoneNumber"),
+                        member.address.zipCode,
+                        member.address.roadName,
+                        member.address.detailAddress
+                ))
+                .from(member)
+                .where(member.id.eq(id))
+                .fetchFirst();
     }
 }

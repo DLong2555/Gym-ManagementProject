@@ -16,11 +16,11 @@ public class LoginUserSession {
 
     private Long id;
     private String loginId;
-    private String role;
+    private Role role;
 
     private List<Long> gymIds;
 
-    public LoginUserSession(Long id, String loginId, String role, List<Long> gymIds) {
+    public LoginUserSession(Long id, String loginId, Role role, List<Long> gymIds) {
         this.id = id;
         this.loginId = loginId;
         this.role = role;

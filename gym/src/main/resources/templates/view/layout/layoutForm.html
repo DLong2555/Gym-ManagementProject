@@ -45,7 +45,7 @@
                         </a>
                     </div>
                     <div class="topSubMenu">
-                        <div th:if="${loginUser?.role == 'Role_유저' || loginUser == null}">
+                        <div th:if="${loginUser?.role?.name() eq 'USER' || loginUser eq null}">
                             <div class="topSubMenuEach">
                                 <a th:href="@{/gym/search}">신규 등록</a>
                             </div>
@@ -56,7 +56,7 @@
                                 <a th:href="@{/gym/manage}">회원 관리</a>
                             </div>
                         </div>
-                        <div th:if="${loginUser?.role == 'Role_관장'}">
+                        <div th:if="${loginUser?.role?.name() eq 'MANAGER'}">
                             <div class="topSubMenuEach">
                                 <a th:href="@{/gym/manage}">회원 관리</a>
                             </div>
@@ -129,7 +129,6 @@
                 <div id="topRightBtnBox" th:if="${loginUser} == null">
                     <div id="topLogin">
                         <a th:href="@{/gym/login}">로그인</a>
-                        <!--                        <button th:text="#{label.login}" id="loginBtn"></button>-->
                     </div>
 
                     <div id="topJoin">
@@ -154,9 +153,7 @@
                             </div>
                             <div id="subProfileBtn">
                                 <div class="profileBtn">
-                                    <button type="button">
-                                        마이페이지
-                                    </button>
+                                     <a th:href="@{/gym/myPage}">마이페이지</a>
                                 </div>
                                 <div class="profileBtn">
                                     <form th:action="@{/gym/logout}" method="post">
@@ -174,9 +171,10 @@
     </div>
 </header>
 
-
-<div th:replace="${content}">
-    <p>레이아웃 컨텐츠</p>
+<div class="bodyContents">
+    <div th:replace="${content}">E
+        <p>레이아웃 컨텐츠</p>
+    </div>
 </div>
 
 <footer>

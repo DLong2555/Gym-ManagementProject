@@ -5,6 +5,8 @@ import jakarta.persistence.EntityManager;
 import renewal.gym.domain.QGym;
 import renewal.gym.dto.GymListDto;
 import renewal.gym.dto.QGymListDto;
+import renewal.gym.dto.mypage.MyGymForm;
+import renewal.gym.dto.mypage.QMyGymForm;
 import renewal.gym.repository.GymRepository;
 
 import java.util.List;
@@ -13,20 +15,35 @@ import static renewal.gym.domain.QGym.gym;
 
 public class GymRepositoryImpl implements GymRepositoryCustom {
 
-    private final JPAQueryFactory jpaQueryFactory;
+    private final JPAQueryFactory queryFactory;
 
     public GymRepositoryImpl(EntityManager em) {
-        this.jpaQueryFactory = new JPAQueryFactory(em);
+        this.queryFactory = new JPAQueryFactory(em);
     }
 
     @Override
     public List<GymListDto> findGymList() {
 
-        return jpaQueryFactory.select(new QGymListDto(
+        return queryFactory.select(new QGymListDto(
                         gym.id,
                         gym.gymName
                 )).from(gym)
                 .fetch();
 
+    }
+
+    @Override
+    public List<MyGymForm> findMyGymList(Long id) {
+        return queryFactory.select(new QMyGymForm(
+                        gym.id,
+                        gym.gymName,
+                        gym.gymPrice.as("price"),
+                        gym.gymPhoneNum,
+                        gym.address.zipCode,
+                        gym.address.roadName,
+                        gym.address.detailAddress
+                )).from(gym)
+                .where(gym.manager.id.eq(id))
+                .fetch();
     }
 }

@@ -11,7 +11,6 @@
     align-items: center;
     width: 1000px;
     padding: 30px;
-    margin-top: 80px;
 }
 
 #gymListBox #selectBox{
@@ -109,9 +108,9 @@
 }
 
 .scrollbar {
-    width: 250px;
+    width: 380px;
     height: 200px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .scrollbar::-webkit-scrollbar {

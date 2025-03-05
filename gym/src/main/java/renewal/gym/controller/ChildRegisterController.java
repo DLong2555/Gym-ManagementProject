@@ -9,18 +9,14 @@ import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
-import renewal.gym.constant.LoginSessionConst;
 import renewal.gym.controller.argument.Login;
 import renewal.gym.domain.Child;
 import renewal.gym.dto.ChildRegisterForm;
 import renewal.gym.dto.LoginUserSession;
 import renewal.gym.dto.SelectedGymForm;
-import renewal.gym.repository.ChildRepository;
 import renewal.gym.service.GymService;
 import renewal.gym.service.child.ChildRegisterService;
 import renewal.gym.validator.ChildRegisterValidator;
-import renewal.gym.validator.groups.ValidationSequence;
 
 import java.util.HashMap;
 import java.util.Map;

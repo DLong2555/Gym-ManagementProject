@@ -39,4 +39,9 @@ public class Manager {
     public void passwordEncoding(String password){
         this.password = password;
     }
+
+    public void updateManager(String name, String phone){
+        this.managerName = name;
+        this.managerPhone = phone;
+    }
 }

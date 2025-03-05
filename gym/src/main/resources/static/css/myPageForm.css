@@ -1,0 +1,226 @@
+
+/* 마이페이지 전체 폼 */
+#myPageForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 마이페이지 컨테이너 */
+#myPageForm #myPageContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    margin-top: 50px;
+}
+
+/* 마이페이지 제목 박스 */
+#myPageForm #myPageTitleBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 60px;
+}
+
+/* 마이페이지 제목 */
+#myPageForm #myPageTitle {
+    text-align: center;
+    font-size: 38px;
+    font-weight: 600;
+    padding-bottom: 20px;
+}
+
+/* 마이페이지 컨텐츠 박스 */
+#myPageForm #myPageContentsBox {
+    display: flex;
+    justify-content: center;
+}
+
+/* 마이페이지 왼쪽 박스 */
+#myPageForm #myPageLeftBox {
+    display: flex;
+    flex-direction: column;
+}
+
+/* 마이페이지 유저 정보 박스 */
+#myPageForm #myPageInfoBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: auto; /* 높이는 컨텐츠에 맞게 자동 설정 */
+    margin: 10px 100px 0 70px;
+    gap: 10px;
+}
+
+/* 마이페이지 이미지 파일인풋 */
+#myPageForm #fileInput {
+    display: none;
+}
+
+/* 마이페이지 유저 이미지 박스 */
+#myPageForm #myPageImageBox {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    height: auto; /* 높이는 컨텐츠에 맞게 자동 설정 */
+    cursor: pointer;
+}
+
+/* 마이페이지 유저 이미지 */
+#myPageForm #memImg {
+    border-radius: 100%;
+    object-fit: cover;
+    background-color: whitesmoke;
+    width: 120px;
+    height: 120px;
+    border: 1px solid whitesmoke;
+    cursor: pointer;
+}
+
+/* 마이페이지 유저 수정미이지 */
+#myPageForm #memImgModify {
+    position: absolute;
+    border-radius: 100%;
+    object-fit: cover;
+    width: 35px;
+    height: 35px;
+    cursor: pointer;
+}
+
+/* 마이페이지 메뉴 박스 */
+#myPageForm #myPageMenuBox {
+    display: flex;
+    flex-direction: column;
+    margin: 80px 0px;
+    gap: 10px;
+}
+
+/* 마이페이지 메뉴 */
+#myPageForm .myPageMenuEach{
+    padding: 17px 0px 15px 20px;
+    margin: 0px 25px;
+    cursor: pointer;
+    font-size: 18px;
+    border-radius: 10px;
+}
+
+/* 마이페이지 오른쪽 박스 */
+#myPageForm #myPageRightBox {
+    display: flex;
+    width: 900px;
+    padding: 10px 0px 0 110px;
+    border-left: 1px solid #f5f5f5;
+}
+
+/* 마이페이지 내 정보 박스 */
+#myPageForm #myPageMyInfo {
+    display: flex;
+    flex-direction: column;
+    width: 650px;
+}
+
+/* 마이페이지 내 정보 */
+#myPageForm .myPageMyContents {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+/* 마이페이지 경고 */
+#myPageForm .status-message {
+    margin-left: 56px;
+}
+
+/* 마이페이지 이미지 */
+#myPageForm .myPageImage {
+    width: 30px;
+    height: 30px;
+    margin-right: 19px;
+}
+
+/* 마이페이지 아이디 */
+#myPageForm #myPageId {
+    width: 26px;
+    height: 18px;
+    padding: 6px 2px;
+    margin-right: 19px;
+}
+
+/* 마이페이지 주소 */
+#myPageForm #myPageAddress {
+    width: 22px;
+    height: 22px;
+    padding: 4px 4px;
+    margin-right: 19px;
+}
+
+/* 마이페이지 인풋 버튼 */
+#myPageForm .inBtn {
+    position: absolute;
+    padding: 7px 18px;
+    border: none;
+    border-radius: 100px;
+    cursor: pointer;
+    text-align: center;
+    color: white;
+    text-decoration: none;
+    font-size: 12px;
+    margin-right: 10px;
+    background-color: black;
+    display: none;
+}
+
+/* 마이페이지 수정 인풋 */
+#myPageForm .myPageMyContents input {
+    padding: 13px 8px;
+    font-size: 16px;
+    border: 1px solid white;
+    box-sizing: border-box;
+    flex: 1;
+    border-radius: 0;
+    margin: 5px 0;
+    cursor: default;
+}
+
+/* 마이페이지 가입 날짜 */
+#myPageForm #myPageDate {
+    pointer-events: none;
+}
+
+/* 마이페이지 홈페이지 버튼 */
+#myPageForm .modifyBtn {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 650px;
+    padding: 15px;
+    font-size: 18px;
+    background-color: black;
+    color: white;
+    border: none;
+    border-radius: 1500px;
+    cursor: pointer;
+    font-weight: 500;
+}
+
+#myPageForm #myPageModify {
+    margin-top: 60px;
+}
+
+/* 저장 버튼 기본 상태는 숨김 */
+#myPageForm #saveBtn {
+    display: none;
+}
+
+#myPageForm #cancelBtn {
+    display: none;
+    margin-top: 10px
+}
+
+#myPageForm .field-error{
+    margin-left: 50px;
+}

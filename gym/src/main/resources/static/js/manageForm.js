@@ -27,6 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
             if (e.target.dataset.edit === "false") {
 
                 if(!originalData.has(id)) {
+                    console.log("new");
                     originalData.set(id, {
                         belt:childInfo.querySelector('.belt').value,
                         startDate: childInfo.querySelector('.startDate').value,
@@ -166,8 +167,10 @@ document.addEventListener("DOMContentLoaded", function () {
                             for(let id of response.successIds){
                                 for(let target of checkBox){
                                     let child = target.closest('.childInfo');
+                                    let childId = child.querySelector('.childId');
 
-                                    if(child.querySelector('.childId').value === String(id)){
+                                    if(childId.value === String(id)){
+
                                         child.querySelector('.editButton').dataset.edit = "false";
                                         child.querySelector('.editButton').textContent = "수정";
                                         child.querySelector('.editButton').style.backgroundColor = "lightgray";
@@ -180,6 +183,9 @@ document.addEventListener("DOMContentLoaded", function () {
                                         child.querySelector('.endDate').readOnly = true;
 
                                         editCount--;
+
+                                        originalData.delete(childId);
+
                                         break;
                                     }
                                 }
@@ -354,14 +360,13 @@ function calculateLeftDate(ids) {
         else if (diff >= 0 && diff <= 7) name.style.color = 'orange';
         else name.style.color = 'black';
     }
-    console.log(ids);
+
     endDate.forEach(date => {
         let childInfo = date.closest('.childInfo');
         let name = childInfo.querySelector('.name');
         let childId = childInfo.querySelector('.childId').value;
 
         if(ids && ids.includes(parseInt(childId))){
-            console.log(childId);
             let diff = getDiff(date);
             updateColor(name, diff);
         }else if (!ids){

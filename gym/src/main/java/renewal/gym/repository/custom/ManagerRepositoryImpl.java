@@ -8,6 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import renewal.gym.dto.manage.ChildInfoForm;
 import renewal.gym.dto.LoginDTO;
 import renewal.gym.dto.manage.ParentsInfoForm;
+import renewal.gym.dto.mypage.MyPageForm;
+import renewal.gym.dto.mypage.MyPageManagerForm;
+import renewal.gym.dto.mypage.QMyPageForm;
+import renewal.gym.dto.mypage.QMyPageManagerForm;
 
 
 import java.util.ArrayList;
@@ -153,6 +157,16 @@ public class ManagerRepositoryImpl implements ManagerRepositoryCustom {
 
         return finalResult;
 
+    }
+
+    @Override
+    public MyPageManagerForm getMyPageForm(Long id) {
+        return queryFactory.select(new QMyPageManagerForm(
+                        manager.managerName.as("name"),
+                        manager.managerPhone.as("phoneNumber")
+                )).from(manager)
+                .where(manager.id.eq(id))
+                .fetchFirst();
     }
 
     @Override
