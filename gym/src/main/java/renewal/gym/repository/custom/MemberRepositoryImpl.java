@@ -4,6 +4,8 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
 import renewal.gym.dto.mypage.MyPageForm;
 import renewal.gym.dto.mypage.QMyPageForm;
+import renewal.gym.dto.register.ParentInfoForm;
+import renewal.gym.dto.register.QParentInfoForm;
 
 import java.util.List;
 
@@ -38,6 +40,16 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                         member.address.detailAddress
                 ))
                 .from(member)
+                .where(member.id.eq(id))
+                .fetchFirst();
+    }
+
+    @Override
+    public ParentInfoForm getParentInfoForm(Long id) {
+        return queryFactory.select(new QParentInfoForm(
+                        member.memName.as("name"),
+                        member.memPhoneNum.as("phoneNumber")
+                )).from(member)
                 .where(member.id.eq(id))
                 .fetchFirst();
     }

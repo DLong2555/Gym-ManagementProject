@@ -2,6 +2,7 @@ package renewal.gym.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import renewal.gym.domain.Member;
+import renewal.gym.dto.register.ParentInfoForm;
 import renewal.gym.repository.custom.MemberRepositoryCustom;
 
 import java.util.Optional;

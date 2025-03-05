@@ -11,9 +11,11 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import renewal.gym.controller.argument.Login;
 import renewal.gym.domain.Child;
-import renewal.gym.dto.ChildRegisterForm;
+import renewal.gym.dto.register.ChildRegisterForm;
 import renewal.gym.dto.LoginUserSession;
 import renewal.gym.dto.SelectedGymForm;
+import renewal.gym.dto.register.ParentInfoForm;
+import renewal.gym.repository.MemberRepository;
 import renewal.gym.service.GymService;
 import renewal.gym.service.child.ChildRegisterService;
 import renewal.gym.validator.ChildRegisterValidator;
@@ -37,20 +39,19 @@ public class ChildRegisterController {
     }
 
     @PostMapping("/form")
-    public String selectGymRegister(@Validated @ModelAttribute SelectedGymForm form, BindingResult bindingResult, Model model) {
+    public String selectGymRegister(@ModelAttribute SelectedGymForm form, Model model,
+                                    @Login LoginUserSession session) {
 
         log.debug("gymId: {}", form.getGymId());
         log.debug("gymName: {}", form.getGymName());
 
+        Integer gymPrice = gymService.findGymPriceById(form.getGymId());
+        ParentInfoForm parentInfo = childRegisterService.getParentInfo(session.getId());
 
-        if (bindingResult.hasErrors()) {
-            log.debug("errors: {}", bindingResult.getAllErrors());
-            return "home";
-        }
-
-        ChildRegisterForm childRegisterForm = new ChildRegisterForm(form.getGymId(), form.getGymName());
+        ChildRegisterForm childRegisterForm = new ChildRegisterForm(form.getGymId(), form.getGymName(), gymPrice);
 
         model.addAttribute("registerForm", childRegisterForm);
+        model.addAttribute("parentInfo", parentInfo);
 
         return "child/childRegisterForm";
     }

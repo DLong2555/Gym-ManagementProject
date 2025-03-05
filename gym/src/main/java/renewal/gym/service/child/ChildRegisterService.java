@@ -8,6 +8,7 @@ import renewal.gym.domain.Child;
 import renewal.gym.domain.Gym;
 import renewal.gym.domain.Member;
 import renewal.gym.domain.Period;
+import renewal.gym.dto.register.ParentInfoForm;
 import renewal.gym.repository.ChildRepository;
 import renewal.gym.repository.GymRepository;
 import renewal.gym.repository.MemberRepository;
@@ -46,6 +47,10 @@ public class ChildRegisterService {
         childRepository.save(child);
 
         return gym.getId();
+    }
+
+    public ParentInfoForm getParentInfo(Long id) {
+        return memberRepository.getParentInfoForm(id);
     }
 
     private boolean duplicationCheck(Long gymId, Long memId, String childName) {

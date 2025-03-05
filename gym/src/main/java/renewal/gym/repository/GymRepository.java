@@ -17,4 +17,7 @@ public interface GymRepository extends JpaRepository<Gym, Long>, GymRepositoryCu
 
     @Query("select g.gymName from Gym g where g.id = :id")
     String findGymNameById(Long id);
+
+    @Query("select g.gymPrice from Gym g where g.id = :id")
+    Integer findGymPriceById(Long id);
 }
