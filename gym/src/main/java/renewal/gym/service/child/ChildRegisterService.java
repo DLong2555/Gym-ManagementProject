@@ -28,10 +28,6 @@ public class ChildRegisterService {
     @Transactional
     public Long register(Long id, Long gymId, Child child) {
 
-        if(duplicationCheck(gymId,id, child.getChildName())){
-            return null;
-        }
-
         Member member = memberRepository.findById(id).orElseThrow(IllegalArgumentException::new);
         Gym gym = gymRepository.findById(gymId).orElseThrow(IllegalArgumentException::new);
 
@@ -53,7 +49,7 @@ public class ChildRegisterService {
         return memberRepository.getParentInfoForm(id);
     }
 
-    private boolean duplicationCheck(Long gymId, Long memId, String childName) {
+    public boolean duplicationCheck(Long gymId, Long memId, String childName) {
        return childRepository.findByGymIdAndMemberIdAndChildName(gymId, memId, childName).isPresent();
     }
 

@@ -1,65 +1,90 @@
 <!DOCTYPE html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko">
 <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" th:href="@{/css/style.css}" />
-    <script src="https://js.tosspayments.com/v2/standard"></script>
+    <title>구매하기</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="stylesheet" href="./bulma.min.css" />
+
+    <script src="https://js.tosspayments.com/v1"></script>
 </head>
+
 <body>
-
-<!-- 결제 UI -->
-<div id="payment-method"></div>
-
-<!-- 이용약관 UI -->
-<div id="agreement"></div>
-
-<!-- 결제하기 버튼 -->
-<button class="button" id="payment-button" style="margin-top: 30px">결제하기</button>
+<section class="hero is-link">
+    <div class="hero-body">
+        <div class="container">
+            <h1 class="title">토스페이먼츠 연동 샘플</h1>
+        </div>
+    </div>
+</section>
+<section class="section">
+    <div class="container">
+        <button class="button is-link" onclick="pay('카드',jsons.card);">일반결제창</button>
+        <button class="button is-link" onclick="pay('계좌이체',jsons.transfer);">계좌이체</button>
+    </div>
+</section>
+</body>
 
 <script>
-    main();
+    let amount = 50000;
 
-    async function main() {
-        const button = document.getElementById("payment-button");
+    let tossPayments = TossPayments("test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq");
 
-        // ------  결제위젯 초기화 ------
-        const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
-        const tossPayments = TossPayments(clientKey);
-
-        // 회원 결제
-        const customerKey = "W4mJFqy88gfLBCtRDdH9D";
-        const widgets = tossPayments.widgets({
-            customerKey,
-        });
-
-        // ------ 주문의 결제 금액 설정 ------
-        await widgets.setAmount({
-            currency: "KRW",
-            value: 50000,
-        });
-
-        await Promise.all([
-            // ------  결제 UI 렌더링 ------
-            widgets.renderPaymentMethods({
-                selector: "#payment-method",
-                variantKey: "DEFAULT",
-            }),
-            // ------  이용약관 UI 렌더링 ------
-            widgets.renderAgreement({ selector: "#agreement", variantKey: "AGREEMENT" }),
-        ]);
-
-        // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
-        button.addEventListener("click", async function () {
-            await widgets.requestPayment({
-                orderId: "uvL5eGipPgi5pRxZw7f53",
-                orderName: "토스 티셔츠 외 2건",
-                successUrl: window.location.origin + "/success",
-                failUrl: window.location.origin + "/fail",
-                customerName: "김토스",
-                customerMobilePhone: "01012341234"
-            });
+    function pay(method, requestJson) {
+        console.log(requestJson);
+        tossPayments.requestPayment(method, requestJson).catch(function (error) {
+            if (error.code === "USER_CANCEL") {
+                alert("유저가 취소했습니다.");
+            } else {
+                alert(error.message);
+            }
         });
     }
+
+    let path = "/";
+    let successUrl = window.location.origin + path + "success";
+    let failUrl = window.location.origin + path + "fail";
+    let callbackUrl = window.location.origin + path + "va_callback";
+    let orderId = new Date().getTime();
+
+    let jsons = {
+        card: {
+            amount: amount,
+            orderId: "sample-" + orderId,
+            orderName: "토스 티셔츠 외 2건",
+            successUrl: successUrl,
+            failUrl: failUrl,
+            cardCompany: null,
+            cardInstallmentPlan: null,
+            maxCardInstallmentPlan: null,
+            useCardPoint: false,
+            customerName: "박토스",
+            customerEmail: null,
+            customerMobilePhone: null,
+            taxFreeAmount: null,
+            useInternationalCardOnly: false,
+            flowMode: "DEFAULT",
+            discountCode: null,
+            appScheme: null,
+        },
+        transfer: {
+            //계좌이체 결제창
+
+            amount: amount,
+            orderId: "sample-" + orderId,
+            orderName: "토스 티셔츠 외 2건",
+            successUrl: successUrl,
+            failUrl: failUrl,
+            customerName: "박토스",
+            customerEmail: null,
+            customerMobilePhone: null,
+            taxFreeAmount: null,
+            cashReceipt: {
+                type: "소득공제",
+            },
+            useEscrow: false,
+        }
+    };
 </script>
-</body>
 </html>

@@ -35,8 +35,9 @@ a {
     background-color: #f2f4f6;
     color: #4e5968;
     font-weight: 600;
-    font-size: 17px;
+    font-size: 15px;
     cursor: pointer;
+    align-content:center;
 }
 
 .btn.primary {
@@ -77,7 +78,7 @@ a {
 
 
 .confirm-success {
-    display: none;
+    display: flex;
     margin-top: 72px;
 }
 
@@ -129,4 +130,24 @@ a {
 
 .color-grey {
     color: #b0b8c1;
+}
+
+/*-------------------------------------------------------*/
+#paySuccess {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#paySuccess #paySuccessContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    margin-top: 50px;
+}
+
+.addBtn{
+    width: 200px;
 }

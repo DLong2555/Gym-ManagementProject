@@ -1,5 +1,6 @@
 package renewal.gym.controller;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -22,6 +23,7 @@ import renewal.gym.validator.ChildRegisterValidator;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 @Controller
@@ -57,9 +59,9 @@ public class ChildRegisterController {
     }
 
     @ResponseBody
-    @PostMapping("/new")
-    public Map<String, String> registerChild(@Validated @ModelAttribute("registerForm") ChildRegisterForm childRegisterForm, BindingResult bindingResult,
-                                             @Login LoginUserSession session){
+    @PostMapping("/check")
+    public Map<String, String> registerChildCheck(@Validated @ModelAttribute("registerForm") ChildRegisterForm childRegisterForm, BindingResult bindingResult,
+                                             @Login LoginUserSession session, HttpSession saveData) {
 
         log.debug("gymAddress: {}", childRegisterForm);
 
@@ -73,22 +75,15 @@ public class ChildRegisterController {
             return errors;
         }
 
-        Long gymId = childRegisterService.register(session.getId(), childRegisterForm.getGymId(), createChild(childRegisterForm));
+        boolean duplication = childRegisterService.duplicationCheck(childRegisterForm.getGymId(), session.getId(), childRegisterForm.getName());
 
-        if(gymId == null) {
+        if(duplication) {
             return Map.of("name", "이미 등록되어있습니다.");
         }
 
-        session.getGymIds().add(gymId);
-        log.debug("session: {}", session);
+        saveData.setAttribute("save" + childRegisterForm.getOrderId(), childRegisterForm);
 
         return Map.of("success", "success");
-    }
-
-    private Child createChild(ChildRegisterForm childRegisterForm) {
-
-        return new Child(childRegisterForm.getName(), childRegisterForm.getPhone(),
-                Integer.parseInt(childRegisterForm.getAge()), childRegisterForm.getGender());
     }
 
 

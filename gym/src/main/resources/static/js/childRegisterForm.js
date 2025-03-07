@@ -1,147 +1,133 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     const id = document.getElementById('id').value;
-    const name = document.getElementById('name').value;
+    const name = document.getElementById('customer').value;
     const price = document.getElementById('gymPrice').value.replace(/,/g, '');
     const memPhone = document.getElementById('memPhone').value;
+    const orderId = crypto.randomUUID();
+    const orderName = document.getElementById('orderName').value;
+    const gymId = document.getElementById("gymId").value;
+    const gymName = document.getElementById('gymName').value;
 
-    function showPaymentPopup() {
-        // 결제 UI 렌더링 및 결제 버튼 표시
-        main();
-
-        async function main() {
-            const button = document.getElementById("payment-request-button");
-
-            // ------  결제위젯 초기화 ------
-            const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
-            const tossPayments = TossPayments(clientKey);
-
-            // 회원 결제
-            const customerKey = "W4mJFqy88gfLBCtRDdH9D";
-            const widgets = tossPayments.widgets({
-                customerKey,
-            });
-
-            // ------ 주문의 결제 금액 설정 ------
-            await widgets.setAmount({
-                currency: "KRW",
-                value: parseInt(price),
-            });
-
-            await Promise.all([
-                // ------  결제 UI 렌더링 ------
-                widgets.renderPaymentMethods({
-                    selector: "#payment-method",
-                    variantKey: "DEFAULT",
-                }),
-                // ------  이용약관 UI 렌더링 ------
-                widgets.renderAgreement({ selector: "#agreement", variantKey: "AGREEMENT" }),
-            ]);
-
-            // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
-            button.addEventListener("click", async function () {
-                const requestData = {
-                    orderId: "uvL5eGipPgi5pRxZw7f53",
-                    payAmount: price
-                }
-
-                const response = await fetch("/pay/saveAmount", {
-                    method: "POST",
-                    headers: {"Content-Type": "application/json"},
-                    body: JSON.stringify(requestData)
-                });
-
-                await widgets.requestPayment({
-                    orderId: "uvL5eGipPgi5pRxZw7f53",
-                    orderName: "토스 티셔츠 외 2건",
-                    successUrl: window.location.origin + "/success",
-                    failUrl: window.location.origin + "/fail",
-                    customerName: name,
-                    customerMobilePhone: memPhone
-                });
-            });
+    async function savePayInfo() {
+        const requestData = {
+            orderId: orderId,
+            payAmount: price
         }
 
-        document.getElementById("payment-popup").style.display = "flex";
+        const response = await fetch("/pay/saveAmount", {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(requestData)
+        });
+    }
+    savePayInfo();
+    // ------  SDK 초기화 ------
+    // @docs https://docs.tosspayments.com/sdk/v2/js#토스페이먼츠-초기화
+    const clientKey = "test_ck_jkYG57Eba3GAJo7o5RErpWDOxmA1";
+    const customerKey = crypto.randomUUID();
+    const tossPayments = TossPayments(clientKey);
+    // 회원 결제
+    // @docs https://docs.tosspayments.com/sdk/v2/js#tosspaymentspayment
+    const payment = tossPayments.payment({customerKey});
+
+    // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
+    // @docs https://docs.tosspayments.com/sdk/v2/js#paymentrequestpayment
+
+    async function verifyRequest(){
+        const requestData = {
+            orderId: orderId,
+            payAmount: price
+        }
+
+        try{
+            const response = await fetch("/pay/verifyAmount", {
+                method: 'POST',
+                headers: {"content-type": "application/json"},
+                body: JSON.stringify(requestData)
+            });
+
+            if(!response.ok){
+                const errorData = await response.json();
+                location.href = window.location.origin + `/fail?message=${errorData.message}&code=${errorData.code}`;
+            }
+
+            console.log("결제 금액 검증 성공, 결제 진행");
+            await requestPayment();
+        }catch(error){
+
+        }
     }
 
-    // 팝업 닫기
-    // document.getElementById("close-popup").addEventListener("click", function () {
-    //     document.getElementById("payment-popup").style.display = "none";
-    // });
+    async function requestPayment() {
+        // 결제를 요청하기 전에 orderId, amount를 서버에 저장하세요.
+        // 결제 과정에서 악의적으로 결제 금액이 바뀌는 것을 확인하는 용도입니다.
+        await payment.requestPayment({
+            method: "CARD", // 카드 결제
+            amount: {
+                currency: "KRW",
+                value: parseInt(price),
+            },
+            orderId: orderId, // 고유 주문번호
+            orderName: orderName,
+            successUrl: window.location.origin + `/success`, // 결제 요청이 성공하면 리다이렉트되는 URL
+            failUrl: window.location.origin + "/fail", // 결제 요청이 실패하면 리다이렉트되는 URL
+            customerName: name,
+            customerMobilePhone: memPhone,
+            // 카드 결제에 필요한 정보
+            card: {
+                useEscrow: false,
+                flowMode: "DEFAULT", // 통합결제창 여는 옵션
+                useCardPoint: false,
+                useAppCardOnly: false,
+            },
+        });
 
+    }
 
-    document.getElementById('registerForm').addEventListener('submit', event => {
-        event.preventDefault();
-        showPaymentPopup();
-        const gymId = document.getElementById("gymId").value;
-        const gymName = document.getElementById('gymName').value;
+    document.getElementById('registerForm').addEventListener('submit',(e) => {
+        e.preventDefault();
 
         let form = document.getElementById("registerForm");
         let formData = new FormData(form);
+        formData.append("orderId", orderId);
 
+        let request = new XMLHttpRequest();
+        request.onreadystatechange = function () {
+            if (request.readyState === 4) {
+                if (request.status === 200) {
 
+                    if (request.response.success === "success") {
+                        verifyRequest();
 
-        // let request = new XMLHttpRequest();
-        // request.onreadystatechange = function () {
-        //     if (request.readyState === 4) {
-        //         if (request.status === 200) {
-        //
-        //             if (request.response.success === "success") {
-        //                 console.log("response: " + request.response);
-        //
-        //                 if(confirm("등록 성공! 추가 등록하시겠습니까?")){
-        //                     const form = document.createElement("form");
-        //                     form.method = "POST";
-        //                     form.action = "/gym/child/form";
-        //
-        //                     const gymIdInput = document.createElement("input");
-        //                     gymIdInput.type = "hidden";
-        //                     gymIdInput.name = "gymId";
-        //                     gymIdInput.value = gymId;
-        //
-        //                     const gymNameInput = document.createElement("input");
-        //                     gymNameInput.type = "hidden";
-        //                     gymNameInput.name = "gymName";
-        //                     gymNameInput.value = gymName;
-        //
-        //                     form.appendChild(gymIdInput);
-        //                     form.appendChild(gymNameInput);
-        //                     document.body.appendChild(form);
-        //
-        //                     form.submit();
-        //                 }else{
-        //                     window.location.href="/";
-        //                 }
-        //             }else{
-        //                 let result = request.response;
-        //                 console.log(result);
-        //
-        //                 document.querySelectorAll(".field-error").forEach(field => {
-        //                     field.textContent = "";
-        //                 })
-        //
-        //                 Object.keys(result).forEach((key) => {
-        //                     let field = document.getElementById(key);
-        //
-        //                     if(field){
-        //                         let errorField = field.closest('.joinInputDiv').querySelector('.field-error');
-        //
-        //                         if (errorField) {
-        //                             errorField.textContent = "X " + result[key];
-        //                         }
-        //                     }
-        //                 })
-        //
-        //                 return false;
-        //             }
-        //         }
-        //     }
-        // }
+                    }else{
+                        let result = request.response;
 
-        // request.responseType = "json";
-        // request.open("POST", "/gym/child/new", true);
-        // request.send(formData);
+                        document.querySelectorAll(".field-error").forEach(field => {
+                            field.textContent = "";
+                        })
+
+                        Object.keys(result).forEach((key) => {
+                            let field = document.getElementById(key);
+                            console.log(field);
+                            if(field){
+                                let errorField = field.closest('.joinInputDiv').querySelector('.field-error');
+
+                                if (errorField) {
+                                    errorField.textContent = "X " + result[key];
+                                }
+                            }
+                        })
+
+                        return false;
+                    }
+                }
+            }
+        }
+
+        request.responseType = "json";
+        request.open("POST", "/gym/child/check", true);
+        request.send(formData);
     })
 
 

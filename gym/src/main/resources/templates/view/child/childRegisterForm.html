@@ -18,11 +18,13 @@
                 <div id="joinTitle">등록</div>
             </div>
 
+            <input type="hidden" id="orderName" value="체육관 등록">
+
             <form id="registerForm" th:object="${registerForm}" method="post">
 
                 <input type="hidden" id="gymId" th:field="*{gymId}" readonly>
                 <input type="hidden" id="id" th:value="${loginUser.id}" readonly>
-                <input type="hidden" id="name" th:value="${parentInfo.name}" readonly>
+                <input type="hidden" id="customer" th:value="${parentInfo.name}" readonly>
                 <input type="hidden" id="memPhone" th:value="${parentInfo.phoneNumber}" readonly>
 
                 <div class="joinInputDiv">
@@ -92,19 +94,6 @@
                 </div>
 
             </form>
-        </div>
-    </div>
-
-    <!-- 결제 팝업 -->
-    <div id="payment-popup" class="payment-popup" style="display: none;">
-        <div class="wrapper w-100">
-            <div class="max-w-540 w-100">
-                <div id="payment-method" class="w-100"></div>
-                <div id="agreement" class="w-100"></div>
-                <div class="btn-wrapper w-100">
-                    <button id="payment-request-button" class="btn primary w-100">결제하기</button>
-                </div>
-            </div>
         </div>
     </div>
 </section>

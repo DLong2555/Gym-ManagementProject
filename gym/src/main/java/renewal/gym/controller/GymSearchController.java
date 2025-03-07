@@ -37,11 +37,4 @@ public class GymSearchController {
         return naverSearchService.getSearchResult(form.getSearchQuery());
     }
 
-    //    전체 불러오고 파싱
-//    @GetMapping("/home2")
-//    public List<GymListDto> home2(Model model) {
-//
-//        return gymService.findAllGymNames();
-//
-//    }
 }

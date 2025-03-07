@@ -1,41 +1,40 @@
-import './style.css';
-const urlParams = new URLSearchParams(window.location.search);
-const paymentKey = urlParams.get("paymentKey");
-const orderId = urlParams.get("orderId");
-const amount = urlParams.get("amount");
+document.addEventListener("DOMContentLoaded", function() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const paymentKey = urlParams.get("paymentKey");
+    const orderId = urlParams.get("orderId");
+    const amount = urlParams.get("amount");
 
-const paymentKeyElement = document.getElementById("paymentKey");
-const orderIdElement = document.getElementById("orderId");
-const amountElement = document.getElementById("amount");
+    async function confirm() {
+        const requestData = {
+            paymentKey: paymentKey,
+            orderId: orderId,
+            amount: amount,
+        };
 
-paymentKeyElement.textContent = paymentKey;
-orderIdElement.textContent = orderId;
-amountElement.textContent = `${amount}원`;
+        const response = await fetch("/confirm", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestData),
+        });
 
-const confirmLoadingSection = document.querySelector('.confirm-loading');
-const confirmSuccessSection = document.querySelector('.confirm-success');
+        if (!response.ok) {
+            const json = await response.json();
+            // 결제 실패 비즈니스 로직을 구현하세요.
+            console.log(json);
+            window.location.href = `/fail?message=${json.message}&code=${json.code}`;
+            return false;
+        }
 
-async function confirmPayment() {
-    // TODO: API를 호출해서 서버에게 paymentKey, orderId, amount를 넘겨주세요.
-    // 서버에선 해당 데이터를 가지고 승인 API를 호출하면 결제가 완료됩니다.
-    // https://docs.tosspayments.com/reference#%EA%B2%B0%EC%A0%9C-%EC%8A%B9%EC%9D%B8
-    const response = await fetch('/sandbox-dev/api/v1/payments/confirm', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-            paymentKey,
-            orderId,
-            amount
-        }),
-    });
-
-    if (response.ok) {
-        confirmLoadingSection.style.display = 'none';
-        confirmSuccessSection.style.display = 'flex';
     }
-}
+    confirm();
 
-const confirmPaymentButton = document.getElementById('confirmPaymentButton');
-confirmPaymentButton.addEventListener('click', confirmPayment);
+    const paymentKeyElement = document.getElementById("paymentKey");
+    const orderIdElement = document.getElementById("orderId");
+    const amountElement = document.getElementById("amount");
+
+    paymentKeyElement.textContent = paymentKey;
+    orderIdElement.textContent = orderId;
+    amountElement.textContent = `${amount}원`;
+})
