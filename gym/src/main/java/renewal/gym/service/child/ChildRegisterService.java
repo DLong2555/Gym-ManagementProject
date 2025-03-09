@@ -28,8 +28,18 @@ public class ChildRegisterService {
     @Transactional
     public Long register(Long id, Long gymId, Child child) {
 
-        Member member = memberRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        Child findChild = childRepository.findByMemberIdAndChildName(id, child.getChildName()).orElse(null);
         Gym gym = gymRepository.findById(gymId).orElseThrow(IllegalArgumentException::new);
+
+        if(findChild != null){
+            findChild.registerAnotherGym(child, gym);
+
+            Period period = new Period(LocalDate.now(), LocalDate.now().plusMonths(1L));
+            findChild.registration(period);
+            return gym.getId();
+        }
+
+        Member member = memberRepository.findById(id).orElseThrow(IllegalArgumentException::new);
 
         log.debug("gym {}", gym.getId());
         log.debug("member {}", member.getId());
@@ -43,6 +53,11 @@ public class ChildRegisterService {
         childRepository.save(child);
 
         return gym.getId();
+    }
+
+    @Transactional
+    public void childRegisterCancel(Long id, String name) {
+        childRepository.deleteByMemberAndChildName(id, name);
     }
 
     public ParentInfoForm getParentInfo(Long id) {

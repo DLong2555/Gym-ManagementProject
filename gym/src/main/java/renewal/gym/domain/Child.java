@@ -57,7 +57,6 @@ public class Child {
 
     public void addGym(Gym gym) {
         this.gym = gym;
-        gym.getChildren().add(this);
     }
 
     public void registration(Period period) {
@@ -74,6 +73,15 @@ public class Child {
         this.childAge = age;
         this.childGender = Gender.valueOf(gender);
         this.childPhoneNum = phoneNumber;
+    }
+
+    public void registerAnotherGym(Child child, Gym gym) {
+        this.gym = gym;
+        this.childName = child.getChildName();
+        this.childAge = child.getChildAge();
+        this.childGender = child.getChildGender();
+        this.childPhoneNum = child.getChildPhoneNum();
+        this.belt = null;
     }
 
 }

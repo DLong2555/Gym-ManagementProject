@@ -3,6 +3,7 @@ package renewal.gym.domain;
 import jakarta.persistence.*;
 import lombok.*;
 import org.apache.logging.log4j.util.Lazy;
+import renewal.gym.dto.pay.PayReceiptForm;
 
 import java.time.LocalDateTime;
 
@@ -37,7 +38,9 @@ public class Payment extends Auditable{
     private LocalDateTime requestedAt;
     private LocalDateTime approvedAt;
 
-    public Payment(String orderId, String orderName, Long amount, Member member, String paymentKey, PayType payType, PayStatus status, LocalDateTime requestedAt, LocalDateTime approvedAt) {
+    private String childName;
+
+    public Payment(String orderId, String orderName, Long amount, Member member, String paymentKey, PayType payType, PayStatus status, LocalDateTime requestedAt, LocalDateTime approvedAt, String childName) {
         this.orderId = orderId;
         this.orderName = orderName;
         this.amount = amount;
@@ -47,5 +50,25 @@ public class Payment extends Auditable{
         this.status = status;
         this.requestedAt = requestedAt;
         this.approvedAt = approvedAt;
+        this.childName = childName;
     }
+
+    public void updateStatus(PayStatus status) {
+        this.status = status;
+    }
+
+    public PayReceiptForm toDto() {
+        return PayReceiptForm.builder()
+                .id(id)
+                .orderName(orderName)
+                .childName(childName) // 예시, 실제 필드 확인 필요
+                .amount(amount)
+                .requestedAt(requestedAt)
+                .approvedAt(approvedAt)
+                .paymentKey(paymentKey)
+                .payType(payType)
+                .payStatus(status)
+                .build();
+    }
+
 }

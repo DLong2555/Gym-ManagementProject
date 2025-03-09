@@ -7,7 +7,9 @@ import renewal.gym.dto.mypage.QMyPageForm;
 import renewal.gym.dto.register.ParentInfoForm;
 import renewal.gym.dto.register.QParentInfoForm;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static renewal.gym.domain.QChild.child;
 import static renewal.gym.domain.QMember.member;
@@ -52,5 +54,15 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                 )).from(member)
                 .where(member.id.eq(id))
                 .fetchFirst();
+    }
+
+    @Override
+    public Set<Long> getMyGymList(Long id) {
+        List<Long> result = queryFactory.select(child.gym.id).distinct()
+                .from(child)
+                .where(child.member.id.eq(id))
+                .fetch();
+
+        return new HashSet<>(result);
     }
 }

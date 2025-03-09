@@ -17,6 +17,7 @@ import renewal.gym.dto.mypage.QMyPageManagerForm;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import static renewal.gym.domain.QChild.child;
@@ -31,7 +32,7 @@ public class ManagerRepositoryImpl implements ManagerRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Map<String, List<ParentsInfoForm>> getChildInfo(List<Long> gymIds) {
+    public Map<String, List<ParentsInfoForm>> getChildInfo(Set<Long> gymIds) {
 
         List<Tuple> results = queryFactory.select(
                         gym.gymName,

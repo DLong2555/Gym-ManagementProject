@@ -12,7 +12,9 @@ import renewal.gym.repository.GymRepository;
 import renewal.gym.repository.ManagerRepository;
 import renewal.gym.repository.MemberRepository;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -46,18 +48,16 @@ public class LoginService {
     }
 
     public LoginUserSession createLoginUserSession(Member member) {
+        return new LoginUserSession(member.getId(), member.getMemId(), member.getRole(), getMyGymList(member.getId()));
+    }
 
-        List<Long> childList = member.getChildren().stream().map(Child::getId).toList();
-        List<Long> myMemberGymLists = memberRepository.findMyMemberGymLists(childList);
-        log.info("myMemberGymLists: {}", myMemberGymLists);
-
-        return new LoginUserSession(member.getId(), member.getMemId(), member.getRole(), myMemberGymLists);
-
+    public Set<Long> getMyGymList(Long id) {
+        return memberRepository.getMyGymList(id);
     }
 
     public LoginUserSession createLoginManagerSession(Manager manager) {
-        List<Long> gymIds = gymRepository.findByManagerId(manager.getId())
-                .stream().map(Gym::getId).toList();
+        Set<Long> gymIds = new HashSet<>(gymRepository.findByManagerId(manager.getId())
+                .stream().map(Gym::getId).toList());
 
         return new LoginUserSession(manager.getId(), manager.getManageId(), manager.getRole(), gymIds);
     }

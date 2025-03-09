@@ -6,8 +6,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const memPhone = document.getElementById('memPhone').value;
     const orderId = crypto.randomUUID();
     const orderName = document.getElementById('orderName').value;
-    const gymId = document.getElementById("gymId").value;
-    const gymName = document.getElementById('gymName').value;
+
+    console.log(name);
 
     async function savePayInfo() {
         const requestData = {

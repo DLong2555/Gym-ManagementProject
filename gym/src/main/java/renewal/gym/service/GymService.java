@@ -32,8 +32,8 @@ public class GymService {
 
     }
 
-    public Long findSelectedGym(String gymName, String address) {
-        return gymRepository.findByGymNameAndAddress(gymName, address).orElse(null);
+    public Long findSelectedGym(String gymName, String address, String roadAddress) {
+        return gymRepository.findByGymNameAndAddress(gymName, address, roadAddress).orElse(null);
     }
 
     public Integer findGymPriceById(Long gymId) {

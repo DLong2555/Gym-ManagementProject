@@ -3,11 +3,13 @@ package renewal.gym.dto.mypage;
 import com.querydsl.core.annotations.QueryProjection;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import renewal.gym.controller.argument.PhoneNumberFormatter;
 import renewal.gym.domain.Gender;
 
 import java.time.LocalDate;
 
+@ToString
 @Getter @Setter
 public class MyChildForm {
 

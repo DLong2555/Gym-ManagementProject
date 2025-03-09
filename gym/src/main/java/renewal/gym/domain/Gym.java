@@ -31,9 +31,6 @@ public class Gym {
     @JoinColumn(name = "manager_id")
     private Manager manager;
 
-    @OneToMany(mappedBy = "gym")
-    private List<Child> children = new ArrayList<>();
-
     public Gym(String gymName, Integer gymPrice, String gymPhoneNum, Address address, Manager manager) {
         this.gymName = gymName;
         this.gymPrice = gymPrice;

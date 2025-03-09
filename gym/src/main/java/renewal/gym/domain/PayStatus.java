@@ -1,5 +1,6 @@
 package renewal.gym.domain;
 
+
 public enum PayStatus {
 
     READY("REDY"),IN_PROGRESS("IN_PROGRESS"),DONE("DONE"),CANCELED("CANCELED"),
@@ -9,5 +10,10 @@ public enum PayStatus {
 
     PayStatus(String description) {
         this.description = description;
+    }
+
+    @Override
+    public String toString() {
+        return this.description;
     }
 }
