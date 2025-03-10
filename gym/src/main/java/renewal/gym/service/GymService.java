@@ -1,5 +1,6 @@
 package renewal.gym.service;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -31,8 +32,11 @@ public class GymService {
 
     }
 
-    public Long findSelectedGym(String gymName, String address) {
-        return gymRepository.findByGymNameAndAddress(gymName, address).orElse(null);
+    public Long findSelectedGym(String gymName, String address, String roadAddress) {
+        return gymRepository.findByGymNameAndAddress(gymName, address, roadAddress).orElse(null);
     }
 
+    public Integer findGymPriceById(Long gymId) {
+        return gymRepository.findGymPriceById(gymId);
+    }
 }

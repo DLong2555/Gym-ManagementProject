@@ -1,0 +1,48 @@
+#receiptForm{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#receiptFormContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    margin-top: 50px;
+}
+#receiptForm .receiptTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+#receiptForm .receiptTable th, .receiptTable td {
+    border: 1px solid #ddd;
+    padding: 10px;
+    text-align: center;
+}
+
+#receiptForm .receiptTable th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+#receiptForm .cancelButton {
+    background-color: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#receiptForm .cancelButton:hover {
+    background-color: #cc0000;
+}
+
+#receiptForm .notAllowed {
+    background-color: #ccc;
+    cursor: not-allowed;
+}

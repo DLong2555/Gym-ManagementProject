@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/layoutForm :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Payment Fail</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script th:src="@{/js/fail.js}"></script>
+</head>
+
+<section>
+    <div id="paySuccess">
+        <div id="paySuccessContainer" class="noto-sans-kr">
+            <div class="wrapper w-100">
+                <div class="flex-column align-center w-100 max-w-540">
+                    <img src="https://static.toss.im/lotties/error-spot-no-loop-space-apng.png" width="160"
+                         height="160"></img>
+                    <h2 class="title">결제를 실패했어요</h2>
+                    <div class="response-section w-100">
+                        <div class="flex justify-between">
+                            <span class="response-label">code</span>
+                            <span id="error-code" class="response-text"></span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="response-label">message</span>
+                            <span id="error-message" class="response-text"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</html>

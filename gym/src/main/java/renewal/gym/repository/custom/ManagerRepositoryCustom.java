@@ -7,10 +7,11 @@ import renewal.gym.dto.mypage.MyPageManagerForm;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public interface ManagerRepositoryCustom {
 
-   Map<String, List<ParentsInfoForm>> getChildInfo(List<Long> gymIds);
+   Map<String, List<ParentsInfoForm>> getChildInfo(Set<Long> gymIds);
    Map<String, List<ParentsInfoForm>> getChildInfo2(List<Long> gymIds);
 
    MyPageManagerForm getMyPageForm(Long id);

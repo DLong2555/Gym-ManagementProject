@@ -8,6 +8,7 @@ import renewal.gym.domain.Child;
 import renewal.gym.domain.Gym;
 import renewal.gym.domain.Member;
 import renewal.gym.domain.Period;
+import renewal.gym.dto.register.ParentInfoForm;
 import renewal.gym.repository.ChildRepository;
 import renewal.gym.repository.GymRepository;
 import renewal.gym.repository.MemberRepository;
@@ -27,12 +28,18 @@ public class ChildRegisterService {
     @Transactional
     public Long register(Long id, Long gymId, Child child) {
 
-        if(duplicationCheck(gymId,id, child.getChildName())){
-            return null;
+        Child findChild = childRepository.findByMemberIdAndChildName(id, child.getChildName()).orElse(null);
+        Gym gym = gymRepository.findById(gymId).orElseThrow(IllegalArgumentException::new);
+
+        if(findChild != null){
+            findChild.registerAnotherGym(child, gym);
+
+            Period period = new Period(LocalDate.now(), LocalDate.now().plusMonths(1L));
+            findChild.registration(period);
+            return gym.getId();
         }
 
         Member member = memberRepository.findById(id).orElseThrow(IllegalArgumentException::new);
-        Gym gym = gymRepository.findById(gymId).orElseThrow(IllegalArgumentException::new);
 
         log.debug("gym {}", gym.getId());
         log.debug("member {}", member.getId());
@@ -48,7 +55,16 @@ public class ChildRegisterService {
         return gym.getId();
     }
 
-    private boolean duplicationCheck(Long gymId, Long memId, String childName) {
+    @Transactional
+    public void childRegisterCancel(Long id, String name) {
+        childRepository.deleteByMemberAndChildName(id, name);
+    }
+
+    public ParentInfoForm getParentInfo(Long id) {
+        return memberRepository.getParentInfoForm(id);
+    }
+
+    public boolean duplicationCheck(Long gymId, Long memId, String childName) {
        return childRepository.findByGymIdAndMemberIdAndChildName(gymId, memId, childName).isPresent();
     }
 

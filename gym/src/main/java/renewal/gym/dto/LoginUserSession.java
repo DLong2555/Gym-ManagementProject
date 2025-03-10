@@ -9,6 +9,7 @@ import renewal.gym.domain.Role;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 @Getter @Setter
 @ToString
@@ -18,9 +19,9 @@ public class LoginUserSession {
     private String loginId;
     private Role role;
 
-    private List<Long> gymIds;
+    private Set<Long> gymIds;
 
-    public LoginUserSession(Long id, String loginId, Role role, List<Long> gymIds) {
+    public LoginUserSession(Long id, String loginId, Role role, Set<Long> gymIds) {
         this.id = id;
         this.loginId = loginId;
         this.role = role;

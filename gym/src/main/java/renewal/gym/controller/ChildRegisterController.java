@@ -1,5 +1,6 @@
 package renewal.gym.controller;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -11,15 +12,18 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import renewal.gym.controller.argument.Login;
 import renewal.gym.domain.Child;
-import renewal.gym.dto.ChildRegisterForm;
+import renewal.gym.dto.register.ChildRegisterForm;
 import renewal.gym.dto.LoginUserSession;
 import renewal.gym.dto.SelectedGymForm;
+import renewal.gym.dto.register.ParentInfoForm;
+import renewal.gym.repository.MemberRepository;
 import renewal.gym.service.GymService;
 import renewal.gym.service.child.ChildRegisterService;
 import renewal.gym.validator.ChildRegisterValidator;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 @Slf4j
 @Controller
@@ -37,28 +41,27 @@ public class ChildRegisterController {
     }
 
     @PostMapping("/form")
-    public String selectGymRegister(@Validated @ModelAttribute SelectedGymForm form, BindingResult bindingResult, Model model) {
+    public String selectGymRegister(@ModelAttribute SelectedGymForm form, Model model,
+                                    @Login LoginUserSession session) {
 
         log.debug("gymId: {}", form.getGymId());
         log.debug("gymName: {}", form.getGymName());
 
+        Integer gymPrice = gymService.findGymPriceById(form.getGymId());
+        ParentInfoForm parentInfo = childRegisterService.getParentInfo(session.getId());
 
-        if (bindingResult.hasErrors()) {
-            log.debug("errors: {}", bindingResult.getAllErrors());
-            return "home";
-        }
-
-        ChildRegisterForm childRegisterForm = new ChildRegisterForm(form.getGymId(), form.getGymName());
+        ChildRegisterForm childRegisterForm = new ChildRegisterForm(form.getGymId(), form.getGymName(), gymPrice);
 
         model.addAttribute("registerForm", childRegisterForm);
+        model.addAttribute("parentInfo", parentInfo);
 
         return "child/childRegisterForm";
     }
 
     @ResponseBody
-    @PostMapping("/new")
-    public Map<String, String> registerChild(@Validated @ModelAttribute("registerForm") ChildRegisterForm childRegisterForm, BindingResult bindingResult,
-                                             @Login LoginUserSession session){
+    @PostMapping("/check")
+    public Map<String, String> registerChildCheck(@Validated @ModelAttribute("registerForm") ChildRegisterForm childRegisterForm, BindingResult bindingResult,
+                                             @Login LoginUserSession session, HttpSession saveData) {
 
         log.debug("gymAddress: {}", childRegisterForm);
 
@@ -72,22 +75,15 @@ public class ChildRegisterController {
             return errors;
         }
 
-        Long gymId = childRegisterService.register(session.getId(), childRegisterForm.getGymId(), createChild(childRegisterForm));
+        boolean duplication = childRegisterService.duplicationCheck(childRegisterForm.getGymId(), session.getId(), childRegisterForm.getName());
 
-        if(gymId == null) {
+        if(duplication) {
             return Map.of("name", "이미 등록되어있습니다.");
         }
 
-        session.getGymIds().add(gymId);
-        log.debug("session: {}", session);
+        saveData.setAttribute("save" + childRegisterForm.getOrderId(), childRegisterForm);
 
         return Map.of("success", "success");
-    }
-
-    private Child createChild(ChildRegisterForm childRegisterForm) {
-
-        return new Child(childRegisterForm.getName(), childRegisterForm.getPhone(),
-                Integer.parseInt(childRegisterForm.getAge()), childRegisterForm.getGender());
     }
 
 

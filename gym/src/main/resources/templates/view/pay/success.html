@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/layoutForm :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Payment Success</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/style.css}">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <script th:src="@{/js/success.js}"></script>
+</head>
+<section>
+<div id="paySuccess">
+    <div id="paySuccessContainer" class="noto-sans-kr">
+        <div class="flex-column align-center confirm-success w-100 max-w-540">
+            <img src="https://static.toss.im/illusts/check-blue-spot-ending-frame.png" width="120" height="120" />
+            <h2 class="title">결제를 완료했어요</h2>
+            <div class="response-section w-100">
+                <div class="flex justify-between">
+                    <span class="response-label">결제 금액</span>
+                    <span id="amount" class="response-text"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="response-label">주문번호</span>
+                    <span id="orderId" class="response-text"></span>
+                </div>
+                <div class="flex justify-between">
+                    <span class="response-label">paymentKey</span>
+                    <span id="paymentKey" class="response-text"></span>
+                </div>
+            </div>
+        </div>
+        <div class="w-100 button-group">
+            <div class="flex" style="gap: 16px;">
+                <form th:action="@{/gym/child/form}" method="post" th:object="${selectedGym}">
+                    <input type="hidden" id="gymId" th:field="*{gymId}">
+                    <input type="hidden" id="gymName" th:field="*{gymName}">
+                    <button class="btn addBtn" type="submit">추가 등록하기</button>
+                </form>
+                <a class="btn w-100" th:href="@{/payments/{userId}(userId=${loginUser.id})}">결제내역 확인</a>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+</html>

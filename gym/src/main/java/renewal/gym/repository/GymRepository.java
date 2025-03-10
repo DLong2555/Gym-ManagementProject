@@ -12,9 +12,15 @@ public interface GymRepository extends JpaRepository<Gym, Long>, GymRepositoryCu
 
     List<Gym> findByManagerId(Long id);
 
-    @Query("select g.id from Gym g where g.gymName = :gymName and CONCAT(g.address.roadName,' ', g.address.detailAddress) = :address")
-    Optional<Long> findByGymNameAndAddress(String gymName, String address);
+    @Query("select g.id from Gym g where g.gymName = :gymName " +
+            "and concat(g.address.roadName, ' ', g.address.detailAddress) LIKE concat('%', :address, '%') " +
+            "or concat(g.address.roadName, ' ', g.address.detailAddress) LIKE concat('%', :roadAddress, '%')")
+    Optional<Long> findByGymNameAndAddress(String gymName, String address, String roadAddress);
 
     @Query("select g.gymName from Gym g where g.id = :id")
     String findGymNameById(Long id);
+
+    @Query("select g.gymPrice from Gym g where g.id = :id")
+    Integer findGymPriceById(Long id);
 }
+

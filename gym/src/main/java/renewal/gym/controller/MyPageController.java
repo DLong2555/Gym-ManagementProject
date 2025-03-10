@@ -107,8 +107,11 @@ public class MyPageController {
 
     @GetMapping("/child")
     public String myChildForm(@Login LoginUserSession session, Model model) {
-
+        log.debug("id: {}",session.getId());
         List<MyChildForm> myChildForm = myPageService.getMyChildForm(session.getId());
+        for (MyChildForm childForm : myChildForm) {
+            log.debug("childForm: {}",childForm);
+        }
 
         if (myChildForm == null) {
             return "500";

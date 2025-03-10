@@ -12,7 +12,7 @@ public class TestData {
     public List<Gym> gymListTestData(){
 
         return Arrays.asList(
-                new Gym("신사아카데미 합기도유도 존프랭클주짓수", 150000, "01032884323", new Address("112", "서울시 강동구", "214"), new Manager("asd1234", "asd1234@abc", "김철수", "01024245322")),
+                new Gym("비룡 합기도체육관", 150000, "01032884323", new Address("112", "충남 천안시 동남구 신촌4로 16", "초원상가 4층 402호 비룡합기도"), new Manager("asd1234", "asd1234@abc", "김철수", "01024245322")),
                 new Gym("스포츠 월드", 120000, "01032884324", new Address("113", "서울시 마포구", "523"), new Manager("zxc9876", "zxc9876@xyz", "박영희", "01024245323")),
                 new Gym("파워 짐", 140000, "01032884325", new Address("114", "서울시 송파구", "314"), new Manager("asdfqwerty", "asdfqwerty@com", "이재훈", "01024245324")),
                 new Gym("헬스타운", 110000, "01032884326", new Address("115", "서울시 강북구", "232"), new Manager("jjjjjjjj", "jjjjjjjj@domain", "김민수", "01024245325")),

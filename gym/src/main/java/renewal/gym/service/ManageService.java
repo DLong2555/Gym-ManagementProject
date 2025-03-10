@@ -9,6 +9,7 @@ import renewal.gym.repository.ManagerRepository;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @Slf4j
 @Service
@@ -18,7 +19,7 @@ public class ManageService {
 
     private final ManagerRepository managerRepository;
 
-    public Map<String, List<ParentsInfoForm>> findChildInMyGyms(List<Long> gymIds) {
+    public Map<String, List<ParentsInfoForm>> findChildInMyGyms(Set<Long> gymIds) {
         Map<String, List<ParentsInfoForm>> childrenMap = managerRepository.getChildInfo(gymIds);
 
         log.debug("findChildInMyGyms: gymIds = {}", childrenMap);

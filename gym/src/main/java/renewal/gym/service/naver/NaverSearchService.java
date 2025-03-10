@@ -57,11 +57,17 @@ public class NaverSearchService {
             for (JsonNode jsonNode : json.findValue("items")) {
                 log.debug("json node: {}", jsonNode);
                 String title = jsonNode.get("title").asText().replaceAll("<b>", " ").replaceAll("</b>", "").trim();
-                String address = jsonNode.get("address").asText();
+                int idx = jsonNode.get("address").asText().indexOf(" ") + 1;
+                String address = jsonNode.get("address").asText().substring(idx);
+
+                idx = jsonNode.get("roadAddress").asText().indexOf(" ") + 1;
+                String roadAddress = jsonNode.get("roadAddress").asText().substring(idx);
                 double mapx = jsonNode.get("mapx").asDouble() / 10000000;
                 double mapy = jsonNode.get("mapy").asDouble() / 10000000;
 
-                Long findGymId = gymService.findSelectedGym(title, address);
+                log.debug("title: {}", title);
+                log.debug("address: {}", address);
+                Long findGymId = gymService.findSelectedGym(title, address, roadAddress);
                 if(findGymId != null) {
                     result.add(new NaverSearchResultForm(findGymId, title, address, mapx, mapy));
                 }
