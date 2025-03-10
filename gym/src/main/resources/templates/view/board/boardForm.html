@@ -1,0 +1,94 @@
+<!DOCTYPE HTML>
+<html th:replace="~{layout/layoutForm :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Board</title>
+    <link th:href="@{/css/boardForm.css}" rel="stylesheet">
+    <script th:src="@{/js/boardForm.js}"></script>
+
+</head>
+<body>
+<section>
+    <div id="boardForm">
+        <div id="boardPageContainer" class="noto-sans-kr">
+            <div id="boardPageTitleBox">
+                <div id="boardPageTitle">게시판</div>
+            </div>
+
+            <div id="boardPageMenuBox">
+                <div class="gymNames" th:each="gym : ${gymNames}">
+                    <a class="gymName" th:href="@{/gym/board/{gymId}(gymId=${gym.id})}" th:text="${gym.gymName}"
+                       th:classappend="${gym.id==gymId} ? 'selected'"></a>
+                </div>
+            </div>
+
+            <div id="boardPageBoardList">
+
+                <div th:each="board : ${boards}" class="boardPageBoardListRow">
+                    <div class="boardPageBoardCtg boardPageBoardCell">
+                        <div id="boardPageBoardCtgEach" th:text="${{board.boardCtg}}"></div>
+                    </div>
+                    <div class="boardPageBoardTitle boardPageBoardCell">
+                        <a th:href="@{/gym/board/contents/{id}(id=${board.id})}">
+                            <span class="title" th:text="${board.title}"></span>
+                        </a>
+                    </div>
+                    <div class="boardPageBoardNick boardPageBoardCell">
+                        <img id="boardManager" class="boardPageImage" th:src="@{/image/mapManager.png}"
+                             th:text="${board.author}">
+                    </div>
+                    <div class="boardPageBoardTime boardPageBoardCell">
+                        <img id="boardTime" class="boardPageImage" th:src="@{/image/boardTime.png}">
+                        <span th:if="${board.createdAt.toLocalDate.isBefore(T(java.time.LocalDate).now())}">
+                            <span th:text="${#temporals.format(board.createdAt, 'MM-dd')}"></span>
+                        </span>
+                        <span th:if="${!board.createdAt.toLocalDate.isBefore(T(java.time.LocalDate).now())}">
+                            <span th:text="${#temporals.format(board.createdAt, 'HH:mm')}"></span>
+                        </span>
+                    </div>
+                    <div class="boardPageBoardView boardPageBoardCell">
+                        <img id="boardView" class="boardPageImage" th:src="@{/image/boardView.png}"
+                             th:text="${board.views}">
+                    </div>
+                </div>
+
+            </div>
+            <div id="boardPageButtonBox">
+
+                <div th:if="${loginUser.role.name() eq 'MANAGER'}" class="boardPageWriteButton">
+                    <a th:href="@{/gym/board/write}">글쓰기</a>
+                </div>
+
+            </div>
+
+            <!-- Pagination -->
+            <div class="boardPagePagination">
+                <div class="boardPagePaginationMove">
+                    <div class="boardPagePaginationDoubleLeft"></div>
+                    <div class="boardPagePaginationDoubleLeft"></div>
+                </div>
+                <div class="boardPagePaginationMove">
+                    <div class="boardPagePaginationDoubleLeft"></div>
+                </div>
+                <div class="boardPage" th:each="idx : ${#numbers.sequence(0, totalPages - 1)}">
+                    <a th:href="@{/gym/board/{id}(id=${gymId}, page=${idx})}"
+                       th:text="${idx + 1}"
+                       th:classappend="${idx == currentPage} ? 'active'"></a>
+                </div>
+                <div class="boardPagePaginationMove">
+                    <div class="boardPagePaginationDoubleRight"></div>
+                </div>
+                <div class="boardPagePaginationMove">
+                    <div class="boardPagePaginationDoubleRight"></div>
+                    <div class="boardPagePaginationDoubleRight"></div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

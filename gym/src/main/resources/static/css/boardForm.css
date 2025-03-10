@@ -1,0 +1,185 @@
+
+#boardForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#boardForm #boardPageContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 30px;
+    margin-top: 50px;
+}
+
+#boardForm #boardPageTitleBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 70px;
+}
+
+#boardForm #boardPageTitle {
+    text-align: center;
+    font-size: 38px;
+    font-weight: 600;
+    padding-bottom: 20px;
+}
+
+#boardForm #boardPageMenuBox {
+    display: flex;
+    align-items: center;
+    margin-bottom: 45px;
+    gap: 20px;
+}
+
+
+#boardForm #boardPageButtonBox {
+    display: flex;
+    margin: 30px 100px 00px 0px;
+    justify-content: flex-end;
+}
+
+#boardForm .boardPageWriteButton {
+    margin-left: 25px;
+}
+
+#boardForm .boardPageWriteButton a {
+    padding: 5px 20px;
+    background-color: #c2c2c2;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 1500px;
+    font-size:16px;
+}
+
+#boardForm .boardPageWriteButton a:hover {
+    background-color: #a2a2a2;
+}
+
+#boardForm #boardPageBoardList {
+    display: flex;
+    flex-direction: column;
+    padding:0 80px;
+    width:900px;
+}
+
+#boardForm .boardPageBoardListRow {
+    display: flex;
+    align-items:center;
+}
+
+#boardForm .selected{
+    font-weight: 600;
+    font-size: 21px;
+    text-decoration: underline;
+    text-underline-offset: 15px;
+    text-decoration-thickness: 4px;
+}
+
+#boardForm a{
+    color: black;
+}
+
+#boardForm .boardPageBoardCell {
+    padding: 10px 5px;
+    flex-shrink: 0; /* 셀의 너비를 고정하기 위해 추가 */
+    text-align: left;
+    overflow: hidden; /* 내용이 넘칠 때 숨김 */
+    white-space: nowrap; /* 텍스트를 한 줄로 제한 */
+    text-overflow: ellipsis; /* 넘친 텍스트에 '...' 표시 */
+}
+
+#boardForm .boardPageBoardCtg {
+    width: 80px;
+    display:flex;
+    justify-content: center;
+}
+
+#boardForm #boardPageBoardCtgEach {
+    background-color: #727a8f;
+    padding: 12px 10px;
+    border-radius:100%;
+    color : white;
+    font-weight:500;
+    font-size:13px;
+}
+
+#boardForm .boardPageBoardTitle {
+    width: 440px;
+    padding-right:50px;
+}
+
+#boardForm .boardPageBoardNick {
+    width:100px;
+    padding-right:30px;
+}
+
+#boardForm .boardPageBoardTime {
+    width:90px;
+    padding-right:30px;
+}
+
+#boardForm .boardPageBoardView {
+    width:60px;
+}
+
+#boardForm .boardPageImage {
+    width:15px;
+    height: 15px;
+    margin-right: 10px;
+}
+
+#boardForm .boardPagePagination {
+    margin-top: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#boardForm .boardPagePagination a {
+    margin: 0 10px;
+    padding: 5px 12px;
+    color: #000;
+    border-radius: 100%
+}
+
+#boardForm .boardPagePagination a.active {
+    font-weight: bold;
+    background-color: #c2c2c2;
+    color: #fff;
+}
+
+/* 메뉴 화살표 */
+#boardForm .boardPagePaginationMove {
+    display:flex;
+    gap:3px;
+    padding:20px 20px;
+    margin: 0px 5px;
+    cursor: pointer;
+}
+
+/* 메뉴 화살표 */
+#boardForm .boardPagePaginationDoubleLeft {
+    content: "";
+    width: 6px;
+    height: 6px;
+    transform: rotate(-45deg);
+    border-top: 1px solid #333;
+    border-left: 1px solid #333;
+}
+
+#boardForm .boardPagePaginationDoubleRight {
+    content: "";
+    width: 6px;
+    height: 6px;
+    transform: rotate(135deg);
+    border-top: 1px solid #333;
+    border-left: 1px solid #333;
+}
+
+#boardForm .title{
+    display: inline-block;
+}

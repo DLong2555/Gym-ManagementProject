@@ -10,6 +10,7 @@ import renewal.gym.dto.mypage.QMyGymForm;
 import renewal.gym.repository.GymRepository;
 
 import java.util.List;
+import java.util.Set;
 
 import static renewal.gym.domain.QGym.gym;
 
@@ -22,12 +23,14 @@ public class GymRepositoryImpl implements GymRepositoryCustom {
     }
 
     @Override
-    public List<GymListDto> findGymList() {
+    public List<GymListDto> findGymNames(Set<Long> gymIds) {
 
         return queryFactory.select(new QGymListDto(
                         gym.id,
                         gym.gymName
-                )).from(gym)
+                ))
+                .from(gym)
+                .where(gym.id.in(gymIds))
                 .fetch();
 
     }

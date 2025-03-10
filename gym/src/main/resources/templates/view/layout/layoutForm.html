@@ -107,7 +107,7 @@
                     </div>
                     <div class="topSubMenu">
                         <div class="topSubMenuEach">
-                            <a href="">공지사항</a>
+                            <a th:href="@{/gym/board/{gymId}(gymId=${#lists.isEmpty(loginUser?.gymIds) ? '' : #lists.toList(loginUser.gymIds).get(0)})}">공지사항</a>
                         </div>
                         <div class="topSubMenuEach">
                             <a href="">중고거래</a>

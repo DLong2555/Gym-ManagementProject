@@ -12,6 +12,7 @@ import renewal.gym.repository.GymRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional(readOnly = true)
@@ -20,16 +21,12 @@ public class GymService {
 
     private final GymRepository gymRepository;
 
-    public List<GymListDto> findAllGym(){
-        return gymRepository.findGymList();
-    }
+//    public List<GymListDto> findAllGym(){
+//        return gymRepository.findGymList();
+//    }
 
-    public List<GymListDto> findAllGymNames() {
-        return gymRepository.findAll()
-                .stream()
-                .map(gym -> new GymListDto(gym.getId(), gym.getGymName()))
-                .toList();
-
+    public List<GymListDto> findGymNames(Set<Long> gymIds) {
+        return gymRepository.findGymNames(gymIds);
     }
 
     public Long findSelectedGym(String gymName, String address, String roadAddress) {
