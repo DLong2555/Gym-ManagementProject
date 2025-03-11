@@ -32,7 +32,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                                 board.updatedAt
                         )
                 ).from(board)
-                .where(board.gym.manager.id.eq(managerId).and(board.gym.id.eq(gymId)))
+                .where(board.gym.id.eq(gymId))
                 .orderBy(board.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())

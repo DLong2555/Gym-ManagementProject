@@ -57,18 +57,22 @@
             <div id="boardPageButtonBox">
 
                 <div th:if="${loginUser.role.name() eq 'MANAGER'}" class="boardPageWriteButton">
-                    <a th:href="@{/gym/board/write}">글쓰기</a>
+                    <form th:action="@{/gym/board/write}" th:method="POST">
+                        <input type="hidden" name="id" th:value="${gymId}">
+                        <input type="hidden" name="gymName" value="">
+                        <button type="submit">글쓰기</button>
+                    </form>
                 </div>
 
             </div>
 
             <!-- Pagination -->
-            <div class="boardPagePagination">
-                <div class="boardPagePaginationMove">
+            <div class="boardPagePagination" th:if="${totalPages != 0}">
+                <div class="boardPagePaginationMove endMove">
                     <div class="boardPagePaginationDoubleLeft"></div>
                     <div class="boardPagePaginationDoubleLeft"></div>
                 </div>
-                <div class="boardPagePaginationMove">
+                <div class="boardPagePaginationMove leftNext">
                     <div class="boardPagePaginationDoubleLeft"></div>
                 </div>
                 <div class="boardPage" th:each="idx : ${#numbers.sequence(0, totalPages - 1)}">
@@ -76,15 +80,17 @@
                        th:text="${idx + 1}"
                        th:classappend="${idx == currentPage} ? 'active'"></a>
                 </div>
-                <div class="boardPagePaginationMove">
+                <div class="boardPagePaginationMove rightNext">
                     <div class="boardPagePaginationDoubleRight"></div>
                 </div>
-                <div class="boardPagePaginationMove">
+                <div class="boardPagePaginationMove startMove">
                     <div class="boardPagePaginationDoubleRight"></div>
                     <div class="boardPagePaginationDoubleRight"></div>
                 </div>
             </div>
 
+            <input type="hidden" id="totalPages" th:value="${totalPages}">
+            <input type="hidden" id="currentPage" th:value="${currentPage}">
 
         </div>
     </div>

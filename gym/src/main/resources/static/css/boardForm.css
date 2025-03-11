@@ -46,13 +46,14 @@
     margin-left: 25px;
 }
 
-#boardForm .boardPageWriteButton a {
+#boardForm .boardPageWriteButton button {
     padding: 5px 20px;
     background-color: #c2c2c2;
     color: #fff;
     text-decoration: none;
     border-radius: 1500px;
     font-size:16px;
+    border: 1px solid #c2c2c2;
 }
 
 #boardForm .boardPageWriteButton a:hover {

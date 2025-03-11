@@ -1,0 +1,262 @@
+#boardWritePage {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+#boardWritePage #boardWritePageContainer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	padding: 30px;
+	margin-top: 50px;
+}
+
+#boardWritePage #boardWritePageTitleBox {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	padding-bottom: 70px;
+}
+
+#boardWritePage #boardWritePageTitle {
+	text-align: center;
+	font-size: 38px;
+	font-weight: 600;
+	padding-bottom: 20px;
+}
+
+#boardWritePage #boardWritePageSubTitle {
+	text-align: center;
+	font-size: 19px;
+	letter-spacing: 2px;
+	font-weight: 450;
+	padding-bottom: 10px;
+	color: #a7a7a7;
+}
+
+#boardWritePage #boardWritePageWriteBox {
+	display:flex;
+	flex-direction:column;
+}
+
+#boardWritePage #boardWritePageButtonBox {
+	display: flex;
+	margin: 50px 13px 0 0px;
+	justify-content: flex-end;
+}
+
+#boardWritePage #boardWritePageWriteButton {
+    margin-left: 30px;
+	border:1px solid #c2c2c2;
+    padding: 5px 20px;
+    background-color: #c2c2c2;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 1500px;
+    font-size:16px;
+    cursor: pointer;
+}
+
+#boardWritePage #boardWritePageWriteButton:hover {
+ 	background-color: #a2a2a2;
+}
+
+#boardWritePage #boardWritePageSubmit {
+	display: none;
+}
+
+#boardWritePage .boardWritePageSelect {
+	display:flex;
+}
+
+/* 회비납부 서브 메뉴 */
+#boardWritePage .boardWritePageSubSelect {
+	width: 150px;
+	display : none;
+	flex-direction: column;
+	border : 1px solid whitesmoke;
+	border-radius : 8px;
+	position: absolute;
+	margin-top : 65px;
+	margin-right : 65px;
+	padding: 10px;
+	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+	background-color : white;
+	z-index: 1000;
+}
+
+#boardWritePage .boardWritePageSelectPlaceholder {
+	display: flex;
+	align-items: center;
+	border-radius:1500px;
+	padding: 15px 25px 15px 25px;
+	background-color: #f8f8f8;
+	font-size:18px;
+	font-weight:500;
+	width: fit-content;
+	white-space: nowrap;
+}
+
+#boardWritePage .boardWritePageSubSelectEach {
+	display: flex;
+	padding: 10px;
+	border-radius : 10px;
+	font-size: 14px;
+	transition: background-color 0.1s ease-out;
+	color : #1b2631;
+	cursor: pointer;
+}
+
+/* 회비납부 화살표 */
+#boardWritePage .boardWritePageDown {
+	content: "";
+	width: 8px;
+	height: 8px;
+	transform: rotate(-135deg);
+	border-top: 2px solid #333;
+	border-left: 2px solid #333;
+}
+
+#boardWritePage #boardWritePageBoardTitle {
+	border: 0;
+	display: flex;
+	align-items: center;
+	gap: 45px;
+	cursor: auto;
+	border-radius:1500px; 
+	transition: background-color 0.1s ease-out;
+	margin-left: 40px;
+	padding: 15px 25px 15px 25px;
+	background-color: #f8f8f8;
+	font-size:16px;
+	font-weight:500;
+	width: 100%;
+}
+
+#boardWritePage #boardWritePageBoardText {
+	border: 1px solid #f8f8f8;
+	display: flex;
+	flex-direction:column;
+	cursor: auto;
+	border-radius:12px;
+	gap: 5px;
+	transition: background-color 0.1s ease-out;
+	padding: 25px 25px 25px 25px;
+	background-color: #f8f8f8;
+	font-size:16px;
+	font-weight:500;
+	width: 828px;
+	height: 500px;
+	margin-top: 50px;
+	overflow-y: auto;
+    max-height: 500px;
+	resize: none;
+}
+
+#boardWritePage #boardWritePageBoardText::-webkit-scrollbar-track {
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+	border-radius: 10px;
+	background-color: #F5F5F5;
+}
+
+#boardWritePage #boardWritePageBoardText::-webkit-scrollbar {
+	width: 12px;
+	background-color: #F5F5F5;
+}
+
+#boardWritePage #boardWritePageBoardText::-webkit-scrollbar-thumb {
+	border-radius: 10px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, .3);
+	background-color: #c4c4c4;
+}
+
+#boardWritePage #boardImg{
+	width:400px;
+	height: auto;
+}
+
+#boardWritePage #boardWritePageImageInputBox {
+	position:relative;
+	border: 1px solid #f8f8f8;
+	display: flex;
+	flex-direction:column;
+	justify-content:center;
+	cursor: auto;
+	border-radius:20px; 
+	gap: 5px;
+	transition: background-color 0.1s ease-out;
+	padding: 25px 25px 25px 25px;
+	background-color: #f8f8f8;
+	font-weight:500;
+	width: 828px;
+	height: auto; /* 높이를 자동으로 조정하도록 설정 */
+    min-height: 200px; /* 기본 높이를 유지 */
+	margin-top: 50px;
+}
+
+#boardWritePage #boardWritePageWarning {
+	display:flex;
+	flex-direction:column;
+	height:100%;
+	color: red;
+	gap:5px;
+	overflow-y: auto;
+	max-height: 500px;
+}
+#boardWritePage #boardWritePageImageInputButton {
+	position: absolute;
+	right: 50px;
+	height: 20%;
+	border: 1px solid #f8f8f8;
+	display: flex;
+	align-items:center;
+	cursor: auto;
+	border-radius:20px; 
+	gap: 5px;
+	transition: background-color 0.1s ease-out;
+	padding: 25px 25px 25px 25px;
+	background-color: white;
+	font-weight:500;
+}
+
+#boardWritePage #boardWritePageImageInputButton:hover {
+	background-color: #dddddd;
+	color: grey;
+}
+
+#boardWritePage #boardWritePageImageBox {
+	display: grid;
+	margin-top: 15px;
+	grid-template-columns: repeat(2, 1fr);
+	gap: 10px;
+	max-width: 600px;
+	min-height: 120px;
+}
+
+#boardWritePage #fileInput {
+	display:none;
+}
+
+#boardWritePage #writeButtonBox{
+	display: flex;
+	justify-content: end;
+	margin-top: 10px;
+}
+
+.imageBox{
+	position: relative;
+}
+
+.uploadImage{
+	border: 2px solid black;
+}
+
+.cancel{
+	position: absolute;
+	right: 16px;
+	top: 3px;
+	border: none;
+}
+

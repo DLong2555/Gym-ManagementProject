@@ -32,4 +32,5 @@ public class Board extends Auditable{
 
     @Enumerated(EnumType.STRING)
     private BoardCtg boardCtg;
+
 }

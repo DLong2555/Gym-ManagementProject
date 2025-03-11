@@ -2,12 +2,11 @@ package renewal.gym.repository.custom;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
-import renewal.gym.domain.QGym;
-import renewal.gym.dto.GymListDto;
-import renewal.gym.dto.QGymListDto;
+import renewal.gym.dto.GymInfoDto;
+
+import renewal.gym.dto.QGymInfoDto;
 import renewal.gym.dto.mypage.MyGymForm;
 import renewal.gym.dto.mypage.QMyGymForm;
-import renewal.gym.repository.GymRepository;
 
 import java.util.List;
 import java.util.Set;
@@ -23,9 +22,9 @@ public class GymRepositoryImpl implements GymRepositoryCustom {
     }
 
     @Override
-    public List<GymListDto> findGymNames(Set<Long> gymIds) {
+    public List<GymInfoDto> findGymNames(Set<Long> gymIds) {
 
-        return queryFactory.select(new QGymListDto(
+        return queryFactory.select(new QGymInfoDto(
                         gym.id,
                         gym.gymName
                 ))

@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html th:replace="~{layout/layoutForm :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Board</title>
+    <link th:href="@{/css/writeForm.css}" rel="stylesheet">
+    <script th:src="@{/js/writeForm.js}"></script>
+    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
+    <script src="https://cdn.quilljs.com/1.3.7/quill.js"></script>
+
+</head>
+<body>
+<section>
+    <div id="boardWritePage">
+        <div id="boardWritePageContainer" class="noto-sans-kr">
+
+            <div id="boardWritePageTitleBox">
+                <div id="boardWritePageTitle" th:text="${gymInfo.gymName}"></div>
+            </div>
+
+            <form th:method="post" th:action="@{/gym/board/write/save}" th:object="${writeForm}">
+                <div id="boardWritePageWriteBox">
+                    <input type="hidden" name="gymId" th:value="${gymInfo.id}">
+                    <div class="boardWritePageSelect">
+                        <div class="boardWritePageSelectPlaceholder" th:text="#{label.board.ctg}"></div>
+
+                        <input type="text" id="boardWritePageBoardTitle" th:field="*{title}" placeholder="제목을 입력해주세요."
+                               required>
+                    </div>
+                </div>
+
+                <div class="textAreaBox">
+                    <div contenteditable="true" id="boardWritePageBoardText" class="textArea"></div>
+                    <textarea name="content" id="hiddenContent" style="display:none;" th:field="*{content}"></textarea>
+                </div>
+
+                <div id="boardWritePageImageInputBox">
+                    <div id="boardWritePageWarning">
+                        <div>* 이미지를 업로드 하신 후 클릭을 하셔야 본문에 첨부됩니다.</div>
+                        <div>* 하단 썸네일을 클릭하시면 본문에 추가됩니다.</div>
+                        <div id="boardWritePageImageBox"></div>
+                    </div>
+                    <div id="boardWritePageImageInputButton">이미지 업로드</div>
+                    <input type="file" multiple="multiple" id="fileInput" name="imageFiles">
+                </div>
+
+                <div id="writeButtonBox">
+                    <button type="submit" id="boardWritePageWriteButton" class="btn">작성하기</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
