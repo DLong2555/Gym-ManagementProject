@@ -49,8 +49,11 @@ public class PaymentController {
     private final LoginService loginService;
 
     @GetMapping("/success")
-    public String success(@RequestParam String orderId, @Login LoginUserSession session, HttpSession saveData, Model model) {
+    public String success(@RequestParam String orderId, @Login LoginUserSession userSession, HttpSession saveData, Model model) {
         ChildRegisterForm childRegisterForm = (ChildRegisterForm)saveData.getAttribute("save" + orderId);
+
+        Long gymId = childRegisterService.register(userSession.getId(), childRegisterForm.getGymId(), createChild(childRegisterForm));
+        userSession.getGymIds().add(gymId);
 
         model.addAttribute("selectedGym", new SelectedGymForm(childRegisterForm.getGymId(), childRegisterForm.getGymName()));
 
@@ -104,9 +107,6 @@ public class PaymentController {
             try {
                 paymentService.save(changePayment(response, session, userSession.getId(), childInfo.getName()));
 
-                Long gymId = childRegisterService.register(userSession.getId(), childInfo.getGymId(), createChild(childInfo));
-                userSession.getGymIds().add(gymId);
-
                 return ResponseEntity.ok("Payment successful");
             }catch (Exception e){
                 log.debug("error: {}", e.getMessage());
@@ -128,6 +128,13 @@ public class PaymentController {
         List<PayReceiptForm> receipts = paymentService.getReceipts(userId);
 
         model.addAttribute("receipts", receipts);
+
+        return "pay/receipts";
+    }
+
+    @GetMapping("/payments/event/{boardId}")
+    public String payEvent(@PathVariable("boardId") Long boardId, Model model) {
+
 
         return "pay/receipts";
     }
@@ -207,7 +214,7 @@ public class PaymentController {
         return "Basic " + encodedAuth;
     }
 
-    public Payment changePayment(HttpResponse response, HttpSession session, Long id, String childName) throws JsonProcessingException {
+    public Payment changePayment(HttpResponse response, HttpSession session, Long id, String description) throws JsonProcessingException {
 
         String responseBody = response.body().toString();
         JsonNode rootNode = objectMapper.readTree(responseBody);
@@ -225,8 +232,10 @@ public class PaymentController {
 
         session.removeAttribute("save" + orderId);
 
+        description += "-" + orderName;
+
         return new Payment(orderId, orderName, amount, customer, paymentKey, getPayType(method),
-                getPayStatus(status), LocalDateTime.parse(requestedAt), LocalDateTime.parse(approvedAt), childName);
+                getPayStatus(status), LocalDateTime.parse(requestedAt), LocalDateTime.parse(approvedAt), description);
     }
 
     public void changeChildAfterCancel(Long id, PayCancelDto payCancelDto) {

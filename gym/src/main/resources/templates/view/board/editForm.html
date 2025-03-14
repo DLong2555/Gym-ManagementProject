@@ -3,9 +3,9 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
 
-    <title>Board Write</title>
-    <link th:href="@{/css/writeForm.css}" rel="stylesheet">
-    <script th:src="@{/js/writeForm.js}"></script>
+    <title>Board Edit</title>
+    <link th:href="@{/css/editForm.css}" rel="stylesheet">
+    <script th:src="@{/js/editForm.js}"></script>
 
 </head>
 <body>
@@ -14,10 +14,10 @@
         <div id="boardWritePageContainer" class="noto-sans-kr">
 
             <div id="boardWritePageTitleBox">
-                <div id="boardWritePageTitle" th:text="${gymName}"></div>
+                <div id="boardWritePageTitle">수정</div>
             </div>
 
-            <form th:method="post" th:action th:object="${writeForm}">
+            <form th:method="post" th:action th:object="${editForm}">
                 <div id="boardWritePageWriteBox">
                     <div class="boardWritePageSelect">
                         <div class="boardWritePageSelectPlaceholder">
@@ -29,6 +29,7 @@
                             <div class="boardWritePageSubSelectEach" data-value="EVENT">활동</div>
                         </div>
                         <input type="hidden" id="boardCategory" th:field="*{ctg}">
+                        <input type="hidden" id="temp" th:value="${editForm.ctg.name()}">
 
                         <input type="text" id="boardWritePageBoardTitle" th:field="*{title}" placeholder="제목을 입력해주세요."
                                required>
@@ -63,7 +64,7 @@
                 </div>
 
                 <div id="writeButtonBox">
-                    <button type="submit" id="boardWritePageWriteButton" class="btn">작성하기</button>
+                    <button type="submit" id="boardWritePageWriteButton" class="btn">수정하기</button>
                 </div>
             </form>
 

@@ -27,10 +27,10 @@
 
                 <div th:each="board : ${boards}" class="boardPageBoardListRow">
                     <div class="boardPageBoardCtg boardPageBoardCell">
-                        <div id="boardPageBoardCtgEach" th:text="${{board.boardCtg}}"></div>
+                        <div id="boardPageBoardCtgEach" th:text="${{board.ctg}}"></div>
                     </div>
                     <div class="boardPageBoardTitle boardPageBoardCell">
-                        <a th:href="@{/gym/board/contents/{id}(id=${board.id})}">
+                        <a th:href="@{/gym/board/content/{id}(id=${board.id})}">
                             <span class="title" th:text="${board.title}"></span>
                         </a>
                     </div>
@@ -57,11 +57,12 @@
             <div id="boardPageButtonBox">
 
                 <div th:if="${loginUser.role.name() eq 'MANAGER'}" class="boardPageWriteButton">
-                    <form th:action="@{/gym/board/write}" th:method="POST">
-                        <input type="hidden" name="id" th:value="${gymId}">
-                        <input type="hidden" name="gymName" value="">
-                        <button type="submit">글쓰기</button>
-                    </form>
+                    <a th:href="@{/gym/board/write/{id}(id=${gymId})}">글쓰기</a>
+<!--                    <form th:action="@{/gym/board/write}" th:method="POST">-->
+<!--                        <input type="hidden" name="id" th:value="${gymId}">-->
+<!--                        <input type="hidden" name="gymName" value="">-->
+<!--                        <button type="submit">글쓰기</button>-->
+<!--                    </form>-->
                 </div>
 
             </div>

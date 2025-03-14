@@ -2,7 +2,7 @@ package renewal.gym.domain;
 
 public enum BoardCtg {
 
-    Announcement("공지");
+    ANNOUNCEMENT("공지"), EVENT("활동");
 
     private final String ctgName;
 

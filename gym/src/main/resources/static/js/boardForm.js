@@ -39,6 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 
-    document.querySelector('.boardPageWriteButton').querySelector("[name='gymName']").value = document.querySelector(".selected").textContent;
+    // document.querySelector('.boardPageWriteButton').querySelector("[name='gymName']").value = document.querySelector(".selected").textContent;
 
 })

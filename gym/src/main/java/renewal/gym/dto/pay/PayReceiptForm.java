@@ -17,7 +17,7 @@ public class PayReceiptForm {
 
     private Long id;
     private String orderName;
-    private String childName;
+    private String description;
     private Long amount;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")

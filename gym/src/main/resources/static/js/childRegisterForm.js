@@ -6,6 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const memPhone = document.getElementById('memPhone').value;
     const orderId = crypto.randomUUID();
     const orderName = document.getElementById('orderName').value;
+    const childName = document.getElementById('name').value;
 
     console.log(name);
 

@@ -50,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const contentBox = document.getElementById("boardWritePageBoardText");
     const boardWritePageImageBox = document.getElementById("boardWritePageImageBox");
-
+    const hiddenContent = document.getElementById("hiddenContent");
 
     boardWritePageImageBox.addEventListener("click", (e) => {
         if (e.target.classList.contains("uploadImage")) {
@@ -87,7 +87,6 @@ document.addEventListener("DOMContentLoaded", function () {
         hiddenCategoryInput.value = "ANNOUNCEMENT";  // 기본값 설정
         // placeholder.innerHTML = '공지 <div class="boardWritePageDown"></div>';  // UI 업데이트
     }
-
 
     // 드롭다운 열고 닫기
     placeholder.addEventListener("click", function () {
@@ -145,4 +144,16 @@ document.addEventListener("DOMContentLoaded", function () {
         placeholder.style.backgroundColor = "#f8f8f8";
         placeholder.style.color = "#424949";
     });
+
+    //-------------------------------------------- editForm관련 js--------------------------------------------//
+    if (contentBox && contentBox.children.length === 0) {
+        contentBox.innerHTML = hiddenContent.value;
+    }
+
+    const ctgInput = document.getElementById("boardCategory");
+    if(ctgInput.value.length > 0) {
+        const temp =  document.getElementById("temp");
+        placeholder.innerHTML = ctgInput.value + ' <div class="boardWritePageDown"></div>'; // UI 업데이트
+        ctgInput.value = temp.value;
+    }
 })
