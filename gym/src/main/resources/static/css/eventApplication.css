@@ -1,0 +1,195 @@
+
+/* 회비납부 전체 폼 */
+#joinAndPayGym {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 회비납부 컨테이너 */
+#joinAndPayGym #payGymContainer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 30px;
+    margin-top: 50px;
+}
+
+/* 회비납부 제목 박스 */
+#joinAndPayGym #payGymTitleBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 50px;
+}
+
+/* 회비납부 제목 */
+#joinAndPayGym #payGymTitle {
+    text-align: center;
+    font-size: 38px;
+    font-weight: 600;
+    padding-bottom: 20px;
+}
+
+
+/* 마이페이지 컨텐츠 박스 */
+#joinAndPayGym #payGymContentsBox {
+    display: flex;
+    justify-content: center;
+}
+
+/* 회비납부 왼쪽 박스 */
+#joinAndPayGym #payGymLeftBox {
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+    margin-bottom: 80px;
+}
+
+/* 회비납부 왼쪽 서브 박스 */
+#joinAndPayGym #payGymLeftTitleBox
+{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 회비납부 왼쪽 서브 제목 */
+#joinAndPayGym #payGymLeftTitle {
+    font-size: 22px;
+    font-weight: 700;
+    margin-left: 20px;
+    margin-bottom: 5px;
+}
+
+/* 회비납부 박스 */
+#joinAndPayGym .payGymUserEach {
+    display: flex;
+    align-items: flex-start;
+}
+
+/* 회비납부 박스 */
+#joinAndPayGym .payGymUserEachInfoBox {
+    display: flex;
+    flex-direction: column;
+    width: 450px;
+    border-radius: 30px;
+    padding: 25px 20px 25px 30px;
+    margin: 20px 40px 50px 15px;
+    border: 1px solid #e3e3e3;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* 회비납부 박스 */
+#joinAndPayGym .payGymUserEachTitle {
+    display:flex;
+    align-items:center;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+
+/* 회비납부 체크박스 스타일 */
+#joinAndPayGym input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 28px;
+    height: 28px;
+    border: 2px solid #dcdee0;
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s ease;
+    background-color: white;
+    margin: 0 24px 0 0;
+}
+
+/* 체크박스 선택 시 */
+#joinAndPayGym input[type="checkbox"]:checked {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+/* 체크 표시 추가 */
+#joinAndPayGym input[type="checkbox"]:checked::after {
+    content: '✔';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    color: white;
+    font-size: 16px;
+}
+
+#joinAndPayGym #payGymPayBox {
+    display: flex;
+    flex-direction: column;
+    width: 350px;
+    border-radius: 30px;
+    padding: 25px 15px 25px 30px;
+    margin: 20px 40px 50px 40px;
+    border: 1px solid #e3e3e3;
+    box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
+    background-color: white;
+}
+
+#joinAndPayGym #payGymRightBox {
+    width: 627px;
+}
+
+#joinAndPayGym #payGymRightContents {
+    position: sticky;
+    top: 32%; /* 스크롤 시 고정 시작 위치 설정 */
+    z-index: 1001;
+    margin-left: 60px;
+}
+
+#joinAndPayGym #payGymAddResult {
+    font-size: 22px;
+    font-weight: 550;
+    text-align: right;
+    padding: 20px 10px 0px 10px;
+}
+
+#joinAndPayGym #payGymPayButton {
+    display: flex;
+    margin: 60px 40px 50px 40px;
+    text-align: center;
+    letter-spacing: 1px;
+}
+
+#joinAndPayGym #payGymPayButton a {
+    width: 47%;
+    padding: 20px 85px;
+    background-color: black;
+    border-radius: 200px;
+    color: white;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+#joinAndPayGym .eventInfoBox{
+    display: flex;
+    flex-direction: row;
+    margin-top: 20px;
+}
+
+#joinAndPayGym .eventInfoBox label{
+    font-size: 20px;
+    font-weight: 600;
+    margin-right: 25px;
+}
+
+#joinAndPayGym .eventInfoBox input{
+    font-size: 20px;
+    border: none;
+    cursor: default;
+}
+
+#joinAndPayGym .eventInfoBox input:focus{
+    outline: none;
+    box-shadow: none;
+}

@@ -62,7 +62,7 @@
                         </div>
 
                         <div id="eventPayButton" th:if="${loginUser.role.name() == 'USER' and contentForm.ctg.name() == 'EVENT'}">
-                                <a id="eventPay" th:href="@{/payments/event/{boardId}(boardId=${contentForm.id})}">신청하기</a>
+                                <a id="eventPay" th:href="@{/gym/event/{boardId}(boardId=${contentForm.id})}">신청하기</a>
                         </div>
                     </div>
                 </div>

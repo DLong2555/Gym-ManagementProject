@@ -6,10 +6,14 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import renewal.gym.domain.*;
 import renewal.gym.dto.JoinManagerForm;
+import renewal.gym.repository.BoardRepository;
 import renewal.gym.repository.GymRepository;
+import renewal.gym.repository.ManagerRepository;
+import renewal.gym.repository.MemberRepository;
 import renewal.gym.service.JoinService;
 import renewal.gym.testdata.TestData;
 
+import java.time.LocalDateTime;
 import java.util.*;
 
 @Component
@@ -19,6 +23,9 @@ public class TestDataInit {
     private final GymRepository gymRepository;
     private final JoinService joinService;
     private final PasswordEncoder passwordEncoder;
+    private final MemberRepository memberRepository;
+    private final BoardRepository boardRepository;
+    private final ManagerRepository managerRepository;
 
     /**
      * 테스트용 데이터 추가
@@ -46,6 +53,18 @@ public class TestDataInit {
         } catch (Exception e) {
             System.out.println("에러발생" + e.getMessage());
         }
+    }
+
+    @PostConstruct
+    public void eventDataInit(){
+        Manager manager = managerRepository.findById(1L).orElse(null);
+        Gym gym = gymRepository.findById(1L).get();
+
+        Long boardId = 0L;
+        LocalDateTime now = LocalDateTime.now().plusDays(7);
+        Event event = boardRepository.save(new Event(manager, gym, "xxxxx", "<img src=\"/gym/board/images/f8764a84-9b73-494b-954b-ce25a7d5e4b3.jpg\" width=\"280\" height=\"280\" class=\"uploadImage\" style=\"width: auto; height: auto;\">",
+                20000, now));
+
     }
 
     public Gym createManagerAndGym(JoinManagerForm joinForm) {
