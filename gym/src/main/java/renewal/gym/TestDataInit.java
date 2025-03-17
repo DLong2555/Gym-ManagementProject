@@ -61,9 +61,12 @@ public class TestDataInit {
         Gym gym = gymRepository.findById(1L).get();
 
         Long boardId = 0L;
-        LocalDateTime now = LocalDateTime.now().plusDays(7);
-        Event event = boardRepository.save(new Event(manager, gym, "xxxxx", "<img src=\"/gym/board/images/f8764a84-9b73-494b-954b-ce25a7d5e4b3.jpg\" width=\"280\" height=\"280\" class=\"uploadImage\" style=\"width: auto; height: auto;\">",
-                20000, now));
+        LocalDateTime now = LocalDateTime.now();
+        Event event1 = boardRepository.save(new Event(manager, gym, "합숙", "<img src=\"/gym/board/images/f8764a84-9b73-494b-954b-ce25a7d5e4b3.jpg\" width=\"280\" height=\"280\" class=\"uploadImage\" style=\"width: auto; height: auto;\">",
+                20000, now.minusDays(1)));
+
+        Event event2 = boardRepository.save(new Event(manager, gym, "수영장", "<img src=\"/gym/board/images/f8764a84-9b73-494b-954b-ce25a7d5e4b3.jpg\" width=\"280\" height=\"280\" class=\"uploadImage\" style=\"width: auto; height: auto;\">",
+                40000, now.plusDays(7)));
 
     }
 

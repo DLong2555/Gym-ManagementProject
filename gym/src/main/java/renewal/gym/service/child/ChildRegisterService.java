@@ -31,6 +31,7 @@ public class ChildRegisterService {
         Child findChild = childRepository.findByMemberIdAndChildName(id, child.getChildName()).orElse(null);
         Gym gym = gymRepository.findById(gymId).orElseThrow(IllegalArgumentException::new);
 
+        // 체육관을 바꿀 때
         if(findChild != null){
             findChild.registerAnotherGym(child, gym);
 

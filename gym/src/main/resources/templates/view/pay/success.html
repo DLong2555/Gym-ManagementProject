@@ -30,12 +30,15 @@
             </div>
         </div>
         <div class="w-100 button-group">
-            <div class="flex" style="gap: 16px;">
+            <div class="flex" style="gap: 16px;" th:if="${selectedGym != null}">
                 <form th:action="@{/gym/child/form}" method="post" th:object="${selectedGym}">
                     <input type="hidden" id="gymId" th:field="*{gymId}">
                     <input type="hidden" id="gymName" th:field="*{gymName}">
                     <button class="btn addBtn" type="submit">추가 등록하기</button>
                 </form>
+                <a class="btn w-100" th:href="@{/payments/{userId}(userId=${loginUser.id})}">결제내역 확인</a>
+            </div>
+            <div class="flex" style="gap: 16px;" th:if="${selectedGym == null}">
                 <a class="btn w-100" th:href="@{/payments/{userId}(userId=${loginUser.id})}">결제내역 확인</a>
             </div>
         </div>

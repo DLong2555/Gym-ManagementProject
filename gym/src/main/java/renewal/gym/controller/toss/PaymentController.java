@@ -17,9 +17,11 @@ import renewal.gym.controller.argument.Login;
 import renewal.gym.domain.*;
 import renewal.gym.dto.LoginUserSession;
 import renewal.gym.dto.SelectedGymForm;
+import renewal.gym.dto.event.EventPayForm;
 import renewal.gym.dto.pay.*;
 import renewal.gym.dto.register.ChildRegisterForm;
 import renewal.gym.repository.MemberRepository;
+import renewal.gym.service.EventService;
 import renewal.gym.service.LoginService;
 import renewal.gym.service.PaymentService;
 import renewal.gym.service.child.ChildRegisterService;
@@ -33,10 +35,8 @@ import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
 import java.util.Base64;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import static renewal.gym.domain.PayStatus.ABORTED;
 
 @Slf4j
 @Controller
@@ -47,17 +47,33 @@ public class PaymentController {
     private final ChildRegisterService childRegisterService;
     private final TossPaymentsConfig tossPaymentsConfig;
     private final LoginService loginService;
+    private final EventService eventService;
 
     @GetMapping("/success")
     public String success(@RequestParam String orderId, @Login LoginUserSession userSession, HttpSession saveData, Model model) {
-        ChildRegisterForm childRegisterForm = (ChildRegisterForm)saveData.getAttribute("save" + orderId);
-
-        Long gymId = childRegisterService.register(userSession.getId(), childRegisterForm.getGymId(), createChild(childRegisterForm));
-        userSession.getGymIds().add(gymId);
-
-        model.addAttribute("selectedGym", new SelectedGymForm(childRegisterForm.getGymId(), childRegisterForm.getGymName()));
+        saveData(orderId, userSession, saveData, model);
 
         return "pay/success";
+    }
+
+    private void saveData(String orderId, LoginUserSession userSession, HttpSession saveData, Model model) {
+        if (orderId.contains("event")) {
+            EventPayForm eventPayForm = (EventPayForm) saveData.getAttribute("save" + orderId);
+
+            if (eventPayForm != null) {
+                eventService.saveApplication(eventPayForm);
+            }
+        }else{
+            ChildRegisterForm childRegisterForm = (ChildRegisterForm) saveData.getAttribute("save" + orderId);
+
+            if (childRegisterForm != null) {
+                Long gymId = childRegisterService.register(userSession.getId(), childRegisterForm.getGymId(), createChild(childRegisterForm));
+                userSession.getGymIds().add(gymId);
+
+                model.addAttribute("selectedGym", new SelectedGymForm(childRegisterForm.getGymId(), childRegisterForm.getGymName()));
+            }
+        }
+
     }
 
     private Child createChild(ChildRegisterForm childRegisterForm) {
@@ -99,13 +115,39 @@ public class PaymentController {
 
     @PostMapping("/confirm")
     public ResponseEntity confirm(@RequestBody PayRequest payRequest, @Login LoginUserSession userSession, HttpSession session) throws IOException, InterruptedException {
-        log.debug("Confirm pay request");
+
         HttpResponse response = requestConfirm(payRequest);
         ChildRegisterForm childInfo = (ChildRegisterForm) session.getAttribute("save" + payRequest.getOrderId());
 
         if(response.statusCode() == HttpStatus.OK.value()){
             try {
                 paymentService.save(changePayment(response, session, userSession.getId(), childInfo.getName()));
+
+                return ResponseEntity.ok("Payment successful");
+            }catch (Exception e){
+                log.debug("error: {}", e.getMessage());
+                requestPaymentCancel(payRequest.getPaymentKey(), "결제 승인 후 저장 중 오류 발생. 결제가 취소되었습니다.");
+
+                //TODO
+                //취소된 결과 저장
+                //취소 후 child 수정
+
+                return ResponseEntity.badRequest().body(PaymentErrorResponse.builder().code(500).message("결제 승인 후 저장 중 오류 발생. 결제가 취소되었습니다.").build());
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error");
+    }
+
+    @PostMapping("/event/confirm")
+    public ResponseEntity eventConfirm(@RequestBody PayRequest payRequest, @Login LoginUserSession userSession, HttpSession session) throws IOException, InterruptedException {
+
+        HttpResponse response = requestConfirm(payRequest);
+        EventPayForm eventPayForm = (EventPayForm) session.getAttribute("save" + payRequest.getOrderId());
+
+        if(response.statusCode() == HttpStatus.OK.value()){
+            try {
+                paymentService.save(changePayment(response, session, userSession.getId(), eventPayForm.getTitle()));
 
                 return ResponseEntity.ok("Payment successful");
             }catch (Exception e){
@@ -152,6 +194,9 @@ public class PaymentController {
         if(status.equals("CANCELED")){
 
             paymentService.updatePayment(payCancelDto.getId(), getPayStatus(status));
+
+            //TODO
+            //등록된 아이 삭제 로직 추가
 
             //성공하면 등록 취소
             changeChildAfterCancel(userSession.getId(), payCancelDto);

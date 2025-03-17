@@ -1,14 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
 
     const id = document.getElementById('id').value;
-    const name = document.getElementById('customer').value;
+    const customerName = document.getElementById('customer').value;
     const price = document.getElementById('gymPrice').value.replace(/,/g, '');
     const memPhone = document.getElementById('memPhone').value;
     const orderId = crypto.randomUUID();
     const orderName = document.getElementById('orderName').value;
     const childName = document.getElementById('name').value;
-
-    console.log(name);
 
     async function savePayInfo() {
         const requestData = {
@@ -73,7 +71,7 @@ document.addEventListener('DOMContentLoaded', () => {
             orderName: orderName,
             successUrl: window.location.origin + `/success`, // 결제 요청이 성공하면 리다이렉트되는 URL
             failUrl: window.location.origin + "/fail", // 결제 요청이 실패하면 리다이렉트되는 URL
-            customerName: name,
+            customerName: customerName,
             customerMobilePhone: memPhone,
             // 카드 결제에 필요한 정보
             card: {

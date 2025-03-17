@@ -12,11 +12,16 @@
     padding: 30px;
 }
 
+#manageForm #contentsBox{
+    display: flex;
+    flex-direction: row;
+}
+
 #manageForm #manageTitle{
     text-align: center;
     font-size: 30px;
     font-weight: 600;
-    padding-bottom: 50px;
+    padding-bottom: 40px;
     margin-top : 20px;
 }
 
@@ -46,32 +51,11 @@
     margin-right: 10px;
     margin-bottom: 5px;
     align-items: center;
+    color: black;
 }
 
-#manageForm #contentsBox{
-    display: flex;
-    flex-direction: row;
-}
-
-#manageForm .myMemberListBox{
-    border : 1px solid lightgray;
-    margin-bottom: 10px;
-    margin-right: 9px;
-}
-
-#manageForm .myMemberListBox input{
-    font-size: 15px;
+#manageForm .checkbox{
     border: none;
-    width: 147px;
-    margin: 0;
-    text-align: center;
-    height: 30px;
-    padding-right: 1px;
-}
-
-#manageForm .myMemberListBox .checkbox{
-    border: none;
-    width: 150px;
     height: 15px;
     margin: 0;
 }
@@ -84,87 +68,6 @@
     border: none;
 }
 
-#manageForm #labelBox {
-    display: flex;
-    border: 1px solid black;
-    flex-direction: row;
-    justify-content: start;
-    align-items: center;
-    width : 1185px;
-    height: 40px;
-    margin-bottom: 5px;
-}
-
-#manageForm #labelBox input {
-    width: 150px;
-    height: 15px;
-    margin: 0;
-}
-
-#manageForm #labelBox div{
-    width: 153px;
-    text-align: center;
-    font-size: 16px;
-    margin-right: 5px;
-    font-weight: bold;
-}
-
-#manageForm .rightBox{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-
-#manageForm .parentDisplayBtn{
-    display: flex;
-    justify-content: center;
-    border-top: 1px solid lightgray;
-    margin-top: 5px;
-}
-
-#manageForm .parentDisplayBtn button{
-    width: 120px;
-    height: 30px;
-    background-color: lightgray;
-    color: black;
-    margin: 5px 0 5px 0;
-    border: none;
-    cursor: pointer;
-}
-
-#manageForm .parentsBox{
-    display: none;
-    justify-content: center;
-    align-items: center;
-    border-top: 1px solid lightgray;
-    height: 40px;
-}
-
-#manageForm .parentsBox label{
-    font-size: 15px;
-    margin-right: 10px;
-    margin-left: 5px;
-    font-weight: bold;
-}
-
-#manageForm .parentsBox input{
-    font-size: 15px;
-    border: none;
-    width: 120px;
-    margin: 0 70px 0 0;
-    text-align: center;
-    height: 30px;
-}
-
-#manageForm .parentsBox .address{
-    font-size: 15px;
-    border: none;
-    width: 280px;
-    text-align: center;
-    height: 30px;
-}
-
 #manageForm #bulkEditControls button{
     width: 120px;
     height: 40px;
@@ -174,26 +77,118 @@
     margin: 25px 10px 0 0;
 }
 
-.scrollbar {
-    height: 600px;
+#manageForm .thName{
+    display: table;
+    width: 100%;
+}
+
+#manageForm .main-tbody{
+    display: block;
     overflow-y: scroll;
+    overflow-x: hidden;
+    width: 100%;
+    max-height: 500px;
 }
 
-/* 스크롤바의 폭 너비 */
-.scrollbar::-webkit-scrollbar {
-    width: 10px;
+#manageForm .main-tbody tr{
+    display: table;
+    width: 100%;
 }
 
-.scrollbar::-webkit-scrollbar-thumb {
-    background: lightgray; /* 스크롤바 색상 */
-    border-radius: 10px; /* 스크롤바 둥근 테두리 */
+.manageTable {
+    width: 100%;
+    table-layout: fixed; /* 고정된 테이블 레이아웃으로 셀 너비 유지 */
+    border-collapse: collapse;
 }
 
-.scrollbar::-webkit-scrollbar-track {
-    background: whitesmoke;  /*스크롤바 뒷 배경 색상*/
+/* th와 td 기본 스타일 */
+.manage-th, .manage-td {
+    padding: 8px;
+    text-align: center;
 }
 
+/* 각 열의 너비 명시적으로 지정 */
+.manage-th:nth-child(1) { width: 6%; } /* 체크박스 */
+.manage-td:nth-child(1) { width: 5%; } /* 체크박스 */
 
+.manage-th:nth-child(2) { width: 19%; } /* 이름 (더 넓게) */
+.manage-td:nth-child(2) { width: 20%; } /* 이름 (더 넓게) */
+
+.manage-th:nth-child(3) { width: 10%; } /* 나이 */
+.manage-td:nth-child(3) { width: 10%; } /* 나이 */
+
+.manage-th:nth-child(4) { width: 10%; } /* 성별 */
+.manage-td:nth-child(4) { width: 10%; } /* 성별 */
+
+.manage-th:nth-child(5) { width: 14%; } /* 띠 */
+.manage-td:nth-child(5) { width: 15%; } /* 띠 */
+
+.manage-th:nth-child(6) { width: 15%; } /* 시작일 (더 넓게) */
+.manage-td:nth-child(6) { width: 15%; } /* 시작일 (더 넓게) */
+
+.manage-th:nth-child(7) { width: 11%; } /* 종료일 (더 넓게) */
+.manage-td:nth-child(7) { width: 15%; } /* 종료일 (더 넓게) */
+
+.manage-th:nth-child(8) { width: 14%; } /* 수정 버튼 */
+.manage-td:nth-child(8) { width: 10%; } /* 수정 버튼 */
+
+/* thead 스타일 (선택적) */
+.manageTable thead th {
+    background-color: #f4f4f4;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+/* childTbody에 스크롤 적용 (선택적) */
+.childTbody {
+    display: block;
+    width: 100%;
+}
+
+.childTbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* 고정된 테이블 레이아웃으로 셀 너비 유지 */
+}
+
+#manageForm .childTbody input{
+    font-size: 16px;
+    text-align: center;
+    border: none;
+}
+
+.parentDisplayBtn{
+    text-align: center;
+    border-top: 1px solid lightgray;
+}
+
+.parentDisplayBtn button{
+    height: 30px;
+    background-color: lightgray;
+    border: none;
+    margin-top: 5px;
+}
+
+.parentsBoxTh {
+    background-color: #f4f4f4;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.parentsBoxTd{
+    text-align: center;
+    margin-top: 5px;
+    border-bottom: 1px solid lightgray;
+}
+
+.parentsBox{
+    display: none !important;
+}
+
+.childTbody{
+    border: 2px solid lightgray;
+}
 
 
 

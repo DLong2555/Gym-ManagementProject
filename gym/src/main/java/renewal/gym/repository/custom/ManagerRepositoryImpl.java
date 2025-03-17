@@ -14,10 +14,8 @@ import renewal.gym.dto.mypage.QMyPageForm;
 import renewal.gym.dto.mypage.QMyPageManagerForm;
 
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.time.LocalDate;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static renewal.gym.domain.QChild.child;
@@ -32,10 +30,10 @@ public class ManagerRepositoryImpl implements ManagerRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Map<String, List<ParentsInfoForm>> getChildInfo(Set<Long> gymIds) {
+    public List<ParentsInfoForm> getChildInfo(Long gymId) {
+        LocalDate now = LocalDate.now();
 
         List<Tuple> results = queryFactory.select(
-                        gym.gymName,
                         Projections.constructor(
                                 ParentsInfoForm.class,
                                 member.id,
@@ -50,6 +48,7 @@ public class ManagerRepositoryImpl implements ManagerRepositoryCustom {
                                 child.childName.as("name"),
                                 child.childAge.as("age"),
                                 child.childGender.as("gender"),
+                                child.belt,
                                 child.period.startDate,
                                 child.period.endDate
                         )
@@ -57,107 +56,45 @@ public class ManagerRepositoryImpl implements ManagerRepositoryCustom {
                 .from(child)
                 .join(child.member, member)
                 .join(child.gym, gym)
-                .where(child.gym.id.in(gymIds))
+                .where(child.gym.id.eq(gymId))
                 .fetch();
 
-        Map<String, Map<String, ParentsInfoForm>> groupedByGymName = results.stream()
-                .collect(Collectors.groupingBy(
-                        tuple -> tuple.get(0, String.class),
-                        Collectors.toMap(
-                                tuple -> tuple.get(1, ParentsInfoForm.class).getMemName(),
-                                tuple -> {
-                                    ParentsInfoForm parentsInfoForm = tuple.get(1, ParentsInfoForm.class);
-                                    ChildInfoForm childInfoForm = tuple.get(2, ChildInfoForm.class);
-                                    if (childInfoForm != null) {
-                                        if (parentsInfoForm.getChildren() == null) {
-                                            parentsInfoForm.setChildren(new ArrayList<>());
-                                        }
-                                        parentsInfoForm.getChildren().add(childInfoForm);
-                                    }
-                                    return parentsInfoForm;
-                                },
-                                (existing, replacement) -> {
-                                    if (replacement.getChildren() != null) {
-                                        existing.getChildren().addAll(replacement.getChildren());
-                                    }
-                                    return existing;
-                                }
-                        )
-                ));
 
+        Map<String, ParentsInfoForm> tupleMap = new LinkedHashMap<>();
+        for (Tuple tuple : results) {
+            ParentsInfoForm parents = tuple.get(0, ParentsInfoForm.class);
+            ChildInfoForm child = tuple.get(1, ChildInfoForm.class);
 
-        return groupedByGymName.entrySet().stream()
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        entry -> new ArrayList<>(entry.getValue().values())
-                ));
+            parents.getChildren().add(child);
+            if(tupleMap.containsKey(parents.getMemName())){
+                tupleMap.get(parents.getMemName()).getChildren().add(child);
+            }else{
+                tupleMap.put(parents.getMemName(), parents);
+            }
+        }
 
-    }
+//        Map<String, ParentsInfoForm> tupleMap = results.stream()
+//                .collect(Collectors.toMap(
+//                        tuple -> tuple.get(0, ParentsInfoForm.class).getMemName(), // 키: memName
+//                        tuple -> {
+//                            ParentsInfoForm parent = tuple.get(0, ParentsInfoForm.class);
+//                            ChildInfoForm child = tuple.get(1, ChildInfoForm.class);
+//                            if (child != null) {
+//                                parent.getChildren().add(child);
+//                            }
+//                            return parent;
+//                        }, // 값: ParentsInfoForm 객체
+//                        (existing, replacement) -> {
+//                            // 동일한 memName을 가진 부모가 있을 경우, 자식 정보를 병합
+//                            if (replacement.getChildren() != null) {
+//                                existing.getChildren().addAll(replacement.getChildren());
+//                            }
+//                            return existing;
+//                        }, // 병합 로직
+//                        LinkedHashMap::new // 삽입 순서 보장
+//                ));
 
-    @Override
-    public Map<String, List<ParentsInfoForm>> getChildInfo2(List<Long> gymIds) {
-
-        List<Tuple> results = queryFactory.select(
-                        gym.gymName,
-                        Projections.constructor(
-                                ParentsInfoForm.class,
-                                member.id,
-                                member.memName,
-                                member.memPhoneNum,
-                                member.address.roadName,
-                                member.address.detailAddress
-                        ),
-                        Projections.constructor(
-                                ChildInfoForm.class,
-                                child.id,
-                                child.childName.as("name"),
-                                child.childAge.as("age"),
-                                child.childGender.as("gender"),
-                                child.period.startDate,
-                                child.period.endDate
-                        )
-                )
-                .from(child)
-                .join(child.member, member)
-                .join(child.gym, gym)
-                .where(child.gym.id.in(gymIds))
-                .fetch();
-
-        Map<String, Map<String, ParentsInfoForm>> groupedByGymAndName = results.stream()
-                .collect(Collectors.groupingBy(
-                        tuple -> tuple.get(0, String.class),
-                        Collectors.toMap(
-                                tuple -> tuple.get(1, ParentsInfoForm.class).getMemName(),
-                                tuple -> {
-                                    ParentsInfoForm parentsInfoForm = tuple.get(1, ParentsInfoForm.class);
-                                    ChildInfoForm childInfoForm = tuple.get(2, ChildInfoForm.class);
-                                    if (childInfoForm != null) {
-                                        if (parentsInfoForm.getChildren() == null) {
-                                            parentsInfoForm.setChildren(new ArrayList<>());
-                                        }
-                                        parentsInfoForm.getChildren().add(childInfoForm);
-                                    }
-                                    return parentsInfoForm;
-                                },
-                                (existing, replacement) -> {
-                                    // 동일한 memName을 가진 부모 객체가 있을 경우, 자식 리스트를 병합
-                                    if (replacement.getChildren() != null) {
-                                        existing.getChildren().addAll(replacement.getChildren());
-                                    }
-                                    return existing;
-                                }
-                        )
-                ));
-
-
-        Map<String, List<ParentsInfoForm>> finalResult = groupedByGymAndName.entrySet().stream()
-                .collect(Collectors.toMap(
-                        Map.Entry::getKey,
-                        entry -> new ArrayList<>(entry.getValue().values())
-                ));
-
-        return finalResult;
-
+        return new ArrayList<>(tupleMap.values());
     }
 
     @Override
@@ -213,4 +150,70 @@ public class ManagerRepositoryImpl implements ManagerRepositoryCustom {
                         }
                 ));
     }
+
+    //    @Override
+//    public Map<String, List<ParentsInfoForm>> getChildInfo(Set<Long> gymIds) {
+//        LocalDate now = LocalDate.now();
+//
+//        List<Tuple> results = queryFactory.select(
+//                        gym.gymName,
+//                        Projections.constructor(
+//                                ParentsInfoForm.class,
+//                                member.id,
+//                                member.memName,
+//                                member.memPhoneNum,
+//                                member.address.roadName,
+//                                member.address.detailAddress
+//                        ),
+//                        Projections.constructor(
+//                                ChildInfoForm.class,
+//                                child.id,
+//                                child.childName.as("name"),
+//                                child.childAge.as("age"),
+//                                child.childGender.as("gender"),
+//                                child.belt,
+//                                child.period.startDate,
+//                                child.period.endDate
+//                        )
+//                )
+//                .from(child)
+//                .join(child.member, member)
+//                .join(child.gym, gym)
+//                .where(child.gym.id.in(gymIds)
+//                        .and(child.period.endDate.goe(now)))
+//                .fetch();
+//
+//        Map<String, Map<String, ParentsInfoForm>> groupedByGymName = results.stream()
+//                .collect(Collectors.groupingBy(
+//                        tuple -> tuple.get(0, String.class),
+//                        Collectors.toMap(
+//                                tuple -> tuple.get(1, ParentsInfoForm.class).getMemName(),
+//                                tuple -> {
+//                                    ParentsInfoForm parentsInfoForm = tuple.get(1, ParentsInfoForm.class);
+//                                    ChildInfoForm childInfoForm = tuple.get(2, ChildInfoForm.class);
+//                                    if (childInfoForm != null) {
+//                                        if (parentsInfoForm.getChildren() == null) {
+//                                            parentsInfoForm.setChildren(new ArrayList<>());
+//                                        }
+//                                        parentsInfoForm.getChildren().add(childInfoForm);
+//                                    }
+//                                    return parentsInfoForm;
+//                                },
+//                                (existing, replacement) -> {
+//                                    if (replacement.getChildren() != null) {
+//                                        existing.getChildren().addAll(replacement.getChildren());
+//                                    }
+//                                    return existing;
+//                                }
+//                        )
+//                ));
+//
+//
+//        return groupedByGymName.entrySet().stream()
+//                .collect(Collectors.toMap(
+//                        Map.Entry::getKey,
+//                        entry -> new ArrayList<>(entry.getValue().values())
+//                ));
+//
+//    }
 }

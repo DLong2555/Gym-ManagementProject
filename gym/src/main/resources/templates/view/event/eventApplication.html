@@ -6,7 +6,7 @@
     <title>Board Write</title>
     <link th:href="@{/css/eventApplication.css}" rel="stylesheet">
     <script th:src="@{/js/eventApplication.js}"></script>
-
+    <script src="https://js.tosspayments.com/v2/standard"></script>
 </head>
 <body>
 <section>
@@ -24,8 +24,8 @@
                         <div id="payGymUserBox" th:each="child : ${childNames}">
                             <div class="payGymUserEach">
                                 <div class="payGymUserEachInfoBox">
-                                    <input type="hidden" th:value="${child.id}" class="payChildNo">
                                     <div class="payGymUserEachTitle">
+                                        <input type="hidden" th:value="${child.id}" class="payChildNo">
                                         <input th:type="checkbox" class="payGymCheckBox" th:value="${child.name}" th:text="${child.name}" checked>
                                     </div>
                                 </div>
@@ -38,6 +38,8 @@
                             <div id="payGymPayBox">
                                 <input th:type="hidden" id="boardId" class="boardId" th:value="${eventInfo.id}" readonly>
                                 <input th:type="hidden" id="gymId" class="gymId" th:value="${eventInfo.gymId}" readonly>
+                                <input th:type="hidden" id="memName" class="memName" th:value="${memName}" readonly>
+                                <input th:type="hidden" id="phoneNumber" class="phoneNumber" th:value="${phoneNumber}" readonly>
 
                                 <div class="eventInfoBox">
                                     <label for="title">활동</label>

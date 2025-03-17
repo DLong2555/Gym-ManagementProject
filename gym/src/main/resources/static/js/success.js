@@ -28,7 +28,34 @@ document.addEventListener("DOMContentLoaded", function() {
         }
 
     }
-    confirm();
+
+    async function eventConfirm() {
+        const requestData = {
+            paymentKey: paymentKey,
+            orderId: orderId,
+            amount: amount,
+        };
+
+        const response = await fetch("/event/confirm", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestData),
+        });
+
+        if (!response.ok) {
+            const json = await response.json();
+            // 결제 실패 비즈니스 로직을 구현하세요.
+            console.log(json);
+            window.location.href = `/fail?message=${json.message}&code=${json.code}`;
+            return false;
+        }
+
+    }
+
+    if(orderId.includes("event")) eventConfirm();
+    else confirm();
 
     const paymentKeyElement = document.getElementById("paymentKey");
     const orderIdElement = document.getElementById("orderId");

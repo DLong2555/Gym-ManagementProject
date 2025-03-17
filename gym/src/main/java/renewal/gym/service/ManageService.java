@@ -1,5 +1,6 @@
 package renewal.gym.service;
 
+import com.querydsl.core.Tuple;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -19,15 +20,22 @@ public class ManageService {
 
     private final ManagerRepository managerRepository;
 
-    public Map<String, List<ParentsInfoForm>> findChildInMyGyms(Set<Long> gymIds) {
-        Map<String, List<ParentsInfoForm>> childrenMap = managerRepository.getChildInfo(gymIds);
+    public List<ParentsInfoForm> findChildInMyGyms(Long gymId) {
+        List<ParentsInfoForm> childrenMap = managerRepository.getChildInfo(gymId);
 
         log.debug("findChildInMyGyms: gymIds = {}", childrenMap);
         return childrenMap;
     }
 
-    public Map<String, List<ParentsInfoForm>> findChildInMyGyms2(List<Long> gymIds) {
-        return managerRepository.getChildInfo2(gymIds);
-    }
+//    public Map<String, List<ParentsInfoForm>> findChildInMyGyms(Set<Long> gymIds) {
+//        Map<String, List<ParentsInfoForm>> childrenMap = managerRepository.getChildInfo(gymIds);
+//
+//        log.debug("findChildInMyGyms: gymIds = {}", childrenMap);
+//        return childrenMap;
+//    }
+
+//    public List<ParentsInfoForm> findChildInMyGyms2(Long gymId) {
+//        return managerRepository.getChildInfo2(gymId);
+//    }
 
 }

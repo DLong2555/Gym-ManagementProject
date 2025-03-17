@@ -53,12 +53,13 @@
                                 <a href="">회비 납부</a>
                             </div>
                             <div class="topSubMenuEach">
-                                <a th:href="@{/gym/manage}">회원 관리</a>
+                                <a th:href="@{/gym/manage/1}">회원 관리</a>
                             </div>
                         </div>
                         <div th:if="${loginUser?.role?.name() eq 'MANAGER'}">
                             <div class="topSubMenuEach">
-                                <a th:href="@{/gym/manage}">회원 관리</a>
+                                <a th:href="@{/gym/manage/{gymId}(gymId=${#lists.isEmpty(loginUser?.gymIds) ? '' :
+                                                                        #lists.sort(#lists.toList(loginUser.gymIds)).get(0)})}">회원 관리</a>
                             </div>
                         </div>
                     </div>
@@ -107,7 +108,8 @@
                     </div>
                     <div class="topSubMenu">
                         <div class="topSubMenuEach">
-                            <a th:href="@{/gym/board/{gymId}(gymId=${#lists.isEmpty(loginUser?.gymIds) ? '' : #lists.toList(loginUser.gymIds).get(0)})}">공지사항</a>
+                            <a th:href="@{/gym/board/{gymId}(gymId=${#lists.isEmpty(loginUser?.gymIds) ? '' :
+                                                                        #lists.sort(#lists.toList(loginUser.gymIds)).get(0)})}">공지사항</a>
                         </div>
                         <div class="topSubMenuEach">
                             <a href="">중고거래</a>

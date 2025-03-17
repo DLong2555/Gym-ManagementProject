@@ -61,7 +61,9 @@
                             </div>
                         </div>
 
-                        <div id="eventPayButton" th:if="${loginUser.role.name() == 'USER' and contentForm.ctg.name() == 'EVENT'}">
+                        <div id="eventPayButton" th:if="${loginUser.role.name() == 'USER'
+                                                            and contentForm.ctg.name() == 'EVENT'
+                                                            and #temporals.format(contentForm.deadline, 'yyyy-MM-dd') >= #temporals.format(T(java.time.LocalDate).now(), 'yyyy-MM-dd')}">
                                 <a id="eventPay" th:href="@{/gym/event/{boardId}(boardId=${contentForm.id})}">신청하기</a>
                         </div>
                     </div>

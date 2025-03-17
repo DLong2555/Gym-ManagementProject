@@ -1,35 +1,31 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-    highlightFirstValue();
+    highlight();
 
     mouseEffect();
 
-    highlight();
-
     showParents();
-
-    phoneNumberFormatter();
 
     calculateLeftDate(null);
 
     const editBtn = document.querySelectorAll('.editButton');
     const bulkEditBtn = document.getElementById('bulkEdit');
-    const allCheckBox = document.getElementById('labelBox').getElementsByTagName('input')[0];
+    const allCheckBox = document.querySelector('.allCheckBox');
 
     const originalData = new Map();
     let editCount = 0;
 
     editBtn.forEach(btn => {
         btn.addEventListener('click', (e) => {
-            const childInfo = e.target.closest('.childInfo');
+            const childInfo = e.target.closest('.childTr');
             let id = childInfo.querySelector('.childId');
 
             if (e.target.dataset.edit === "false") {
 
-                if(!originalData.has(id)) {
+                if (!originalData.has(id)) {
                     console.log("new");
                     originalData.set(id, {
-                        belt:childInfo.querySelector('.belt').value,
+                        belt: childInfo.querySelector('.belt').value,
                         startDate: childInfo.querySelector('.startDate').value,
                         endDate: childInfo.querySelector('.endDate').value
                     })
@@ -57,7 +53,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 e.target.style.backgroundColor = 'lightgray';
                 e.target.style.color = 'black';
 
-                if(originalData.has(id)) {
+                if (originalData.has(id)) {
                     const original = originalData.get(id);
                     childInfo.querySelector('.belt').value = original.belt;
                     childInfo.querySelector('.startDate').value = original.startDate;
@@ -77,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     bulkEditBtn.textContent = "일괄 수정";
                     bulkEditBtn.dataset.edit = "false";
 
-                    if(allCheckBox.checked) allCheckBox.checked = false;
+                    if (allCheckBox.checked) allCheckBox.checked = false;
 
                 }
             }
@@ -86,140 +82,152 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     allCheckBox.addEventListener('change', () => {
-        let checkBox = document.querySelectorAll('.myMemberListBox:not([style*="display: none"]) .checkbox');
+        let checkBox = document.querySelectorAll('.checkbox');
 
         if (allCheckBox.checked) {
-            checkBox.forEach(check => {
-                if (!check.checked){
-                    check.checked = true;
-                }
-            });
+            if(bulkEditBtn.dataset.edit === "false") {
+                checkBox.forEach(check => {
+                    if (!check.checked) {
+                        check.checked = true;
+                    }
+                });
+            }
         } else {
-            checkBox.forEach(check => {
-                if (check.checked){
-                    check.checked = false;}
-            });
+            if (bulkEditBtn.dataset.edit === "false") {
+                checkBox.forEach(check => {
+                    if (check.checked) {
+                        check.checked = false;
+                    }
+                });
+            }
         }
     });
 
     bulkEditBtn.addEventListener('click', () => {
-        let checkBox = document.querySelectorAll('.myMemberListBox:not([style*="display: none"]) .checkbox');
+        let checkBox = document.querySelectorAll('.checkbox');
+        let isCheckedBox = Array.from(checkBox).some(check => check.checked);
 
-        if(bulkEditBtn.dataset.edit === "false"){
-            checkBox.forEach(check => {
-                if (check.checked){
-                    let target = check.closest('.childInfo');
-                    let id = target.querySelector('.childId');
+        if(isCheckedBox) {
+            if (bulkEditBtn.dataset.edit === "false") {
+                checkBox.forEach(check => {
+                    if (check.checked) {
+                        let target = check.closest('.childTr');
+                        let id = target.querySelector('.childId');
 
-                    if(!originalData.has(id)) {
-                        originalData.set(id, {
-                            belt:target.querySelector('.belt').value,
-                            startDate: target.querySelector('.startDate').value,
-                            endDate: target.querySelector('.endDate').value
-                        })
+                        if (!originalData.has(id)) {
+                            originalData.set(id, {
+                                belt: target.querySelector('.belt').value,
+                                startDate: target.querySelector('.startDate').value,
+                                endDate: target.querySelector('.endDate').value
+                            })
+                        }
+
+                        target.querySelector('.editButton').dataset.edit = "true";
+                        target.querySelector('.editButton').textContent = "취소";
+                        target.querySelector('.editButton').style.backgroundColor = 'black';
+                        target.querySelector('.editButton').style.color = 'white';
+
+
+                        target.querySelector('.belt').readOnly = false;
+                        target.querySelector('.belt').style.backgroundColor = 'lightgray';
+                        target.querySelector('.startDate').readOnly = false;
+                        target.querySelector('.endDate').readOnly = false;
+
+                        editCount++;
                     }
+                })
 
-                    target.querySelector('.editButton').dataset.edit = "true";
-                    target.querySelector('.editButton').textContent = "취소";
-                    target.querySelector('.editButton').style.backgroundColor = 'black';
-                    target.querySelector('.editButton').style.color = 'white';
+                bulkEditBtn.textContent = "저장";
+                bulkEditBtn.dataset.edit = "true";
+            } else {
+                let editChildForm = [];
 
+                checkBox.forEach(check => {
+                    if (check.checked) {
+                        let target = check.closest('.childTr');
 
-                    target.querySelector('.belt').readOnly = false;
-                    target.querySelector('.belt').style.backgroundColor = 'lightgray';
-                    target.querySelector('.startDate').readOnly = false;
-                    target.querySelector('.endDate').readOnly = false;
+                        if (target.querySelector('.editButton').dataset.edit === "true") {
+                            let editChildInfo = {
+                                id: target.querySelector('.childId').value,
+                                belt: target.querySelector('.belt').value,
+                                startDate: target.querySelector('.startDate').value,
+                                endDate: target.querySelector('.endDate').value,
+                            };
 
-                    editCount++;
-                }
-            })
-
-            bulkEditBtn.textContent = "저장";
-            bulkEditBtn.dataset.edit = "true";
-        }else{
-            let editChildForm = [];
-
-            checkBox.forEach(check => {
-                if (check.checked){
-                    let target = check.closest('.childInfo');
-
-                    if(target.querySelector('.editButton').dataset.edit === "true") {
-                        let editChildInfo = {
-                            id: target.querySelector('.childId').value,
-                            belt: target.querySelector('.belt').value,
-                            startDate: target.querySelector('.startDate').value,
-                            endDate: target.querySelector('.endDate').value,
-                        };
-
-                        editChildForm.push(editChildInfo);
+                            editChildForm.push(editChildInfo);
+                        }
                     }
-                }
-            })
+                })
+                console.log(editChildForm);
+                if (confirm("변경 내용을 저장하시겠습니까?")) {
 
-            if(confirm("변경 내용을 저장하시겠습니까?")) {
+                    let request = new XMLHttpRequest();
+                    request.onreadystatechange = function () {
+                        if (request.readyState === 4) {
+                            if (request.status === 200) {
+                                let response = request.response;
 
-                let request = new XMLHttpRequest();
-                request.onreadystatechange = function () {
-                    if (request.readyState === 4) {
-                        if (request.status === 200) {
-                            let response = request.response;
+                                for (let id of response.successIds) {
+                                    for (let target of checkBox) {
+                                        let child = target.closest('.childTr');
+                                        let childId = child.querySelector('.childId');
 
-                            for(let id of response.successIds){
-                                for(let target of checkBox){
-                                    let child = target.closest('.childInfo');
-                                    let childId = child.querySelector('.childId');
+                                        if (childId.value === String(id)) {
 
-                                    if(childId.value === String(id)){
+                                            child.querySelector('.editButton').dataset.edit = "false";
+                                            child.querySelector('.editButton').textContent = "수정";
+                                            child.querySelector('.editButton').style.backgroundColor = "lightgray";
+                                            child.querySelector('.editButton').style.color = "black";
 
-                                        child.querySelector('.editButton').dataset.edit = "false";
-                                        child.querySelector('.editButton').textContent = "수정";
-                                        child.querySelector('.editButton').style.backgroundColor = "lightgray";
-                                        child.querySelector('.editButton').style.color = "black";
+                                            child.querySelector('.checkbox').checked = false;
+                                            child.querySelector('.belt').readOnly = true;
+                                            child.querySelector('.belt').style.backgroundColor = 'white';
+                                            child.querySelector('.startDate').readOnly = true;
+                                            child.querySelector('.endDate').readOnly = true;
 
-                                        child.querySelector('.checkbox').checked = false;
-                                        child.querySelector('.belt').readOnly = true;
-                                        child.querySelector('.belt').style.backgroundColor = 'white';
-                                        child.querySelector('.startDate').readOnly = true;
-                                        child.querySelector('.endDate').readOnly = true;
+                                            editCount--;
 
-                                        editCount--;
+                                            originalData.delete(childId);
 
-                                        originalData.delete(childId);
-
-                                        break;
+                                            break;
+                                        }
                                     }
                                 }
-                            }
 
-                            calculateLeftDate(response.successIds);
+                                calculateLeftDate(response.successIds);
 
-                            if (editCount === 0) {
-                                bulkEditBtn.textContent = "일괄 수정";
-                                bulkEditBtn.dataset.edit = "false";
+                                if (editCount === 0) {
+                                    bulkEditBtn.textContent = "일괄 수정";
+                                    bulkEditBtn.dataset.edit = "false";
 
-                                if(allCheckBox.checked) allCheckBox.checked = false;
+                                    if (allCheckBox.checked) allCheckBox.checked = false;
 
+                                }
                             }
                         }
                     }
-                }
 
-                request.open("POST", "/gym/manage", true);
-                request.responseType = "json";
-                request.setRequestHeader("Content-Type", "application/json");
-                request.send(JSON.stringify(editChildForm));
+                    request.open("POST", "/gym/manage", true);
+                    request.responseType = "json";
+                    request.setRequestHeader("Content-Type", "application/json");
+                    request.send(JSON.stringify(editChildForm));
+                }
             }
         }
     })
 })
 
-function highlightFirstValue() {
-    let gym = document.querySelectorAll('.gymName')[0];
-    gym.style.backgroundColor = 'lightgray';
-    gym.style.color = 'black';
-    gym.style.fontWeight = 'bold';
+function highlight() {
+    let gymId = window.location.pathname.split("/")[3];
+    let gymNames = document.querySelectorAll('.gymName');
 
-    showCheckedGym(gym.dataset.value);
+    gymNames.forEach((gym) => {
+        if(gym.dataset.id === gymId){
+            gym.style.backgroundColor = 'lightgray';
+            gym.style.color = 'black';
+            gym.style.fontWeight = 'bold';
+        }
+    })
 }
 
 function mouseEffect() {
@@ -260,7 +268,7 @@ function mouseEffect() {
             if (btn.dataset.edit === "false") {
                 btn.style.backgroundColor = '#dcdcdc';
                 btn.style.color = 'gray';
-            }else{
+            } else {
                 btn.style.backgroundColor = '#333333';
                 btn.style.color = 'whitesmoke';
             }
@@ -270,7 +278,7 @@ function mouseEffect() {
             if (btn.dataset.edit === "false") {
                 btn.style.backgroundColor = 'lightgray';
                 btn.style.color = 'black';
-            }else{
+            } else {
                 btn.style.backgroundColor = 'black';
                 btn.style.color = 'white';
             }
@@ -278,42 +286,7 @@ function mouseEffect() {
     })
 }
 
-function highlight() {
-    let gyms = document.querySelectorAll('.gymName');
-    let bulkEditBtn = document.getElementById('bulkEdit');
 
-    gyms.forEach(gym => {
-        gym.addEventListener('click', (e) => {
-
-            if(e.target.style.fontWeight !== 'bold') {
-                let checkbox = document.querySelectorAll('.checkbox');
-                let allCheckbox = document.getElementById('labelBox').getElementsByTagName('input')[0];
-
-                if (bulkEditBtn.dataset.edit === "true") {
-                    alert("수정을 완료해주세요.");
-                    return false;
-                }
-
-                checkbox.forEach(check => {
-                    check.checked = false;
-                    allCheckbox.checked = false;
-                })
-
-                gyms.forEach(g => {
-                    g.style.backgroundColor = 'white';
-                    g.style.color = 'black';
-                    g.style.fontWeight = 'normal';
-                })
-
-                gym.style.backgroundColor = 'lightgray';
-                gym.style.color = 'black';
-                gym.style.fontWeight = 'bold';
-
-                showCheckedGym(gym.dataset.value);
-            }
-        })
-    })
-}
 
 function showParents() {
     let parentsButtons = document.querySelectorAll('.parentDisplayBtn button');
@@ -321,30 +294,38 @@ function showParents() {
     parentsButtons.forEach(button => {
         button.addEventListener('click', (e) => {
 
-            let parents = e.target.closest('.myMemberListBox').querySelector('.parentsBox');
-            let currentDisplay = window.getComputedStyle(parents).display;
+            let parents = e.target.closest('.childTbody').querySelectorAll('.parentsBox');
+            let displayChk = e.target.closest('.childTbody').querySelector('.parentsBox');
+            let currentDisplay = window.getComputedStyle(displayChk).display;
 
-            if (currentDisplay !== 'none') parents.style.display = 'none';
-            else parents.style.display = 'flex';
+            if (currentDisplay !== 'none'){
+                parents.forEach(parent => {
+                    parent.style.setProperty('display', 'none', 'important');
+                })
+            } else {
+                parents.forEach(parent => {
+                    parent.style.setProperty('display', 'table', 'important');
+                })
+            }
         })
     })
 }
 
-function showCheckedGym(gymName) {
-    let members = document.querySelectorAll('.myMemberListBox');
-
-    members.forEach(member => {
-
-        if (member.dataset.value === gymName) member.style.display = 'block';
-        else member.style.display = 'none';
-
-    })
-}
+// function showCheckedGym(gymName) {
+//     let members = document.querySelectorAll('.myMemberListBox');
+//
+//     members.forEach(member => {
+//
+//         if (member.dataset.value === gymName) member.style.display = 'block';
+//         else member.style.display = 'none';
+//
+//     })
+// }
 
 function calculateLeftDate(ids) {
     let endDate = document.querySelectorAll('.endDate');
 
-    function getDiff(date){
+    function getDiff(date) {
         let end = new Date(date.value);
         let now = new Date();
 
@@ -355,37 +336,25 @@ function calculateLeftDate(ids) {
         return (end - now) / (1000 * 60 * 60 * 24);
     }
 
-    function updateColor(name, diff){
+    function updateColor(name, diff) {
         if (diff < 0) name.style.color = 'red';
         else if (diff >= 0 && diff <= 7) name.style.color = 'orange';
         else name.style.color = 'black';
     }
 
     endDate.forEach(date => {
-        let childInfo = date.closest('.childInfo');
+        let childInfo = date.closest('.childTr');
         let name = childInfo.querySelector('.name');
         let childId = childInfo.querySelector('.childId').value;
 
-        if(ids && ids.includes(parseInt(childId))){
+        if (ids && ids.includes(parseInt(childId))) {
             let diff = getDiff(date);
             updateColor(name, diff);
-        }else if (!ids){
+        } else if (!ids) {
             let diff = getDiff(date);
             updateColor(name, diff);
         }
 
-    })
-}
-
-function phoneNumberFormatter() {
-    let phoneNumber = document.querySelectorAll('.phoneNumber');
-
-    phoneNumber.forEach(phoneNumber => {
-        if (phoneNumber.value !== null) {
-            phoneNumber.value = phoneNumber.value.substring(0, 3) + " - "
-                + phoneNumber.value.substring(3, 7) + " - "
-                + phoneNumber.value.substring(7, phoneNumber.value.length);
-        }
     })
 }
 

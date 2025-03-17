@@ -21,4 +21,8 @@ public class EventChild {
     @JoinColumn(name = "child_id")
     private Child child;
 
+    public EventChild(Event event, Child child) {
+        this.event = event;
+        this.child = child;
+    }
 }

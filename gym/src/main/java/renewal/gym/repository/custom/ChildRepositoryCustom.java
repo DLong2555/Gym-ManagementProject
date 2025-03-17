@@ -8,5 +8,5 @@ import java.util.List;
 public interface ChildRepositoryCustom {
 
     List<MyChildForm> findByMemberId(Long memberId);
-    List<MyChildNames> findChildNamesByMemberIdAndGymId(Long memberId, Long gymId);
+    List<MyChildNames> findChildNamesByMemberIdAndGymId(Long memberId, Long gymId, Long eventId);
 }

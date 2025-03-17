@@ -24,7 +24,7 @@
 
                 <div class="joinInputDiv">
                     <div class="inputGroup">
-                        <label for="memId" th:text="#{label.join.memId}">아이디</label>
+                        <label for="memId" th:text="#{label.memId}">아이디</label>
                         <input type="text" th:field="*{memId}" th:errorclass="field-error"
                                class="form-control" placeholder="아이디">
                         <div class="field-error"></div>
@@ -36,7 +36,7 @@
 
                 <div class="joinInputDiv">
                     <div class="inputGroup">
-                        <label for="password" th:text="#{label.join.password}">비밀번호</label>
+                        <label for="password" th:text="#{label.password}">비밀번호</label>
                         <input type="password" th:field="*{password}" th:errorclass="field-error"
                                class="form-control" placeholder="비밀번호">
                         <div class="field-error">
@@ -49,7 +49,7 @@
 
                 <div class="joinInputDiv">
                     <div class="inputGroup">
-                        <label for="password-chk" th:text="#{label.join.password.chk}">비밀번호 확인</label>
+                        <label for="password-chk" th:text="#{label.password.chk}">비밀번호 확인</label>
                         <input type="password" id="password-chk"
                                class="form-control" placeholder="비밀번호 확인">
                         <div class="field-error"></div>
@@ -58,7 +58,7 @@
 
                 <div class="joinInputDiv">
                     <div class="inputGroup">
-                        <label for="name" th:text="#{label.join.name}">이름</label>
+                        <label for="name" th:text="#{label.name}">이름</label>
                         <input type="text" th:field="*{name}"
                                th:errorclass="field-error" class="form-control" placeholder="이름">
                         <div class="field-error" th:errors="*{name}">
@@ -70,7 +70,7 @@
 
                 <div class="joinInputDiv">
                     <div class="inputGroup">
-                        <label for="phone" th:text="#{label.join.phone}">휴대번호번호</label>
+                        <label for="phone" th:text="#{label.phone}">휴대번호번호</label>
                         <input type="text" th:field="*{phone}"
                                th:errorclass="field-error" class="form-control" placeholder="휴대번호번호">
                         <div class="field-error" th:errors="*{phone}">
@@ -82,7 +82,7 @@
                 <div class="joinInputDiv">
                     <div class="inputGroup">
                         <div class="label-and-btn-user">
-                            <label for="zipcode" th:text="#{label.join.address}">주소</label>
+                            <label for="zipcode" th:text="#{label.address}">주소</label>
                             <button type="button" class="address-btn" th:text="#{button.address}">우편주소 찾기</button>
                         </div>
                         <input type="text" th:field="*{zipcode}"

@@ -3,6 +3,7 @@ package renewal.gym.dto.manage;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import renewal.gym.controller.argument.PhoneNumberFormatter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,8 @@ public class ParentsInfoForm {
 
     private Long id;
     private String memName;
+
+    @PhoneNumberFormatter
     private String memPhoneNum;
     private String roadName;
     private String detailAddress;
