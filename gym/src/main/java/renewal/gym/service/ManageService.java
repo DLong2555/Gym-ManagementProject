@@ -20,8 +20,8 @@ public class ManageService {
 
     private final ManagerRepository managerRepository;
 
-    public List<ParentsInfoForm> findChildInMyGyms(Long gymId) {
-        List<ParentsInfoForm> childrenMap = managerRepository.getChildInfo(gymId);
+    public List<ParentsInfoForm> findChildInMyGyms(Long gymId, String ctg) {
+        List<ParentsInfoForm> childrenMap = managerRepository.getChildInfo(gymId, ctg);
 
         log.debug("findChildInMyGyms: gymIds = {}", childrenMap);
         return childrenMap;

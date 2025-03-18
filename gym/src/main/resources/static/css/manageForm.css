@@ -60,12 +60,13 @@
     margin: 0;
 }
 
-#manageForm .editButton{
+#manageForm .editButton, .deleteButton{
     width: 80px;
     height: 30px;
     background-color: lightgray;
     color: black;
     border: none;
+    cursor: pointer;
 }
 
 #manageForm #bulkEditControls button{
@@ -75,6 +76,12 @@
     color: black;
     border-radius: 5px;
     margin: 25px 10px 0 0;
+    cursor: pointer;
+}
+
+#manageForm #bulkEditControls button:hover{
+    background-color: rgb(220, 220, 220);
+    color: gray;
 }
 
 #manageForm .thName{
@@ -189,6 +196,13 @@
 .childTbody{
     border: 2px solid lightgray;
 }
+
+#bulkEditControls button:hover{
+    background-color: rgb(220, 220, 220);
+    color: gray;
+}
+
+
 
 
 

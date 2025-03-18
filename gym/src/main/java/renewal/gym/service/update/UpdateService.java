@@ -77,4 +77,9 @@ public class UpdateService {
 
         return false;
     }
+
+    public void deleteGymFromChild(Long childId) {
+        Child child = childRepository.findById(childId).orElse(null);
+        child.removeGym();
+    }
 }

@@ -19,4 +19,7 @@ public interface ChildRepository extends JpaRepository<Child, Long>, ChildReposi
     @Modifying
     @Query("delete from Child c where c.member.id = :id and c.childName = :name")
     void deleteByMemberAndChildName(Long id, String name);
+
+    @Query("select c from Child c where c.id in :childIds")
+    List<Child> findChildByIds(List<Long> childIds);
 }

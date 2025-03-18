@@ -4,6 +4,9 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import renewal.gym.domain.QEvent;
 import renewal.gym.domain.QEventChild;
+import renewal.gym.domain.QMember;
+import renewal.gym.dto.QRegularPaymentForm;
+import renewal.gym.dto.RegularPaymentForm;
 import renewal.gym.dto.event.MyChildNames;
 import renewal.gym.dto.event.QMyChildNames;
 import renewal.gym.dto.mypage.MyChildForm;
@@ -14,6 +17,7 @@ import java.util.List;
 import static renewal.gym.domain.QChild.child;
 import static renewal.gym.domain.QEventChild.eventChild;
 import static renewal.gym.domain.QGym.gym;
+import static renewal.gym.domain.QMember.member;
 
 @RequiredArgsConstructor
 public class ChildRepositoryImpl implements ChildRepositoryCustom {
@@ -34,7 +38,7 @@ public class ChildRepositoryImpl implements ChildRepositoryCustom {
                         child.period.endDate
                 ))
                 .from(child)
-                .join(child.gym, gym)
+                .leftJoin(child.gym, gym)
                 .where(child.member.id.eq(memberId))
                 .fetch();
     }
@@ -53,6 +57,21 @@ public class ChildRepositoryImpl implements ChildRepositoryCustom {
                 .where(child.member.id.eq(memberId)
                         .and(child.gym.id.eq(gymId))
                         .and(eventChild.child.id.isNull()))
+                .fetch();
+    }
+
+    @Override
+    public List<RegularPaymentForm> findMyRegularPayment(Long id) {
+        return queryFactory.select(new QRegularPaymentForm(
+                        child.id,
+                        child.childName.as("name"),
+                        gym.gymName,
+                        gym.gymPrice
+                ))
+                .from(child)
+                .join(child.gym, gym)
+//                .join(child.member, member)
+                .where(child.member.id.eq(id))
                 .fetch();
     }
 

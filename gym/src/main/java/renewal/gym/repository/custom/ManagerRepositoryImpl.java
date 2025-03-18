@@ -2,15 +2,14 @@ package renewal.gym.repository.custom;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import renewal.gym.dto.manage.ChildInfoForm;
 import renewal.gym.dto.LoginDTO;
 import renewal.gym.dto.manage.ParentsInfoForm;
-import renewal.gym.dto.mypage.MyPageForm;
 import renewal.gym.dto.mypage.MyPageManagerForm;
-import renewal.gym.dto.mypage.QMyPageForm;
 import renewal.gym.dto.mypage.QMyPageManagerForm;
 
 
@@ -18,6 +17,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static org.springframework.util.StringUtils.hasText;
 import static renewal.gym.domain.QChild.child;
 import static renewal.gym.domain.QGym.gym;
 import static renewal.gym.domain.QManager.manager;
@@ -28,10 +28,10 @@ import static renewal.gym.domain.QMember.*;
 public class ManagerRepositoryImpl implements ManagerRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
+    private final LocalDate now = LocalDate.now();
 
     @Override
-    public List<ParentsInfoForm> getChildInfo(Long gymId) {
-        LocalDate now = LocalDate.now();
+    public List<ParentsInfoForm> getChildInfo(Long gymId, String ctg) {
 
         List<Tuple> results = queryFactory.select(
                         Projections.constructor(
@@ -56,7 +56,10 @@ public class ManagerRepositoryImpl implements ManagerRepositoryCustom {
                 .from(child)
                 .join(child.member, member)
                 .join(child.gym, gym)
-                .where(child.gym.id.eq(gymId))
+                .where(
+                        child.gym.id.eq(gymId),
+                        ctgEq(ctg)
+                )
                 .fetch();
 
 
@@ -95,6 +98,10 @@ public class ManagerRepositoryImpl implements ManagerRepositoryCustom {
 //                ));
 
         return new ArrayList<>(tupleMap.values());
+    }
+
+    private BooleanExpression ctgEq(String ctg) {
+        return hasText(ctg) ? child.period.endDate.lt(now) : child.period.endDate.goe(now);
     }
 
     @Override

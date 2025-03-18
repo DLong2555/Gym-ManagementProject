@@ -75,7 +75,12 @@ public class Child {
         this.childAge = child.getChildAge();
         this.childGender = child.getChildGender();
         this.childPhoneNum = child.getChildPhoneNum();
-        this.belt = null;
+        this.belt = child.getBelt();
+    }
+
+    public void removeGym(){
+        this.gym = null;
+        this.period = null;
     }
 
 }

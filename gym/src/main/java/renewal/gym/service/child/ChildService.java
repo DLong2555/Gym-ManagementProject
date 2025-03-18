@@ -8,24 +8,25 @@ import renewal.gym.domain.Child;
 import renewal.gym.domain.Gym;
 import renewal.gym.domain.Member;
 import renewal.gym.domain.Period;
+import renewal.gym.dto.RegularPaymentForm;
 import renewal.gym.dto.register.ParentInfoForm;
 import renewal.gym.repository.ChildRepository;
 import renewal.gym.repository.GymRepository;
 import renewal.gym.repository.MemberRepository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Slf4j
 @Service
-@Transactional(readOnly = true)
+@Transactional
 @RequiredArgsConstructor
-public class ChildRegisterService {
+public class ChildService {
 
     private final ChildRepository childRepository;
     private final MemberRepository memberRepository;
     private final GymRepository gymRepository;
 
-    @Transactional
     public Long register(Long id, Long gymId, Child child) {
 
         Child findChild = childRepository.findByMemberIdAndChildName(id, child.getChildName()).orElse(null);
@@ -56,7 +57,6 @@ public class ChildRegisterService {
         return gym.getId();
     }
 
-    @Transactional
     public void childRegisterCancel(Long id, String name) {
         childRepository.deleteByMemberAndChildName(id, name);
     }
@@ -69,4 +69,24 @@ public class ChildRegisterService {
        return childRepository.findByGymIdAndMemberIdAndChildName(gymId, memId, childName).isPresent();
     }
 
+    public List<RegularPaymentForm> getMyRegularPayment(Long id) {
+        return childRepository.findMyRegularPayment(id);
+    }
+
+    public void updateEndDate(List<Long> childIds) {
+        List<Child> findChilds = childRepository.findChildByIds(childIds);
+
+        for (Child findChild : findChilds) {
+            LocalDate endDate = findChild.getPeriod().getEndDate();
+
+            if(endDate.isBefore(LocalDate.now())){
+                findChild.getPeriod().changeStartDate();
+                endDate = LocalDate.now().plusMonths(1L);
+            }else{
+                endDate = endDate.plusMonths(1L);
+            }
+
+            findChild.getPeriod().changeEndDate(endDate);
+        }
+    }
 }

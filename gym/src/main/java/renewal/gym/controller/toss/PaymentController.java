@@ -16,6 +16,7 @@ import renewal.gym.config.TossPaymentsConfig;
 import renewal.gym.controller.argument.Login;
 import renewal.gym.domain.*;
 import renewal.gym.dto.LoginUserSession;
+import renewal.gym.dto.RegularPayInfo;
 import renewal.gym.dto.SelectedGymForm;
 import renewal.gym.dto.event.EventPayForm;
 import renewal.gym.dto.pay.*;
@@ -24,7 +25,7 @@ import renewal.gym.repository.MemberRepository;
 import renewal.gym.service.EventService;
 import renewal.gym.service.LoginService;
 import renewal.gym.service.PaymentService;
-import renewal.gym.service.child.ChildRegisterService;
+import renewal.gym.service.child.ChildService;
 
 import java.io.IOException;
 import java.net.URI;
@@ -44,7 +45,7 @@ import java.util.Set;
 public class PaymentController {
     private final MemberRepository memberRepository;
     private final PaymentService paymentService;
-    private final ChildRegisterService childRegisterService;
+    private final ChildService childService;
     private final TossPaymentsConfig tossPaymentsConfig;
     private final LoginService loginService;
     private final EventService eventService;
@@ -63,11 +64,17 @@ public class PaymentController {
             if (eventPayForm != null) {
                 eventService.saveApplication(eventPayForm);
             }
+        }else if(orderId.contains("regular")){
+            RegularPayInfo regularPayInfo = (RegularPayInfo) saveData.getAttribute("save" + orderId);
+
+            if (regularPayInfo != null) {
+                childService.updateEndDate(regularPayInfo.getChildIds());
+            }
         }else{
             ChildRegisterForm childRegisterForm = (ChildRegisterForm) saveData.getAttribute("save" + orderId);
 
             if (childRegisterForm != null) {
-                Long gymId = childRegisterService.register(userSession.getId(), childRegisterForm.getGymId(), createChild(childRegisterForm));
+                Long gymId = childService.register(userSession.getId(), childRegisterForm.getGymId(), createChild(childRegisterForm));
                 userSession.getGymIds().add(gymId);
 
                 model.addAttribute("selectedGym", new SelectedGymForm(childRegisterForm.getGymId(), childRegisterForm.getGymName()));
@@ -148,6 +155,32 @@ public class PaymentController {
         if(response.statusCode() == HttpStatus.OK.value()){
             try {
                 paymentService.save(changePayment(response, session, userSession.getId(), eventPayForm.getTitle()));
+
+                return ResponseEntity.ok("Payment successful");
+            }catch (Exception e){
+                log.debug("error: {}", e.getMessage());
+                requestPaymentCancel(payRequest.getPaymentKey(), "결제 승인 후 저장 중 오류 발생. 결제가 취소되었습니다.");
+
+                //TODO
+                //취소된 결과 저장
+                //취소 후 child 수정
+
+                return ResponseEntity.badRequest().body(PaymentErrorResponse.builder().code(500).message("결제 승인 후 저장 중 오류 발생. 결제가 취소되었습니다.").build());
+            }
+        }
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error");
+    }
+
+    @PostMapping("/child/confirm")
+    public ResponseEntity childConfirm(@RequestBody PayRequest payRequest, @Login LoginUserSession userSession, HttpSession session) throws IOException, InterruptedException {
+
+        HttpResponse response = requestConfirm(payRequest);
+        RegularPayInfo regularPayInfo = (RegularPayInfo) session.getAttribute("save" + payRequest.getOrderId());
+
+        if(response.statusCode() == HttpStatus.OK.value()){
+            try {
+                paymentService.save(changePayment(response, session, userSession.getId(), regularPayInfo.getTitle()));
 
                 return ResponseEntity.ok("Payment successful");
             }catch (Exception e){
@@ -285,7 +318,7 @@ public class PaymentController {
 
     public void changeChildAfterCancel(Long id, PayCancelDto payCancelDto) {
         if (payCancelDto.getOrderName().equals("체육관 등록")){
-            childRegisterService.childRegisterCancel(id, payCancelDto.getChildName());
+            childService.childRegisterCancel(id, payCancelDto.getChildName());
         }
     }
 

@@ -34,15 +34,17 @@ public class ManageController {
 
     @GetMapping("/manage/{gymId}")
     public String manage(@PathVariable("gymId") Long gymId,
+                         @RequestParam(value = "ctg", required = false) String ctg,
                          @Login LoginUserSession userSession, Model model) {
 
         List<GymInfoDto> gymNames = gymService.findGymNames(userSession.getGymIds());
-        List<ParentsInfoForm> childInMyGyms = manageService.findChildInMyGyms(gymId);
+        List<ParentsInfoForm> childInMyGyms = manageService.findChildInMyGyms(gymId, ctg);
 //        List<GymInfoDto> gymNames = gymService.findGymNames(new HashSet<>(List.of(1L,2L)));
 //        List<ParentsInfoForm> childInMyGyms = manageService.findChildInMyGyms(1L);
 
         log.debug("childInMyGys: {}", childInMyGyms.toString());
 
+        model.addAttribute("ctg", ctg);
         model.addAttribute("gymNames", gymNames);
         model.addAttribute("childInMyGyms", childInMyGyms);
 
@@ -66,6 +68,15 @@ public class ManageController {
         }
 
         return result;
+    }
+
+    @GetMapping("/manage/{gymId}/delete")
+    public String delete(@PathVariable("gymId") Long gymId,
+                         @RequestParam("childId") Long childId) {
+
+        updateService.deleteGymFromChild(childId);
+
+        return "redirect:/gym/manage/" + gymId + "?ctg=expired";
     }
 
 //    @GetMapping("/manage/")

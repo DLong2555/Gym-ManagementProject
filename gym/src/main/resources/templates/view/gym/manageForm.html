@@ -67,8 +67,11 @@
                                             <input type="date" class="endDate" th:value="${child.endDate}" readonly>
                                         </td>
 
-                                        <td class="manage-td">
+                                        <td class="manage-td" th:if="${ctg == null}">
                                             <button class="editButton" th:text="수정" data-edit="false"></button>
+                                        </td>
+                                        <td class="manage-td" th:if="${ctg != null}">
+                                            <button class="deleteButton" th:text="삭제" data-edit="false"></button>
                                         </td>
                                     </tr>
                                     <tr>
@@ -98,9 +101,16 @@
                 </div>
             </div>
             <div id="bulkEditControls">
-                <button id="bulkEdit" data-edit="false">
+                <button class="allChild" th:text="#{label.all}"></button>
+
+                <button class="expiredChild" th:text="#{label.expired}"></button>
+
+                <button id="bulkEdit" data-edit="false" th:if="${ctg == null}">
                     일괄 수정
                 </button>
+<!--                <button id="bulkDelete" th:if="${ctg != null}">-->
+<!--                    일괄 삭제-->
+<!--                </button>-->
             </div>
         </div>
     </div>

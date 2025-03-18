@@ -13,7 +13,7 @@ import java.util.Set;
 public interface ManagerRepositoryCustom {
 
 //   Map<String, List<ParentsInfoForm>> getChildInfo(Set<Long> gymIds);
-   List<ParentsInfoForm> getChildInfo(Long gymId);
+   List<ParentsInfoForm> getChildInfo(Long gymId, String ctg);
 
    MyPageManagerForm getMyPageForm(Long id);
 

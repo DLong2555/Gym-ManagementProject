@@ -11,9 +11,20 @@ document.addEventListener("DOMContentLoaded", function () {
     const editBtn = document.querySelectorAll('.editButton');
     const bulkEditBtn = document.getElementById('bulkEdit');
     const allCheckBox = document.querySelector('.allCheckBox');
+    const all = document.querySelector('.allChild');
+    const expired = document.querySelector('.expiredChild');
+    const gymId = window.location.pathname.split("/")[3];
 
     const originalData = new Map();
     let editCount = 0;
+
+    all.addEventListener('click', e => {
+        window.location.href = "/gym/manage/" + gymId;
+    });
+
+    expired.addEventListener('click', e => {
+        window.location.href = "/gym/manage/" + gymId + "?ctg=expired";
+    })
 
     editBtn.forEach(btn => {
         btn.addEventListener('click', (e) => {
@@ -103,118 +114,133 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    bulkEditBtn.addEventListener('click', () => {
-        let checkBox = document.querySelectorAll('.checkbox');
-        let isCheckedBox = Array.from(checkBox).some(check => check.checked);
+    if(bulkEditBtn) {
+        bulkEditBtn.addEventListener('click', () => {
+            let checkBox = document.querySelectorAll('.checkbox');
+            let isCheckedBox = Array.from(checkBox).some(check => check.checked);
 
-        if(isCheckedBox) {
-            if (bulkEditBtn.dataset.edit === "false") {
-                checkBox.forEach(check => {
-                    if (check.checked) {
-                        let target = check.closest('.childTr');
-                        let id = target.querySelector('.childId');
+            if (isCheckedBox) {
+                if (bulkEditBtn.dataset.edit === "false") {
+                    checkBox.forEach(check => {
+                        if (check.checked) {
+                            let target = check.closest('.childTr');
+                            let id = target.querySelector('.childId');
 
-                        if (!originalData.has(id)) {
-                            originalData.set(id, {
-                                belt: target.querySelector('.belt').value,
-                                startDate: target.querySelector('.startDate').value,
-                                endDate: target.querySelector('.endDate').value
-                            })
+                            if (!originalData.has(id)) {
+                                originalData.set(id, {
+                                    belt: target.querySelector('.belt').value,
+                                    startDate: target.querySelector('.startDate').value,
+                                    endDate: target.querySelector('.endDate').value
+                                })
+                            }
+
+                            target.querySelector('.editButton').dataset.edit = "true";
+                            target.querySelector('.editButton').textContent = "취소";
+                            target.querySelector('.editButton').style.backgroundColor = 'black';
+                            target.querySelector('.editButton').style.color = 'white';
+
+
+                            target.querySelector('.belt').readOnly = false;
+                            target.querySelector('.belt').style.backgroundColor = 'lightgray';
+                            target.querySelector('.startDate').readOnly = false;
+                            target.querySelector('.endDate').readOnly = false;
+
+                            editCount++;
                         }
+                    })
 
-                        target.querySelector('.editButton').dataset.edit = "true";
-                        target.querySelector('.editButton').textContent = "취소";
-                        target.querySelector('.editButton').style.backgroundColor = 'black';
-                        target.querySelector('.editButton').style.color = 'white';
+                    bulkEditBtn.textContent = "저장";
+                    bulkEditBtn.dataset.edit = "true";
+                } else {
+                    let editChildForm = [];
 
+                    checkBox.forEach(check => {
+                        if (check.checked) {
+                            let target = check.closest('.childTr');
 
-                        target.querySelector('.belt').readOnly = false;
-                        target.querySelector('.belt').style.backgroundColor = 'lightgray';
-                        target.querySelector('.startDate').readOnly = false;
-                        target.querySelector('.endDate').readOnly = false;
+                            if (target.querySelector('.editButton').dataset.edit === "true") {
+                                let editChildInfo = {
+                                    id: target.querySelector('.childId').value,
+                                    belt: target.querySelector('.belt').value,
+                                    startDate: target.querySelector('.startDate').value,
+                                    endDate: target.querySelector('.endDate').value,
+                                };
 
-                        editCount++;
-                    }
-                })
-
-                bulkEditBtn.textContent = "저장";
-                bulkEditBtn.dataset.edit = "true";
-            } else {
-                let editChildForm = [];
-
-                checkBox.forEach(check => {
-                    if (check.checked) {
-                        let target = check.closest('.childTr');
-
-                        if (target.querySelector('.editButton').dataset.edit === "true") {
-                            let editChildInfo = {
-                                id: target.querySelector('.childId').value,
-                                belt: target.querySelector('.belt').value,
-                                startDate: target.querySelector('.startDate').value,
-                                endDate: target.querySelector('.endDate').value,
-                            };
-
-                            editChildForm.push(editChildInfo);
+                                editChildForm.push(editChildInfo);
+                            }
                         }
-                    }
-                })
-                console.log(editChildForm);
-                if (confirm("변경 내용을 저장하시겠습니까?")) {
+                    })
+                    console.log(editChildForm);
+                    if (confirm("변경 내용을 저장하시겠습니까?")) {
 
-                    let request = new XMLHttpRequest();
-                    request.onreadystatechange = function () {
-                        if (request.readyState === 4) {
-                            if (request.status === 200) {
-                                let response = request.response;
+                        let request = new XMLHttpRequest();
+                        request.onreadystatechange = function () {
+                            if (request.readyState === 4) {
+                                if (request.status === 200) {
+                                    let response = request.response;
 
-                                for (let id of response.successIds) {
-                                    for (let target of checkBox) {
-                                        let child = target.closest('.childTr');
-                                        let childId = child.querySelector('.childId');
+                                    for (let id of response.successIds) {
+                                        for (let target of checkBox) {
+                                            let child = target.closest('.childTr');
+                                            let childId = child.querySelector('.childId');
 
-                                        if (childId.value === String(id)) {
+                                            if (childId.value === String(id)) {
 
-                                            child.querySelector('.editButton').dataset.edit = "false";
-                                            child.querySelector('.editButton').textContent = "수정";
-                                            child.querySelector('.editButton').style.backgroundColor = "lightgray";
-                                            child.querySelector('.editButton').style.color = "black";
+                                                child.querySelector('.editButton').dataset.edit = "false";
+                                                child.querySelector('.editButton').textContent = "수정";
+                                                child.querySelector('.editButton').style.backgroundColor = "lightgray";
+                                                child.querySelector('.editButton').style.color = "black";
 
-                                            child.querySelector('.checkbox').checked = false;
-                                            child.querySelector('.belt').readOnly = true;
-                                            child.querySelector('.belt').style.backgroundColor = 'white';
-                                            child.querySelector('.startDate').readOnly = true;
-                                            child.querySelector('.endDate').readOnly = true;
+                                                child.querySelector('.checkbox').checked = false;
+                                                child.querySelector('.belt').readOnly = true;
+                                                child.querySelector('.belt').style.backgroundColor = 'white';
+                                                child.querySelector('.startDate').readOnly = true;
+                                                child.querySelector('.endDate').readOnly = true;
 
-                                            editCount--;
+                                                editCount--;
 
-                                            originalData.delete(childId);
+                                                originalData.delete(childId);
 
-                                            break;
+                                                break;
+                                            }
                                         }
                                     }
-                                }
 
-                                calculateLeftDate(response.successIds);
+                                    calculateLeftDate(response.successIds);
 
-                                if (editCount === 0) {
-                                    bulkEditBtn.textContent = "일괄 수정";
-                                    bulkEditBtn.dataset.edit = "false";
+                                    if (editCount === 0) {
+                                        bulkEditBtn.textContent = "일괄 수정";
+                                        bulkEditBtn.dataset.edit = "false";
 
-                                    if (allCheckBox.checked) allCheckBox.checked = false;
+                                        if (allCheckBox.checked) allCheckBox.checked = false;
 
+                                    }
                                 }
                             }
                         }
-                    }
 
-                    request.open("POST", "/gym/manage", true);
-                    request.responseType = "json";
-                    request.setRequestHeader("Content-Type", "application/json");
-                    request.send(JSON.stringify(editChildForm));
+                        request.open("POST", "/gym/manage", true);
+                        request.responseType = "json";
+                        request.setRequestHeader("Content-Type", "application/json");
+                        request.send(JSON.stringify(editChildForm));
+                    }
                 }
             }
-        }
+        })
+    }
+
+    const deleteBtns = document.querySelectorAll('.deleteButton');
+    // const bulkDeleteBtn = document.querySelector('.bulkDelete');
+
+    deleteBtns.forEach(deleteBtn => {
+        deleteBtn.addEventListener('click',(e) => {
+            let childId = e.target.closest('.childTr').querySelector('.childId').value;
+            console.log(childId);
+
+            if(confirm("삭제하시겠습니까?")) window.location.href = "/gym/manage/" + gymId + "/delete?childId=" + childId;
+        })
     })
+
 })
 
 function highlight() {
