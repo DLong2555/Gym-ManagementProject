@@ -13,17 +13,19 @@ document.addEventListener("DOMContentLoaded", function () {
     const allCheckBox = document.querySelector('.allCheckBox');
     const all = document.querySelector('.allChild');
     const expired = document.querySelector('.expiredChild');
-    const gymId = window.location.pathname.split("/")[3];
+    const urlParams = new URLSearchParams(window.location.search);
+    const gymId = urlParams.get("gymId");
+
 
     const originalData = new Map();
     let editCount = 0;
 
     all.addEventListener('click', e => {
-        window.location.href = "/gym/manage/" + gymId;
+        window.location.href = "/gym/manager/manage?gymId=" + gymId;
     });
 
     expired.addEventListener('click', e => {
-        window.location.href = "/gym/manage/" + gymId + "?ctg=expired";
+        window.location.href = "/gym/manager/manage?gymId=" + gymId + "&ctg=expired";
     })
 
     editBtn.forEach(btn => {
@@ -219,7 +221,7 @@ document.addEventListener("DOMContentLoaded", function () {
                             }
                         }
 
-                        request.open("POST", "/gym/manage", true);
+                        request.open("POST", "/gym/manager/manage", true);
                         request.responseType = "json";
                         request.setRequestHeader("Content-Type", "application/json");
                         request.send(JSON.stringify(editChildForm));
@@ -237,14 +239,15 @@ document.addEventListener("DOMContentLoaded", function () {
             let childId = e.target.closest('.childTr').querySelector('.childId').value;
             console.log(childId);
 
-            if(confirm("삭제하시겠습니까?")) window.location.href = "/gym/manage/" + gymId + "/delete?childId=" + childId;
+            if(confirm("삭제하시겠습니까?")) window.location.href = "/gym/manager/manage/" + gymId + "/delete?childId=" + childId;
         })
     })
 
 })
 
 function highlight() {
-    let gymId = window.location.pathname.split("/")[3];
+    const urlParams = new URLSearchParams(window.location.search);
+    const gymId = urlParams.get("gymId");
     let gymNames = document.querySelectorAll('.gymName');
 
     gymNames.forEach((gym) => {

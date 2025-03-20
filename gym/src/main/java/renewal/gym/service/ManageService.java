@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import renewal.gym.dto.manage.EventParticipantForm;
 import renewal.gym.dto.manage.ParentsInfoForm;
 import renewal.gym.repository.ManagerRepository;
 
@@ -25,6 +26,10 @@ public class ManageService {
 
         log.debug("findChildInMyGyms: gymIds = {}", childrenMap);
         return childrenMap;
+    }
+
+    public List<EventParticipantForm> getParticipants(Long eventId) {
+        return managerRepository.getParticipants(eventId);
     }
 
 //    public Map<String, List<ParentsInfoForm>> findChildInMyGyms(Set<Long> gymIds) {

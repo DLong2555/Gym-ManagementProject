@@ -54,7 +54,7 @@
 
                         <div id="boardContentPageButtonBox" th:if="${loginUser.role.name() == 'MANAGER'}">
                             <div id="boardContentPageModifyButton">
-                                <a th:href="@{/gym/board/edit/{id}(id=${contentForm.id})}">수정하기</a>
+                                <a th:href="@{/gym/manager/board/edit/{boardId}(boardId=${contentForm.id})}">수정하기</a>
                             </div>
                             <div id="boardContentPageDeleteButton">
                                 <a href="">삭제하기</a>

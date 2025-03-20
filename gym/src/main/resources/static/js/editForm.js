@@ -98,6 +98,8 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     const eventInputBox = document.getElementById("boardEventInputBox");
+
+
     // 항목 선택 시 Placeholder 변경 및 드롭다운 닫기
     subSelectEach.forEach(option => {
         option.addEventListener("click", function () {
@@ -155,5 +157,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const temp =  document.getElementById("temp");
         placeholder.innerHTML = ctgInput.value + ' <div class="boardWritePageDown"></div>'; // UI 업데이트
         ctgInput.value = temp.value;
+
+        if(temp.value === "EVENT"){
+            eventInputBox.style.display = "flex";
+        }
     }
 })

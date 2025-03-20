@@ -6,9 +6,13 @@ import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import renewal.gym.domain.QEvent;
+import renewal.gym.domain.QEventChild;
 import renewal.gym.dto.manage.ChildInfoForm;
 import renewal.gym.dto.LoginDTO;
+import renewal.gym.dto.manage.EventParticipantForm;
 import renewal.gym.dto.manage.ParentsInfoForm;
+import renewal.gym.dto.manage.QEventParticipantForm;
 import renewal.gym.dto.mypage.MyPageManagerForm;
 import renewal.gym.dto.mypage.QMyPageManagerForm;
 
@@ -19,6 +23,8 @@ import java.util.stream.Collectors;
 
 import static org.springframework.util.StringUtils.hasText;
 import static renewal.gym.domain.QChild.child;
+import static renewal.gym.domain.QEvent.event;
+import static renewal.gym.domain.QEventChild.eventChild;
 import static renewal.gym.domain.QGym.gym;
 import static renewal.gym.domain.QManager.manager;
 import static renewal.gym.domain.QMember.*;
@@ -69,9 +75,9 @@ public class ManagerRepositoryImpl implements ManagerRepositoryCustom {
             ChildInfoForm child = tuple.get(1, ChildInfoForm.class);
 
             parents.getChildren().add(child);
-            if(tupleMap.containsKey(parents.getMemName())){
+            if (tupleMap.containsKey(parents.getMemName())) {
                 tupleMap.get(parents.getMemName()).getChildren().add(child);
-            }else{
+            } else {
                 tupleMap.put(parents.getMemName(), parents);
             }
         }
@@ -156,6 +162,21 @@ public class ManagerRepositoryImpl implements ManagerRepositoryCustom {
                             return loginDTO;
                         }
                 ));
+    }
+
+    @Override
+    public List<EventParticipantForm> getParticipants(Long eventId) {
+        return queryFactory.select(new QEventParticipantForm(
+                        child.childName.as("name"),
+                        child.childAge.as("age"),
+                        child.childGender.as("gender"),
+                        child.childPhoneNum.as("phone")
+                ))
+                .from(child)
+                .join(eventChild).on(eventChild.child.id.eq(child.id))
+                .join(event).on(eventChild.event.id.eq(event.id))
+                .where(eventChild.event.id.eq(eventId))
+                .fetch();
     }
 
     //    @Override

@@ -18,7 +18,7 @@
 
             <div id="boardPageMenuBox">
                 <div class="gymNames" th:each="gym : ${gymNames}">
-                    <a class="gymName" th:href="@{/gym/board/{gymId}(gymId=${gym.id})}" th:text="${gym.gymName}"
+                    <a class="gymName" th:href="@{/gym/board(gymId=${gym.id})}" th:text="${gym.gymName}"
                        th:classappend="${gym.id==gymId} ? 'selected'"></a>
                 </div>
             </div>
@@ -30,7 +30,7 @@
                         <div id="boardPageBoardCtgEach" th:text="${{board.ctg}}"></div>
                     </div>
                     <div class="boardPageBoardTitle boardPageBoardCell">
-                        <a th:href="@{/gym/board/content/{id}(id=${board.id})}">
+                        <a th:href="@{/gym/board/content/{boardId}(boardId=${board.id})}">
                             <span class="title" th:text="${board.title}"></span>
                         </a>
                     </div>
@@ -57,12 +57,7 @@
             <div id="boardPageButtonBox">
 
                 <div th:if="${loginUser.role.name() eq 'MANAGER'}" class="boardPageWriteButton">
-                    <a th:href="@{/gym/board/write/{id}(id=${gymId})}">글쓰기</a>
-<!--                    <form th:action="@{/gym/board/write}" th:method="POST">-->
-<!--                        <input type="hidden" name="id" th:value="${gymId}">-->
-<!--                        <input type="hidden" name="gymName" value="">-->
-<!--                        <button type="submit">글쓰기</button>-->
-<!--                    </form>-->
+                    <a th:href="@{/gym/manager/board/write(gymId=${gymId})}">글쓰기</a>
                 </div>
 
             </div>
@@ -77,7 +72,7 @@
                     <div class="boardPagePaginationDoubleLeft"></div>
                 </div>
                 <div class="boardPage" th:each="idx : ${#numbers.sequence(0, totalPages - 1)}">
-                    <a th:href="@{/gym/board/{id}(id=${gymId}, page=${idx})}"
+                    <a th:href="@{/gym/board(gymId=${gymId}, page=${idx})}"
                        th:text="${idx + 1}"
                        th:classappend="${idx == currentPage} ? 'active'"></a>
                 </div>

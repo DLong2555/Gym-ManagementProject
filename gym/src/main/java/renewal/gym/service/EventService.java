@@ -8,13 +8,17 @@ import renewal.gym.domain.Event;
 import renewal.gym.domain.EventChild;
 import renewal.gym.dto.event.EventInfoForm;
 import renewal.gym.dto.event.EventPayForm;
+import renewal.gym.dto.event.ManageEventForm;
 import renewal.gym.dto.event.MyChildNames;
 import renewal.gym.repository.ChildRepository;
 import renewal.gym.repository.EventChildRepository;
 import renewal.gym.repository.EventRepository;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -42,12 +46,20 @@ public class EventService {
     public void saveApplication(EventPayForm eventPayForm) {
         Event event = eventRepository.findEventById(eventPayForm.getBoardId()).orElse(null);
 
-        for (Long childId : eventPayForm.getChildIds()) {
-            Child child = childRepository.findById(childId).orElse(null);
-
-            if (child != null) {
-                eventChildRepository.save(new EventChild(event, child));
-            }
+        if (event == null) {
+            return;
         }
+
+        List<Child> children = childRepository.findChildByIds(eventPayForm.getChildIds());
+
+        List<EventChild> eventChildren = children.stream()
+                .map(child -> new EventChild(event, child))
+                .collect(Collectors.toList());
+
+        eventChildRepository.saveAll(eventChildren);
+    }
+
+    public List<ManageEventForm> getEvents(Long gymId) {
+        return eventRepository.getEvents(gymId);
     }
 }

@@ -35,7 +35,7 @@ import java.util.List;
 
 @Slf4j
 @Controller
-@RequestMapping("/gym/board")
+@RequestMapping("/gym")
 @RequiredArgsConstructor
 public class BoardController {
 
@@ -48,10 +48,14 @@ public class BoardController {
     private final UploadService uploadService;
     private final EventService eventService;
 
-    @GetMapping("/{gymId}")
-    public String board(@PathVariable(value = "gymId") Long gymId,
+    @GetMapping("/board")
+    public String board(@RequestParam(value = "gymId", required = false) Long gymId,
                         @PageableDefault(size = 3, page = 0) Pageable pageable,
                         @Login LoginUserSession userSession, Model model) {
+
+        if(gymId == null){
+            gymId = userSession.getGymIds().iterator().next();
+        }
 
         List<GymInfoDto> gymNames = gymService.findGymNames(userSession.getGymIds());
 
@@ -66,11 +70,15 @@ public class BoardController {
         model.addAttribute("gymId", gymId);
         model.addAttribute("gymNames", gymNames);
 
+        log.debug("BoardInfoForm {}", contents);
+        log.debug("totalPages {}", totalPages);
+
+
         return "board/boardForm";
     }
 
-    @GetMapping("/write/{id}")
-    public String writeForm(@PathVariable("id") Long gymId, Model model) {
+    @GetMapping("/manager/board/write")
+    public String writeForm(@RequestParam(value = "gymId") Long gymId, Model model) {
 
         model.addAttribute("gymName", gymService.findGymNameById(gymId));
         model.addAttribute("writeForm", new BoardWriteForm());
@@ -78,9 +86,9 @@ public class BoardController {
         return "board/writeForm";
     }
 
-    @PostMapping("/write/{id}")
-    public String save(@PathVariable("id") Long gymId, @ModelAttribute("writeForm") BoardWriteForm writeForm,
-                       @Login LoginUserSession userSession, Model model) {
+    @PostMapping("/manager/board/write")
+    public String save(@RequestParam(value = "gymId") Long gymId, @ModelAttribute("writeForm") BoardWriteForm writeForm,
+                       @Login LoginUserSession userSession) {
 
         log.info("writeForm {}", writeForm);
         log.info("ctg {} ", writeForm.getCtg());
@@ -100,8 +108,8 @@ public class BoardController {
     }
 
 
-    @GetMapping("/content/{id}")
-    public String contents(@PathVariable("id") Long boardId, HttpServletRequest request,
+    @GetMapping("/board/content/{boardId}")
+    public String contents(@PathVariable("boardId") Long boardId, HttpServletRequest request,
                            HttpServletResponse response,
                            @Login LoginUserSession userSession, Model model) {
 
@@ -144,8 +152,8 @@ public class BoardController {
         }
     }
 
-    @GetMapping("/edit/{id}")
-    public String editForm(@PathVariable("id") Long boardId, Model model) {
+    @GetMapping("/manager/board/edit/{boardId}")
+    public String editForm(@PathVariable("boardId") Long boardId, Model model) {
 
         BoardEditForm editForm = boardService.getEditForm(boardId);
         model.addAttribute("editForm", editForm);
@@ -153,8 +161,8 @@ public class BoardController {
         return "board/editForm";
     }
 
-    @PostMapping("/edit/{id}")
-    public String edit(@PathVariable("id") Long boardId, @ModelAttribute BoardEditForm editForm) {
+    @PostMapping("/manager/board/edit/{boardId}")
+    public String edit(@PathVariable("boardId") Long boardId, @ModelAttribute BoardEditForm editForm) {
         log.info("editForm {}", editForm);
         boardService.boardEdit(boardId, editForm);
 
@@ -162,13 +170,13 @@ public class BoardController {
     }
 
     @ResponseBody
-    @PostMapping("/upload")
+    @PostMapping("/board/upload")
     public ResponseEntity<List<UploadDto>> upload(@RequestParam List<MultipartFile> files) {
         return ResponseEntity.ok(uploadService.uploadFiles(files));
     }
 
     @ResponseBody
-    @GetMapping("/images/{fileName}")
+    @GetMapping("/board/images/{fileName}")
     public Resource getImage(@PathVariable(value = "fileName") String fileName) throws MalformedURLException {
         return new UrlResource("file:" + uploadService.getFullPath(fileName));
     }

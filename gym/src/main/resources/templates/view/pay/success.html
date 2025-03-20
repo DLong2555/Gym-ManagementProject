@@ -36,10 +36,10 @@
                     <input type="hidden" id="gymName" th:field="*{gymName}">
                     <button class="btn addBtn" type="submit">추가 등록하기</button>
                 </form>
-                <a class="btn w-100" th:href="@{/payments/{userId}(userId=${loginUser.id})}">결제내역 확인</a>
+                <a class="btn w-100" th:href="@{/payments(userId=${loginUser.id})}">결제내역 확인</a>
             </div>
             <div class="flex" style="gap: 16px;" th:if="${selectedGym == null}">
-                <a class="btn w-100" th:href="@{/payments/{userId}(userId=${loginUser.id})}">결제내역 확인</a>
+                <a class="btn w-100" th:href="@{/payments(userId=${loginUser.id})}">결제내역 확인</a>
             </div>
         </div>
     </div>

@@ -22,4 +22,5 @@ public interface ChildRepository extends JpaRepository<Child, Long>, ChildReposi
 
     @Query("select c from Child c where c.id in :childIds")
     List<Child> findChildByIds(List<Long> childIds);
+
 }

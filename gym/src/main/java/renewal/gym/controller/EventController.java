@@ -21,21 +21,21 @@ import java.util.Optional;
 
 @Slf4j
 @Controller
-@RequestMapping("/gym/event")
+@RequestMapping("/gym")
 @RequiredArgsConstructor
 public class EventController {
 
     private final EventService eventService;
     private final MemberRepository memberRepository;
 
-    @GetMapping("/{boardId}")
+    @GetMapping("/event/{boardId}")
     public String event(@PathVariable(value = "boardId") Long boardId,
                         @Login LoginUserSession userSession, Model model) {
 
-        EventInfoForm eventInfo = eventService.getEventInfo(1L);
+        EventInfoForm eventInfo = eventService.getEventInfo(boardId);
         eventInfo.setId(boardId);
 
-        List<MyChildNames> childNames = eventService.getChildNames(userSession.getId(), eventInfo.getGymId(), 1L);
+        List<MyChildNames> childNames = eventService.getChildNames(userSession.getId(), eventInfo.getGymId(), boardId);
 
         Member member = memberRepository.findById(userSession.getId()).orElse(null);
         if (member != null) {
@@ -49,11 +49,13 @@ public class EventController {
         return "event/eventApplication";
     }
 
-    @PostMapping("check")
+    @PostMapping("/event/check")
     public ResponseEntity check(@RequestBody EventPayForm form, HttpSession session) {
         log.info("Check event: {}", form);
         session.setAttribute("save" + form.getOrderId(), form);
 
         return ResponseEntity.ok("success");
     }
+
+
 }

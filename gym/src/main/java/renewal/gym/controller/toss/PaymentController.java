@@ -198,8 +198,14 @@ public class PaymentController {
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error");
     }
 
-    @GetMapping("/payments/{userId}")
-    public String receipts(@PathVariable Long userId, Model model) {
+    @GetMapping("/payments")
+    public String receipts(@RequestParam(value = "userId", required = false) Long userId,
+                           @Login LoginUserSession userSession, Model model) {
+
+        if(userId == null){
+            userId = userSession.getId();
+        }
+
         List<PayReceiptForm> receipts = paymentService.getReceipts(userId);
 
         model.addAttribute("receipts", receipts);

@@ -9,10 +9,9 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import renewal.gym.controller.argument.LoginUserArgumentResolver;
-import renewal.gym.controller.argument.PhoneNumberFormatter;
 import renewal.gym.controller.argument.PhoneNumberFormatterResolver;
 import renewal.gym.converter.EnumToValueConverter;
-import renewal.gym.interceptor.LoginInterceptor;
+import renewal.gym.interceptor.*;
 
 import java.util.List;
 
@@ -30,9 +29,30 @@ public class WebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginInterceptor())
                 .order(1)
                 .addPathPatterns("/**")
-                .excludePathPatterns("/**", "/gym/joinSelect", "/gym/join/*", "/gym/login",
+                .excludePathPatterns("/", "/gym/joinSelect", "/gym/join/*", "/gym/login",
                         "/gym/logout", "/gym/duplicationIdCheck",
                         "/css/**", "*/ico", "/error", "/js/**", "/image/**");
+
+        registry.addInterceptor(new RoleCheckInterceptor())
+                .order(2)
+                .addPathPatterns("/gym/manager/**")
+                .excludePathPatterns(
+                        "/", "/css/**", "*/ico", "/error", "/js/**", "/image/**"
+                );
+
+        registry.addInterceptor(new GymCheckInterceptor())
+                .order(3)
+                .addPathPatterns("/gym/board/**", "/gym/child/regular");
+
+        registry.addInterceptor(new AuthorityInterceptor())
+                .order(3)
+                .addPathPatterns("/gym/board", "/gym/manager/board/write/{gymId}", "/gym/manager/manage/{gymId}")
+                .excludePathPatterns("/gym/manager/manage/event");
+
+        registry.addInterceptor(new ReceiptInterceptor())
+                .order(3)
+                .addPathPatterns("/payments");
+
     }
 
     @Override

@@ -70,7 +70,6 @@ public class ChildRepositoryImpl implements ChildRepositoryCustom {
                 ))
                 .from(child)
                 .join(child.gym, gym)
-//                .join(child.member, member)
                 .where(child.member.id.eq(id))
                 .fetch();
     }

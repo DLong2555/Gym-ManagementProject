@@ -48,7 +48,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
         Long count = queryFactory.select(board.count())
                 .from(board)
-                .where(board.manager.id.eq(gymId))
+                .where(board.gym.id.eq(gymId))
                 .fetchOne();
 
         if (count == null) {
