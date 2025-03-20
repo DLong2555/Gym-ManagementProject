@@ -1,0 +1,77 @@
+<!DOCTYPE HTML>
+<html th:replace="~{layout/layoutForm :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Board Content</title>
+    <link th:href="@{/css/contentForm.css}" rel="stylesheet">
+    <script th:src="@{/js/contentForm.js}"></script>
+
+
+</head>
+<body>
+<section>
+    <div class="bodyContents">
+        <div id="boardContentPage">
+            <div id="boardContentPageContainer" class="noto-sans-kr">
+                <div id="boardContentPageContentBox">
+                    <div id="boardContentPageContentInnerBox">
+                        <div id="boardContentPageContentInfoBox">
+                            <div id="boardContentPageContentTitleBox">
+                                <div id="boardContentPageContentCtg" th:text="${{contentForm.ctg}}"></div>
+                                <div id="boardContentPageContentTitle" th:text="${contentForm.title}"></div>
+                            </div>
+                            <div id="boardContentPageSubInfoBox">
+                                <div id="boardContentPageNick" class="boardContentPageSubInfo">
+                                    <img id="boardManager" class="boardContentPageImage" th:src="@{/image/mapManager.png}">
+                                    <span th:text="${contentForm.author}"></span>
+                                </div>
+
+                                <div class="boardContentPageSubInfo" th:if="${contentForm.ctg.name() eq 'EVENT'}">
+                                    <img id="boardPrice" class="boardContentPageImage" th:src="@{/image/price.png}">
+                                    <span th:text="${contentForm.price}"></span>
+                                </div>
+
+                                <div class="boardContentPageSubInfo" th:if="${contentForm.ctg.name() eq 'EVENT'}">
+                                    <img id="boardDeadLine" class="boardContentPageImage" th:src="@{/image/endDate.jpg}">
+                                    <span th:text="${{contentForm.deadline}}"></span>
+                                </div>
+
+                                <div id="boardContentPageTime" class="boardContentPageSubInfo">
+                                    <img id="boardTime" class="boardContentPageImage" th:src="@{/image/boardTime.png}">
+                                    <span th:text="${{contentForm.createdAt}}"></span>
+                                </div>
+                                <div id="boardContentPageView" class="boardContentPageSubInfo">
+                                    <img id="boardView" class="boardContentPageImage" th:src="@{/image/boardView.png}">
+                                    <span th:text="${contentForm.views}"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="textAreaBox">
+                            <div id="boardContentPageBoardText" class="textArea"></div>
+                            <input type="hidden" id="hiddenContent" th:value="${contentForm.content}">
+                        </div>
+
+                        <div id="boardContentPageButtonBox" th:if="${loginUser.role.name() == 'MANAGER'}">
+                            <div id="boardContentPageModifyButton">
+                                <a th:href="@{/gym/manager/board/edit/{boardId}(boardId=${contentForm.id})}">수정하기</a>
+                            </div>
+                            <div id="boardContentPageDeleteButton">
+                                <a href="">삭제하기</a>
+                            </div>
+                        </div>
+
+                        <div id="eventPayButton" th:if="${loginUser.role.name() == 'USER'
+                                                            and contentForm.ctg.name() == 'EVENT'
+                                                            and #temporals.format(contentForm.deadline, 'yyyy-MM-dd') >= #temporals.format(T(java.time.LocalDate).now(), 'yyyy-MM-dd')}">
+                                <a id="eventPay" th:href="@{/gym/event/{boardId}(boardId=${contentForm.id})}">신청하기</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

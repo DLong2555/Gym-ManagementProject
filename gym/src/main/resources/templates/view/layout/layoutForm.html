@@ -50,15 +50,17 @@
                                 <a th:href="@{/gym/search}">신규 등록</a>
                             </div>
                             <div class="topSubMenuEach">
-                                <a href="">회비 납부</a>
-                            </div>
-                            <div class="topSubMenuEach">
-                                <a th:href="@{/gym/manage}">회원 관리</a>
+                                <a th:href="@{/gym/child/regular}">회비 납부</a>
                             </div>
                         </div>
                         <div th:if="${loginUser?.role?.name() eq 'MANAGER'}">
                             <div class="topSubMenuEach">
-                                <a th:href="@{/gym/manage}">회원 관리</a>
+                                <a th:href="@{/gym/manager/manage(gymId=${#lists.isEmpty(loginUser?.gymIds) ? '' :
+                                                                        #lists.sort(#lists.toList(loginUser.gymIds)).get(0)})}">회원 관리</a>
+                            </div>
+                            <div class="topSubMenuEach">
+                                <a th:href="@{/gym/manager/manage/event(gymId=${#lists.isEmpty(loginUser?.gymIds) ? '' :
+                                                                        #lists.sort(#lists.toList(loginUser.gymIds)).get(0)})}">활동 관리</a>
                             </div>
                         </div>
                     </div>
@@ -66,36 +68,7 @@
 
                 <div class="topMainMenu">
                     <div class="topMenuEachBox">
-                        <a href="">상품
-                            <div class="menuDown"></div>
-                        </a>
-                    </div>
-                    <div class="topSubMenu">
-                        <div class="topSubMenuEach">
-                            <a href="">상품</a>
-                        </div>
-                        <div class="topSubMenuEach">
-                            <a href="">장바구니</a>
-                        </div>
-                        <div class="topSubMenuEach">
-                            <a href="">주문내역</a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="topMainMenu">
-                    <div class="topMenuEachBox">
-                        <a href="">활동
-                            <div class="menuDown"></div>
-                        </a>
-                    </div>
-                    <div class="topSubMenu">
-                        <div class="topSubMenuEach">
-                            <a href="">특수활동 공고</a>
-                        </div>
-                        <div class="topSubMenuEach">
-                            <a href="">갤러리</a>
-                        </div>
+                        <a th:href="@{/payments(userId=${loginUser?.id})}">결제내역</a>
                     </div>
                 </div>
 
@@ -107,19 +80,8 @@
                     </div>
                     <div class="topSubMenu">
                         <div class="topSubMenuEach">
-                            <a href="">공지사항</a>
-                        </div>
-                        <div class="topSubMenuEach">
-                            <a href="">중고거래</a>
-                        </div>
-                        <div class="topSubMenuEach">
-                            <a href="">문의사항</a>
-                        </div>
-                        <div class="topSubMenuEach">
-                            <a href="">자유게시판</a>
-                        </div>
-                        <div class="topSubMenuEach">
-                            <a href="">내 글</a>
+                            <a th:href="@{/gym/board(gymId=${#lists.isEmpty(loginUser?.gymIds) ? '' :
+                                                                        #lists.sort(#lists.toList(loginUser.gymIds)).get(0)})}">공지사항</a>
                         </div>
                     </div>
                 </div>
@@ -198,19 +160,9 @@
                         </ul>
                     </div>
                     <div class="bottomMenuEachBox">
-                        <div class="bottomMenuTitle noto-sans-kr">활동</div>
-                        <ul class="bottomMenuContents noto-sans-kr">
-                            <li><a th:href="@{/}">갤러리</a></li>
-                        </ul>
-                    </div>
-                    <div class="bottomMenuEachBox">
                         <div class="bottomMenuTitle noto-sans-kr">게시판</div>
                         <ul class="bottomMenuContents noto-sans-kr">
                             <li><a th:href="@{/}">공지사항</a></li>
-                            <li><a th:href="@{/}">문의사항</a></li>
-                            <li><a th:href="@{/}">중고거래</a></li>
-                            <li><a th:href="@{/}">자유게시판</a></li>
-                            <li><a th:href="@{/}">내 글</a></li>
                         </ul>
                     </div>
                 </div>

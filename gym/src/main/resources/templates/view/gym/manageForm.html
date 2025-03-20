@@ -18,81 +18,100 @@
                 <div id="leftBox">
                     <div id="myGymListTitle">체육관</div>
 
-                    <div id="myGymList" th:each="gym : ${childInMyGyms}">
-                        <div class="gymName" th:text="${gym.key}" th:data-value="${gym.key}"></div>
+                    <div id="myGymList" th:each="gym : ${gymNames}">
+                        <a class="gymName" th:text="${gym.gymName}"
+                           th:href="@{/gym/manager/manage(gymId=${gym.id})}" th:data-id="${gym.id}"></a>
                     </div>
                 </div>
-                <div class="rightBox">
-                    <div id="labelBox">
-                        <div><input th:type="checkBox"></div>
-                        <div th:text="#{label.join.name}"></div>
-                        <div th:text="#{label.register.age}"></div>
-                        <div th:text="#{label.register.gender}"></div>
-                        <div th:text="띠"></div>
-                        <div th:text="#{label.register.startDate}"></div>
-                        <div th:text="#{label.register.endDate}"></div>
-                        <!--                        <div th:text="수정"></div>-->
-                    </div>
-                    <div class="scrollbar">
-                        <div th:each="gymEntry : ${childInMyGyms}">
-                            <div class="myMemberListBox" th:each="parent : ${gymEntry.value}"
-                                 th:data-value="${gymEntry.key}">
-                                <div class="childInfoBox">
-                                    <div class="childBox" th:each="child : ${parent.children}">
-                                        <div class="childInfo">
+                <div id="rightBox">
+                    <table class="manageTable">
+                        <thead>
+                        <tr class="thName">
+                            <th class="manage-th"><input class="allCheckBox" th:type="checkBox"></th>
+                            <th class="manage-th" th:text="#{label.name}"></th>
+                            <th class="manage-th" th:text="#{label.age}"></th>
+                            <th class="manage-th" th:text="#{label.gender}"></th>
+                            <th class="manage-th" th:text="#{label.belt}"></th>
+                            <th class="manage-th" th:text="#{label.startDate}"></th>
+                            <th class="manage-th" th:text="#{label.endDate}"></th>
+                            <th class="manage-th"></th> <!-- 수정 버튼 열 추가 -->
+                        </tr>
+                        </thead>
+                        <tbody class="main-tbody">
+                        <tr th:each="parent : ${childInMyGyms}" class="mainTr">
+                            <td colspan="8">
+                                <table>
+                                    <tbody class="childTbody">
+                                    <tr th:each="child : ${parent.children}" class="childTr">
+
+                                        <td class="manage-td">
                                             <input type="hidden" class="childId" th:value="${child.id}">
-
                                             <input class="checkbox" th:type="checkBox">
+                                        </td>
 
-                                            <input type="text" class="name" th:value="${child.name}" readonly>
+                                        <td class="manage-td name" th:text="${child.name}"></td>
 
-                                            <input type="text" class="age" th:value="${child.age}" readonly>
+                                        <td class="manage-td"  th:text="${child.age}"></td>
 
-                                            <input type="text" class="gender" th:value="${{child.gender}}" readonly>
+                                        <td class="manage-td" th:text="${{child.gender}}"></td>
 
-                                            <input type="text" class="belt" th:value="Belt" readonly>
+                                        <td class="manage-td">
+                                            <input type="text" class="belt" th:value="${child.belt}" readonly>
+                                        </td>
 
+                                        <td class="manage-td">
                                             <input type="date" class="startDate" th:value="${child.startDate}" readonly>
+                                        </td>
 
+                                        <td class="manage-td">
                                             <input type="date" class="endDate" th:value="${child.endDate}" readonly>
+                                        </td>
 
+                                        <td class="manage-td" th:if="${ctg == null}">
                                             <button class="editButton" th:text="수정" data-edit="false"></button>
-                                        </div>
-                                    </div>
-                                    <div class="parentDisplayBtn">
-                                        <button>보호자 정보 보기</button>
-                                    </div>
-                                </div>
-                                <div class="parentsBox">
-                                    <input type="hidden" th:value="${parent.id}">
+                                        </td>
+                                        <td class="manage-td" th:if="${ctg != null}">
+                                            <button class="deleteButton" th:text="삭제" data-edit="false"></button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="parentDisplayBtn" colspan="8">
+                                            <button>보호자 정보 보기</button>
+                                        </td>
+                                    </tr>
 
-                                    <label th:for="|name${parent.id}|" th:text="#{label.join.name}"></label>
-                                    <input type="text" th:id="|name${parent.id}|" th:value="${parent.memName}" readonly>
-
-                                    <label th:for="|phone${parent.id}|" th:text="#{label.join.phone}"></label>
-                                    <input type="text" th:id="|phone${parent.id}|" class="phoneNumber"
-                                           th:value="${parent.memPhoneNum}"
-                                           readonly>
-
-                                    <label th:for="|address${parent.id}|" th:text="#{label.join.address}"></label>
-                                    <input type="text" th:id="|address${parent.id}|"
-                                           class="address" th:value="|${parent.roadName} ${parent.detailAddress}|"
-                                           readonly>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="bulkEditControls">
-                        <button id="bulkPromotion">
-                            일괄 승급
-                        </button>
-                        <button id="bulkEdit" data-edit="false">
-                            일괄 수정
-                        </button>
-                    </div>
+                                    <tr class="parentsBoxTh parentsBox">
+                                        <th th:text="#{label.name}"></th>
+                                        <th th:text="#{label.phone}"></th>
+                                        <th th:text="#{label.address}"></th>
+                                    </tr>
+                                    <tr class="parentsBoxTd parentsBox">
+                                        <td th:text="${parent.memName}">
+                                            <input type="hidden" class="childId" th:value="${parent.id}">
+                                        </td>
+                                        <td th:text="${parent.memPhoneNum}"></td>
+                                        <td th:text="${parent.detailAddress}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
+            <div id="bulkEditControls">
+                <button class="allChild" th:text="#{label.all}"></button>
 
+                <button class="expiredChild" th:text="#{label.expired}"></button>
+
+                <button id="bulkEdit" data-edit="false" th:if="${ctg == null}">
+                    일괄 수정
+                </button>
+<!--                <button id="bulkDelete" th:if="${ctg != null}">-->
+<!--                    일괄 삭제-->
+<!--                </button>-->
+            </div>
         </div>
     </div>
 </section>

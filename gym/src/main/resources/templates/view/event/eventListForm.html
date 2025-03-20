@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/layoutForm :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>manage</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/eventListForm.css}">
+    <script th:src="@{/js/eventListForm.js}"></script>
+
+</head>
+<body>
+<section>
+    <div id="manageForm">
+        <div id="manageContainer">
+
+            <div id="manageTitle">참가 목록</div>
+
+            <div id="contentsBox">
+                <div id="leftBox">
+                    <div class="myGymListTitle">체육관</div>
+
+                    <div class="myGymList" th:each="gym : ${gymNames}">
+                        <a class="myGym" th:text="${gym.gymName}" th:data-gym="${gym.id}"
+                        th:href="@{/gym/manager/manage/event(gymId=${gym.id})}"></a>
+                    </div>
+                </div>
+
+                <div class="eventTitleBox">
+                    <div class="eventListBox">
+                        <div class="myGymListTitle">목록</div>
+
+                        <div class="scrollbar">
+                            <div class="events" th:each="events : ${eventList}">
+                                <div class="eventName">
+                                    <a class="eventLink" th:href="@{/gym/manager/manage/event(gymId=${gymId}, eventId=${events.id})}"
+                                       th:text="${events.title}"
+                                       th:data-event="${events.id}"
+                                       th:classappend="${#temporals.format(events.deadline, 'yyyy-MM-dd HH:mm') < #temporals.format(T(java.time.LocalDateTime).now(), 'yyyy-MM-dd HH:mm')} ? 'expired' : 'title'"></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="applicationListBox">
+                    <div class="myGymListTitle">참가자</div>
+
+                    <div class="noParticipants" th:if="${participants == null}">확인할 공고를 선택해주세요.</div>
+
+                    <div th:if="${participants != null}">
+                        <div class="noParticipants" th:if="${#lists.size(participants) == 0}">참가자가 없습니다.</div>
+                        <table th:if="${#lists.size(participants) > 0}">
+                            <thead class="childThead">
+                            <tr>
+                                <th class="childTh" th:text="#{label.name}"></th>
+                                <th class="childTh" th:text="#{label.age}"></th>
+                                <th class="childTh" th:text="#{label.gender}"></th>
+                                <th class="childTh" th:text="#{label.phone}"></th>
+                            </tr>
+                            </thead>
+                            <tbody class="tableScrollbar">
+                            <tr class="childTbody" th:each="participant : ${participants}">
+                                <td class="childInfo" th:text="${participant.name}"></td>
+                                <td class="childInfo" th:text="${participant.age}"></td>
+                                <td class="childInfo" th:text="${{participant.gender}}"></td>
+                                <td class="childInfo" th:text="${{participant.phone}}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

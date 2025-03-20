@@ -2,6 +2,7 @@ package renewal.gym.repository.custom;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.persistence.EntityManager;
+import renewal.gym.domain.QGym;
 import renewal.gym.dto.mypage.MyPageForm;
 import renewal.gym.dto.mypage.QMyPageForm;
 import renewal.gym.dto.register.ParentInfoForm;
@@ -12,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 import static renewal.gym.domain.QChild.child;
+import static renewal.gym.domain.QGym.gym;
 import static renewal.gym.domain.QMember.member;
 
 public class MemberRepositoryImpl implements MemberRepositoryCustom {
@@ -60,7 +62,10 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
     public Set<Long> getMyGymList(Long id) {
         List<Long> result = queryFactory.select(child.gym.id).distinct()
                 .from(child)
-                .where(child.member.id.eq(id))
+                .join(child.member, member)
+                .join(child.gym, gym)
+                .where(child.member.id.eq(id)
+                        .and(child.gym.id.isNotNull()))
                 .fetch();
 
         return new HashSet<>(result);

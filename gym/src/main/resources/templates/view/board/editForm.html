@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html th:replace="~{layout/layoutForm :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Board Edit</title>
+    <link th:href="@{/css/editForm.css}" rel="stylesheet">
+    <script th:src="@{/js/editForm.js}"></script>
+
+</head>
+<body>
+<section>
+    <div id="boardWritePage">
+        <div id="boardWritePageContainer" class="noto-sans-kr">
+
+            <div id="boardWritePageTitleBox">
+                <div id="boardWritePageTitle">수정</div>
+            </div>
+
+            <form th:method="post" th:action th:object="${editForm}">
+                <div id="boardWritePageWriteBox">
+                    <div class="boardWritePageSelect">
+                        <div class="boardWritePageSelectPlaceholder">
+                            공지
+                            <div class="boardWritePageDown"></div>
+                        </div>
+                        <div class="boardWritePageSubSelect">
+                            <div class="boardWritePageSubSelectEach" data-value="ANNOUNCEMENT">공지</div>
+                            <div class="boardWritePageSubSelectEach" data-value="EVENT">활동</div>
+                        </div>
+                        <input type="hidden" id="boardCategory" th:field="*{ctg}">
+                        <input type="hidden" id="temp" th:value="${editForm.ctg.name()}">
+
+                        <input type="text" id="boardWritePageBoardTitle" th:field="*{title}" placeholder="제목을 입력해주세요."
+                               required>
+                    </div>
+                </div>
+
+                <div id="boardEventInputBox">
+                    <div class="eventInputBox">
+                        <label for="boardWritePageBoardPrice" th:text="#{label.price}"></label>
+                        <input type="text" id="boardWritePageBoardPrice" th:field="*{price}">
+                    </div>
+
+                    <div class="eventInputBox">
+                        <label for="boardWritePageBoardDeadline" th:text="#{label.deadline}"></label>
+                        <input type="datetime-local" id="boardWritePageBoardDeadline" th:field="*{deadline}">
+                    </div>
+                </div>
+
+                <div class="textAreaBox">
+                    <div contenteditable="true" id="boardWritePageBoardText" class="textArea"></div>
+                    <textarea name="content" id="hiddenContent" style="display:none;" th:field="*{content}"></textarea>
+                </div>
+
+                <div id="boardWritePageImageInputBox">
+                    <div id="boardWritePageWarning">
+                        <div>* 이미지를 업로드 하신 후 클릭을 하셔야 본문에 첨부됩니다.</div>
+                        <div>* 하단 썸네일을 클릭하시면 본문에 추가됩니다.</div>
+                        <div id="boardWritePageImageBox"></div>
+                    </div>
+                    <div id="boardWritePageImageInputButton">이미지 업로드</div>
+                    <input type="file" multiple="multiple" id="fileInput" name="imageFiles">
+                </div>
+
+                <div id="writeButtonBox">
+                    <button type="submit" id="boardWritePageWriteButton" class="btn">수정하기</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</section>
+
+</body>
+</html>

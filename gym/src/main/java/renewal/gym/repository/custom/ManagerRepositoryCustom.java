@@ -1,6 +1,8 @@
 package renewal.gym.repository.custom;
 
+import com.querydsl.core.Tuple;
 import renewal.gym.dto.LoginDTO;
+import renewal.gym.dto.manage.EventParticipantForm;
 import renewal.gym.dto.manage.ParentsInfoForm;
 import renewal.gym.dto.mypage.MyPageForm;
 import renewal.gym.dto.mypage.MyPageManagerForm;
@@ -11,10 +13,12 @@ import java.util.Set;
 
 public interface ManagerRepositoryCustom {
 
-   Map<String, List<ParentsInfoForm>> getChildInfo(Set<Long> gymIds);
-   Map<String, List<ParentsInfoForm>> getChildInfo2(List<Long> gymIds);
+//   Map<String, List<ParentsInfoForm>> getChildInfo(Set<Long> gymIds);
+   List<ParentsInfoForm> getChildInfo(Long gymId, String ctg);
 
    MyPageManagerForm getMyPageForm(Long id);
 
    LoginDTO getLoginInfo(String loginId);
+
+    List<EventParticipantForm> getParticipants(Long eventId);
 }

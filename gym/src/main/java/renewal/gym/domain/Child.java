@@ -36,18 +36,12 @@ public class Child {
     @Embedded
     private Period period;
 
-    //test용
-    public Child(String childName, Member member, Gym gym) {
-        this.childName = childName;
-        this.member = member;
-        this.gym = gym;
-    }
-
     public Child(String childName, String childPhoneNum, int childAge, String gender) {
         this.childName = childName;
         this.childPhoneNum = childPhoneNum;
         this.childAge = childAge;
         this.childGender = Gender.valueOf(gender);
+        this.belt = "흰띠";
     }
 
     public void addMember(Member member) {
@@ -81,7 +75,12 @@ public class Child {
         this.childAge = child.getChildAge();
         this.childGender = child.getChildGender();
         this.childPhoneNum = child.getChildPhoneNum();
-        this.belt = null;
+        this.belt = child.getBelt();
+    }
+
+    public void removeGym(){
+        this.gym = null;
+        this.period = null;
     }
 
 }

@@ -38,9 +38,9 @@ public class Payment extends Auditable{
     private LocalDateTime requestedAt;
     private LocalDateTime approvedAt;
 
-    private String childName;
+    private String description;
 
-    public Payment(String orderId, String orderName, Long amount, Member member, String paymentKey, PayType payType, PayStatus status, LocalDateTime requestedAt, LocalDateTime approvedAt, String childName) {
+    public Payment(String orderId, String orderName, Long amount, Member member, String paymentKey, PayType payType, PayStatus status, LocalDateTime requestedAt, LocalDateTime approvedAt, String description) {
         this.orderId = orderId;
         this.orderName = orderName;
         this.amount = amount;
@@ -50,7 +50,7 @@ public class Payment extends Auditable{
         this.status = status;
         this.requestedAt = requestedAt;
         this.approvedAt = approvedAt;
-        this.childName = childName;
+        this.description = description;
     }
 
     public void updateStatus(PayStatus status) {
@@ -61,7 +61,7 @@ public class Payment extends Auditable{
         return PayReceiptForm.builder()
                 .id(id)
                 .orderName(orderName)
-                .childName(childName) // 예시, 실제 필드 확인 필요
+                .description(description) // 예시, 실제 필드 확인 필요
                 .amount(amount)
                 .requestedAt(requestedAt)
                 .approvedAt(approvedAt)
