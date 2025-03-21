@@ -56,33 +56,32 @@
                         <div th:if="${loginUser?.role?.name() eq 'MANAGER'}">
                             <div class="topSubMenuEach">
                                 <a th:href="@{/gym/manager/manage(gymId=${#lists.isEmpty(loginUser?.gymIds) ? '' :
-                                                                        #lists.sort(#lists.toList(loginUser.gymIds)).get(0)})}">회원 관리</a>
+                                                                        #lists.sort(#lists.toList(loginUser.gymIds)).get(0)})}">회원
+                                    관리</a>
                             </div>
                             <div class="topSubMenuEach">
                                 <a th:href="@{/gym/manager/manage/event(gymId=${#lists.isEmpty(loginUser?.gymIds) ? '' :
                                                                         #lists.sort(#lists.toList(loginUser.gymIds)).get(0)})}">활동 관리</a>
                             </div>
+                            <div class="topSubMenuEach">
+                                <a th:href="@{/gym/manager/add}">추가 등록</a>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <div class="topMainMenu">
                     <div class="topMenuEachBox">
-                        <a th:href="@{/payments(userId=${loginUser?.id})}">결제내역</a>
+                        <div class="topMenuEachBox" th:if="${loginUser?.role?.name() eq 'USER'}">
+                            <a th:href="@{/payments(userId=${loginUser?.id})}">결제내역</a>
+                        </div>
                     </div>
                 </div>
 
                 <div class="topMainMenu">
                     <div class="topMenuEachBox">
-                        <a href="">게시판
-                            <div class="menuDown"></div>
-                        </a>
-                    </div>
-                    <div class="topSubMenu">
-                        <div class="topSubMenuEach">
-                            <a th:href="@{/gym/board(gymId=${#lists.isEmpty(loginUser?.gymIds) ? '' :
-                                                                        #lists.sort(#lists.toList(loginUser.gymIds)).get(0)})}">공지사항</a>
-                        </div>
+                        <a th:href="@{/gym/board(gymId=${#lists.isEmpty(loginUser?.gymIds) ? '' :
+                                                                        #lists.sort(#lists.toList(loginUser.gymIds)).get(0)})}">공지</a>
                     </div>
                 </div>
             </div>
@@ -115,7 +114,7 @@
                             </div>
                             <div id="subProfileBtn">
                                 <div class="profileBtn">
-                                     <a th:href="@{/gym/myPage}">마이페이지</a>
+                                    <a th:href="@{/gym/myPage}">마이페이지</a>
                                 </div>
                                 <div class="profileBtn">
                                     <form th:action="@{/gym/logout}" method="post">

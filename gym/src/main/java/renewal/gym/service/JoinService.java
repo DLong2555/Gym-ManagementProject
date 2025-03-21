@@ -45,6 +45,11 @@ public class JoinService {
         return manager.getId();
     }
 
+    @Transactional
+    public Long addGym(Gym gym) {
+        return gymRepository.save(gym).getId();
+    }
+
     public boolean duplicateMemberId(String memId) {
 
         boolean manager = managerRepository.findByManageId(memId).isPresent();

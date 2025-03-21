@@ -46,7 +46,7 @@ public class WebConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(new AuthorityInterceptor())
                 .order(3)
-                .addPathPatterns("/gym/board", "/gym/manager/board/write/{gymId}", "/gym/manager/manage/{gymId}")
+                .addPathPatterns("/gym/board", "/gym/manager/**")
                 .excludePathPatterns("/gym/manager/manage/event");
 
         registry.addInterceptor(new ReceiptInterceptor())

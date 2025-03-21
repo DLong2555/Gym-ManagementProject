@@ -8,12 +8,18 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
+import renewal.gym.controller.argument.Login;
 import renewal.gym.domain.*;
+import renewal.gym.dto.AddGymForm;
 import renewal.gym.dto.JoinForm;
 import renewal.gym.dto.JoinManagerForm;
+import renewal.gym.dto.LoginUserSession;
+import renewal.gym.repository.ManagerRepository;
 import renewal.gym.service.JoinService;
 import renewal.gym.validator.JoinManagerValidator;
 import renewal.gym.validator.JoinValidator;
+
+import java.util.Optional;
 
 
 @Slf4j
@@ -25,6 +31,8 @@ public class JoinController {
     private final JoinService JoinService;
     private final JoinValidator joinValidator;
     private final JoinManagerValidator joinManagerValidator;
+    private final ManagerRepository managerRepository;
+    private final JoinService joinService;
 
     @InitBinder("joinForm")
     public void initBinderUser(WebDataBinder binder) {
@@ -87,6 +95,31 @@ public class JoinController {
         JoinService.joinManger(createManagerAndGym(joinForm));
 
         return "redirect:/gym/login";
+    }
+
+    @GetMapping("/manager/add")
+    public String addForm(Model model) {
+
+        model.addAttribute("addGymForm", new AddGymForm());
+
+        return "gym/addGym";
+    }
+
+    @PostMapping("/manager/add")
+    public String add(@ModelAttribute("addGymForm") AddGymForm addGymForm, BindingResult bindingResult,
+                      @Login LoginUserSession userSession) {
+
+        Manager manager = managerRepository.findById(userSession.getId()).orElse(null);
+
+        Gym gym = new Gym(addGymForm.getGymName(), addGymForm.getGymPrice(), addGymForm.getGymPhone(),
+                new Address(addGymForm.getZipcode(), addGymForm.getRoadName(), addGymForm.getDetailAddress()),
+                manager);
+
+        Long gymId = joinService.addGym(gym);
+
+        userSession.getGymIds().add(gymId);
+
+        return "redirect:/gym/myPage/myGym";
     }
 
     public Member createUser(JoinForm joinForm){
