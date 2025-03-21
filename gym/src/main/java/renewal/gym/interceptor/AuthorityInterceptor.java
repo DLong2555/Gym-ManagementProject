@@ -17,13 +17,19 @@ public class AuthorityInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+        log.info("AuthorityInterceptor start");
+
         HttpSession session = request.getSession();
         LoginUserSession userSession = (LoginUserSession) session.getAttribute(LoginSessionConst.LoginSESSION_KEY);
 
-        Long gymId = Long.parseLong(request.getParameter("gymId"));
+        if(request.getParameter("gymId") == null){
+            return true;
+        }
 
+        Long gymId = Long.parseLong(request.getParameter("gymId"));
         //권한이 없음을 알려주는 페이지로 이동
         if(!userSession.getGymIds().contains(gymId)){
+            log.info("You are not authorized to access this area.");
             response.sendRedirect("/500");
             return false;
         }
@@ -31,14 +37,4 @@ public class AuthorityInterceptor implements HandlerInterceptor {
         return HandlerInterceptor.super.preHandle(request, response, handler);
     }
 
-    private Long getGymIdFromURI(String uri) {
-        Pattern pattern = Pattern.compile(".*/(\\d+)$");
-        Matcher matcher = pattern.matcher(uri);
-
-        if (matcher.find()) {
-            return Long.parseLong(matcher.group(1));
-        }
-
-        return null;
-    }
 }

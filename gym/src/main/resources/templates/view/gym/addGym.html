@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<html th:replace="~{layout/layoutForm :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="utf-8">
+  <title>Join join</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/css/joinForm.css}">
+
+  <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+  <script th:src="@{/js/joinForm.js}"></script>
+  <script th:src="@{/js/joinValidation.js}"></script>
+</head>
+<body>
+<section>
+  <div id="joinForm">
+    <div id="joinFormContainer">
+
+      <div id="joinTitleDiv">
+        <div id="joinTitle" th:text="#{page.addGym}">join</div>
+      </div>
+
+      <form th:action th:object="${addGymForm}" method="post">
+
+        <div class="joinInputDiv">
+          <div class="inputGroup">
+            <label for="gymName" th:text="#{label.gym}">체육관</label>
+            <input type="text" th:field="*{gymName}"
+                   th:errorclass="field-error" class="form-control" placeholder="체육관 이름">
+            <div class="field-error" th:errors="*{gymName}">
+              오류
+            </div>
+
+            <input type="text" th:field="*{gymPrice}"
+                   th:errorclass="field-error" class="form-control" placeholder="가격">
+            <div class="field-error" th:errors="*{gymPrice}">
+              오류
+            </div>
+
+            <input type="text" th:field="*{gymPhone}"
+                   th:errorclass="field-error" class="form-control" placeholder="체육관 전화번호">
+            <div class="field-error" th:errors="*{gymPhone}">
+              오류
+            </div>
+
+          </div>
+
+          <!--주소입력 버튼-->
+          <div class="inputGroup">
+            <div class="label-and-btn">
+              <label for="zipcode" th:text="#{label.gymAddress}">체육관</label>
+              <button type="button" class="address-btn" th:text="#{button.address}">우편주소 찾기</button>
+            </div>
+            <input type="text" th:field="*{zipcode}"
+                   th:errorclass="field-error" class="form-control" placeholder="우편번호" readonly>
+            <input type="text" th:field="*{roadName}"
+                   th:errorclass="field-error" class="form-control" placeholder="주소" readonly>
+            <div class="inputGroup">
+              <input type="text" th:field="*{detailAddress}"
+                     th:errorclass="field-error" class="form-control" placeholder="상세주소">
+            </div>
+            <div class="field-error" th:errors="*{zipcode}">
+              오류
+            </div>
+          </div>
+        </div>
+
+        <div class="join-btn-box">
+          <button class="join-btn" type="submit" th:text="#{button.join}">등록</button>
+          <button class="cansel-btn"
+                  th:onclick="|location.href='@{/}'|"
+                  type="button" th:text="#{button.cancel}">취소
+          </button>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</section>
+
+</body>
+</html>

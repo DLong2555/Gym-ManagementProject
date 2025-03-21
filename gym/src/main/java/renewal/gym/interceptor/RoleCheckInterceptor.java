@@ -15,13 +15,14 @@ public class RoleCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        log.debug("RoleCheckInterceptor preHandle");
+        log.info("RoleCheckInterceptor start");
 
         HttpSession session = request.getSession();
         LoginUserSession userSession = (LoginUserSession) session.getAttribute(LoginSessionConst.LoginSESSION_KEY);
 
         //권한이 없음을 알려주는 페이지로 이동
         if(!userSession.getRole().equals(Role.MANAGER)){
+            log.info("You are not authorized to access this area.");
             response.sendRedirect("/500");
             return false;
         }
