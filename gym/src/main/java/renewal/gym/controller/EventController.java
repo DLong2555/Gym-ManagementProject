@@ -17,7 +17,6 @@ import renewal.gym.repository.MemberRepository;
 import renewal.gym.service.EventService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Controller

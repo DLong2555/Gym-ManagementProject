@@ -16,10 +16,10 @@ import renewal.gym.dto.JoinManagerForm;
 import renewal.gym.dto.LoginUserSession;
 import renewal.gym.repository.ManagerRepository;
 import renewal.gym.service.JoinService;
+import renewal.gym.service.SecureIdEncryptor;
 import renewal.gym.validator.JoinManagerValidator;
 import renewal.gym.validator.JoinValidator;
 
-import java.util.Optional;
 
 
 @Slf4j
@@ -33,6 +33,7 @@ public class JoinController {
     private final JoinManagerValidator joinManagerValidator;
     private final ManagerRepository managerRepository;
     private final JoinService joinService;
+    private final SecureIdEncryptor secureIdEncryptor;
 
     @InitBinder("joinForm")
     public void initBinderUser(WebDataBinder binder) {
@@ -117,7 +118,7 @@ public class JoinController {
 
         Long gymId = joinService.addGym(gym);
 
-        userSession.getGymIds().add(gymId);
+        userSession.getGymIds().add(secureIdEncryptor.encryptId(gymId));
 
         return "redirect:/gym/myPage/myGym";
     }

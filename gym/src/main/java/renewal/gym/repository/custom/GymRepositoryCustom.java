@@ -11,5 +11,6 @@ public interface GymRepositoryCustom {
 //    List<GymInfoDto> findGymList();
     List<MyGymForm> findMyGymList(Long managerId);
 
-    List<GymInfoDto> findGymNames(Set<Long> gymIds);
+    List<GymInfoDto> findGymNames(Long id);
+    List<GymInfoDto> findGymNames(Set<Long> ids);
 }

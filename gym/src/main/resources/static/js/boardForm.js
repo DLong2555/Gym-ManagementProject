@@ -4,6 +4,18 @@ document.addEventListener("DOMContentLoaded", () => {
     const totalPages = document.getElementById("totalPages").value - 1;
     const currentPage =parseInt(document.getElementById("currentPage").value);
 
+    const gymIds = document.querySelectorAll('.gymName');
+    const urlParams = new URLSearchParams(window.location.search);
+    const gymId = urlParams.get("gymId");
+
+    gymIds.forEach(id => {
+        let dataValue = id.dataset.value;
+
+        if(gymId === dataValue) {
+            id.classList.add('selected');
+        }
+    })
+
     if(totalPages > 0) {
         const leftNext = document.querySelector(".leftNext");
         const rightNext = document.querySelector(".rightNext");

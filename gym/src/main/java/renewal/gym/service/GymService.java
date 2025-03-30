@@ -17,12 +17,17 @@ public class GymService {
 
     private final GymRepository gymRepository;
 
+
 //    public List<GymInfoDto> findAllGym(){
 //        return gymRepository.findGymList();
 //    }
 
-    public List<GymInfoDto> findGymNames(Set<Long> gymIds) {
-        return gymRepository.findGymNames(gymIds);
+    public List<GymInfoDto> findGymNames(Long id) {
+        return gymRepository.findGymNames(id);
+    }
+
+    public List<GymInfoDto> findGymNames(Set<Long> ids) {
+        return gymRepository.findGymNames(ids);
     }
 
     public Long findSelectedGym(String gymName, String address, String roadAddress) {

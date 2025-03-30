@@ -20,7 +20,7 @@
 
                     <div id="myGymList" th:each="gym : ${gymNames}">
                         <a class="gymName" th:text="${gym.gymName}"
-                           th:href="@{/gym/manager/manage(gymId=${gym.id})}" th:data-id="${gym.id}"></a>
+                           th:href="@{/gym/manager/manage(gymId=${{gym.id}})}" th:data-id="${{gym.id}}"></a>
                     </div>
                 </div>
                 <div id="rightBox">

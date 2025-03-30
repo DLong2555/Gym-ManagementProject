@@ -18,8 +18,7 @@
 
             <div id="boardPageMenuBox">
                 <div class="gymNames" th:each="gym : ${gymNames}">
-                    <a class="gymName" th:href="@{/gym/board(gymId=${gym.id})}" th:text="${gym.gymName}"
-                       th:classappend="${gym.id==gymId} ? 'selected'"></a>
+                    <a class="gymName" th:href="@{/gym/board(gymId=${{gym.id}})}" th:text="${gym.gymName}" th:data-value="${{gym.id}}"></a>
                 </div>
             </div>
 
