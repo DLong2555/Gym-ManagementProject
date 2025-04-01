@@ -15,7 +15,6 @@ import renewal.gym.controller.argument.Login;
 import renewal.gym.domain.Member;
 import renewal.gym.dto.RegularPayInfo;
 import renewal.gym.dto.RegularPaymentForm;
-import renewal.gym.dto.event.EventPayForm;
 import renewal.gym.dto.register.ChildRegisterForm;
 import renewal.gym.dto.LoginUserSession;
 import renewal.gym.dto.SelectedGymForm;

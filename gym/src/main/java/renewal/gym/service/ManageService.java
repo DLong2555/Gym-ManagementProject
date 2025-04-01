@@ -32,15 +32,4 @@ public class ManageService {
         return managerRepository.getParticipants(eventId);
     }
 
-//    public Map<String, List<ParentsInfoForm>> findChildInMyGyms(Set<Long> gymIds) {
-//        Map<String, List<ParentsInfoForm>> childrenMap = managerRepository.getChildInfo(gymIds);
-//
-//        log.debug("findChildInMyGyms: gymIds = {}", childrenMap);
-//        return childrenMap;
-//    }
-
-//    public List<ParentsInfoForm> findChildInMyGyms2(Long gymId) {
-//        return managerRepository.getChildInfo2(gymId);
-//    }
-
 }

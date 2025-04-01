@@ -13,6 +13,8 @@ public class LoginInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
+        if(request.getRequestURI().startsWith("/error")) return true;
+
         log.info("로그인 체크 인터셉터 동작 : {}", request.getRequestURI());
         String uri = request.getRequestURI();
 

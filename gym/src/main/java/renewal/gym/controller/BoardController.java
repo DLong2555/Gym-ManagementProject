@@ -17,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import renewal.gym.controller.argument.Login;
+import renewal.gym.converter.Decrypt;
 import renewal.gym.domain.*;
 import renewal.gym.dto.GymInfoDto;
 import renewal.gym.dto.LoginUserSession;
@@ -24,14 +25,13 @@ import renewal.gym.dto.board.*;
 
 import renewal.gym.repository.EventRepository;
 import renewal.gym.repository.ManagerRepository;
-import renewal.gym.service.BoardService;
-import renewal.gym.service.EventService;
-import renewal.gym.service.GymService;
-import renewal.gym.service.UploadService;
+import renewal.gym.service.*;
 
 import java.net.MalformedURLException;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Controller
@@ -46,18 +46,22 @@ public class BoardController {
     private final GymService gymService;
     private final ManagerRepository managerRepository;
     private final UploadService uploadService;
-    private final EventService eventService;
+    private final SecureIdEncryptor secureIdEncryptor;
 
     @GetMapping("/board")
-    public String board(@RequestParam(value = "gymId", required = false) Long gymId,
+    public String board(@RequestParam(value = "gymId") String encryptedGymId,
                         @PageableDefault(size = 3, page = 0) Pageable pageable,
+                        HttpServletRequest request,
                         @Login LoginUserSession userSession, Model model) {
 
-        if(gymId == null){
-            gymId = userSession.getGymIds().iterator().next();
-        }
+        Long gymId = (Long) request.getAttribute("gymId");
 
-        List<GymInfoDto> gymNames = gymService.findGymNames(userSession.getGymIds());
+        Set<Long> gymIds = userSession.getGymIds()
+                .stream()
+                .map(secureIdEncryptor::decryptId)
+                .collect(Collectors.toSet());
+
+        List<GymInfoDto> gymNames = gymService.findGymNames(gymIds);
 
         Page<BoardInfoForm> findBoardPage = boardService.findBoardByGymId(gymId, pageable);
         List<BoardInfoForm> contents = findBoardPage.getContent();
@@ -67,7 +71,7 @@ public class BoardController {
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("currentPage", pageable.getPageNumber());
 
-        model.addAttribute("gymId", gymId);
+        model.addAttribute("gymId", encryptedGymId);
         model.addAttribute("gymNames", gymNames);
 
         log.debug("BoardInfoForm {}", contents);
@@ -78,7 +82,11 @@ public class BoardController {
     }
 
     @GetMapping("/manager/board/write")
-    public String writeForm(@RequestParam(value = "gymId") Long gymId, Model model) {
+    public String writeForm(@RequestParam(value = "gymId") String encryptedGymId,
+                            HttpServletRequest request,
+                            Model model) {
+
+        Long gymId = (Long) request.getAttribute("gymId");
 
         model.addAttribute("gymName", gymService.findGymNameById(gymId));
         model.addAttribute("writeForm", new BoardWriteForm());
@@ -87,11 +95,12 @@ public class BoardController {
     }
 
     @PostMapping("/manager/board/write")
-    public String save(@RequestParam(value = "gymId") Long gymId, @ModelAttribute("writeForm") BoardWriteForm writeForm,
+    public String save(@RequestParam(value = "gymId") String encryptedGymId,
+                       @ModelAttribute("writeForm") BoardWriteForm writeForm,
+                       HttpServletRequest request,
                        @Login LoginUserSession userSession) {
 
-        log.info("writeForm {}", writeForm);
-        log.info("ctg {} ", writeForm.getCtg());
+        Long gymId = (Long) request.getAttribute("gymId");
 
         Manager manager = managerRepository.findById(userSession.getId()).orElse(null);
         Gym gym = gymService.findGymByGymId(gymId);

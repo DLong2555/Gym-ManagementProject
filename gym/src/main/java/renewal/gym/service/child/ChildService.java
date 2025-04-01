@@ -10,6 +10,7 @@ import renewal.gym.domain.Member;
 import renewal.gym.domain.Period;
 import renewal.gym.dto.RegularPaymentForm;
 import renewal.gym.dto.register.ParentInfoForm;
+import renewal.gym.error.DataNotFoundException;
 import renewal.gym.repository.ChildRepository;
 import renewal.gym.repository.GymRepository;
 import renewal.gym.repository.MemberRepository;
@@ -30,7 +31,7 @@ public class ChildService {
     public Long register(Long id, Long gymId, Child child) {
 
         Child findChild = childRepository.findByMemberIdAndChildName(id, child.getChildName()).orElse(null);
-        Gym gym = gymRepository.findById(gymId).orElseThrow(IllegalArgumentException::new);
+        Gym gym = gymRepository.findById(gymId).orElseThrow(() -> new DataNotFoundException("해당 데이터를 찾을 수 없습니다."));
 
         // 체육관을 바꿀 때
         if(findChild != null){
@@ -41,7 +42,7 @@ public class ChildService {
             return gym.getId();
         }
 
-        Member member = memberRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        Member member = memberRepository.findById(id).orElseThrow(() -> new DataNotFoundException("해당 데이터를 찾을 수 없습니다."));
 
         log.debug("gym {}", gym.getId());
         log.debug("member {}", member.getId());
@@ -77,16 +78,18 @@ public class ChildService {
         List<Child> findChilds = childRepository.findChildByIds(childIds);
 
         for (Child findChild : findChilds) {
-            LocalDate endDate = findChild.getPeriod().getEndDate();
+            if(findChild != null) {
+                LocalDate endDate = findChild.getPeriod().getEndDate();
 
-            if(endDate.isBefore(LocalDate.now())){
-                findChild.getPeriod().changeStartDate();
-                endDate = LocalDate.now().plusMonths(1L);
-            }else{
-                endDate = endDate.plusMonths(1L);
+                if (endDate.isBefore(LocalDate.now())) {
+                    findChild.getPeriod().changeStartDate();
+                    endDate = LocalDate.now().plusMonths(1L);
+                } else {
+                    endDate = endDate.plusMonths(1L);
+                }
+
+                findChild.getPeriod().changeEndDate(endDate);
             }
-
-            findChild.getPeriod().changeEndDate(endDate);
         }
     }
 }

@@ -22,16 +22,28 @@ public class GymRepositoryImpl implements GymRepositoryCustom {
     }
 
     @Override
-    public List<GymInfoDto> findGymNames(Set<Long> gymIds) {
+    public List<GymInfoDto> findGymNames(Long id) {
 
         return queryFactory.select(new QGymInfoDto(
                         gym.id,
                         gym.gymName
                 ))
                 .from(gym)
-                .where(gym.id.in(gymIds))
+                .where(gym.manager.id.eq(id))
                 .fetch();
 
+    }
+
+    @Override
+    public List<GymInfoDto> findGymNames(Set<Long> ids) {
+
+        return queryFactory.select(new QGymInfoDto(
+                        gym.id,
+                        gym.gymName
+                ))
+                .from(gym)
+                .where(gym.id.in(ids))
+                .fetch();
     }
 
     @Override

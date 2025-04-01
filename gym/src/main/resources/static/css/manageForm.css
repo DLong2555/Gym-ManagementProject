@@ -160,6 +160,7 @@
 }
 
 #manageForm .childTbody input{
+    width: 100%;
     font-size: 16px;
     text-align: center;
     border: none;

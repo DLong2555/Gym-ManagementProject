@@ -25,6 +25,7 @@ import renewal.gym.repository.MemberRepository;
 import renewal.gym.service.EventService;
 import renewal.gym.service.LoginService;
 import renewal.gym.service.PaymentService;
+import renewal.gym.service.SecureIdEncryptor;
 import renewal.gym.service.child.ChildService;
 
 import java.io.IOException;
@@ -49,6 +50,7 @@ public class PaymentController {
     private final TossPaymentsConfig tossPaymentsConfig;
     private final LoginService loginService;
     private final EventService eventService;
+    private final SecureIdEncryptor secureIdEncryptor;
 
     @GetMapping("/success")
     public String success(@RequestParam String orderId, @Login LoginUserSession userSession, HttpSession saveData, Model model) {
@@ -75,7 +77,7 @@ public class PaymentController {
 
             if (childRegisterForm != null) {
                 Long gymId = childService.register(userSession.getId(), childRegisterForm.getGymId(), createChild(childRegisterForm));
-                userSession.getGymIds().add(gymId);
+                userSession.getGymIds().add(secureIdEncryptor.encryptId(gymId));
 
                 model.addAttribute("selectedGym", new SelectedGymForm(childRegisterForm.getGymId(), childRegisterForm.getGymName()));
             }
@@ -239,7 +241,7 @@ public class PaymentController {
 
             //성공하면 등록 취소
             changeChildAfterCancel(userSession.getId(), payCancelDto);
-            Set<Long> myGymList = loginService.getMyGymList(userSession.getId());
+            Set<String> myGymList = loginService.getMyGymList(userSession.getId());
             userSession.getGymIds().clear();
             userSession.getGymIds().addAll(myGymList);
 

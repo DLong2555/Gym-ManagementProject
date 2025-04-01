@@ -116,5 +116,6 @@
     // 페이지 로드 시 및 스크롤할 때 애니메이션 체크
     $(window).on('scroll', animateOnScroll);
     animateOnScroll(); // 초기 실행
+
 });
  

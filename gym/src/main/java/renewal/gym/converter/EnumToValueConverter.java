@@ -8,7 +8,6 @@ public class EnumToValueConverter implements Converter<Enum<?>, String> {
 
     @Override
     public String convert(Enum source) {
-        log.info("Converting Enum");
         return source.toString();
     }
 

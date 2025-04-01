@@ -1,6 +1,7 @@
 package renewal.gym.controller;
 
 import com.querydsl.core.Tuple;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -37,11 +38,14 @@ public class ManageController {
 
 
     @GetMapping("/manage")
-    public String manage(@RequestParam(value = "gymId") Long gymId,
+    public String manage(@RequestParam(value = "gymId") String encryptedGymId,
                          @RequestParam(value = "ctg", required = false) String ctg,
+                         HttpServletRequest request,
                          @Login LoginUserSession userSession, Model model) {
 
-        List<GymInfoDto> gymNames = gymService.findGymNames(userSession.getGymIds());
+        Long gymId = (Long) request.getAttribute("gymId");
+
+        List<GymInfoDto> gymNames = gymService.findGymNames(userSession.getId());
         List<ParentsInfoForm> childInMyGyms = manageService.findChildInMyGyms(gymId, ctg);
 //        List<GymInfoDto> gymNames = gymService.findGymNames(new HashSet<>(List.of(1L,2L)));
 //        List<ParentsInfoForm> childInMyGyms = manageService.findChildInMyGyms(1L);
@@ -75,59 +79,37 @@ public class ManageController {
     }
 
     @GetMapping("/manage/{gymId}/delete")
-    public String delete(@PathVariable("gymId") Long gymId,
+    public String delete(@PathVariable("gymId") String encryptedGymId,
                          @RequestParam("childId") Long childId) {
 
         updateService.deleteGymFromChild(childId);
 
-        return "redirect:/gym/manager/manage?gymId=" + gymId + "&ctg=expired";
+        return "redirect:/gym/manager/manage?gymId=" + encryptedGymId + "&ctg=expired";
     }
 
     @GetMapping("/manage/event")
-    public String eventListForm(@RequestParam(value = "gymId", required = false) Long gymId,
+    public String eventListForm(@RequestParam(value = "gymId") String encryptedGymId,
                                 @RequestParam(value = "eventId", required = false) Long eventId,
+                                HttpServletRequest request,
                                 @Login LoginUserSession userSession, Model model) {
+
+        Long gymId = (Long) request.getAttribute("gymId");
 
         if (eventId != null) {
             List<EventParticipantForm> participants = manageService.getParticipants(eventId);
             model.addAttribute("participants", participants);
         }
 
-        List<GymInfoDto> gymNames = gymService.findGymNames(userSession.getGymIds());
-        List<ManageEventForm> events;
+        List<GymInfoDto> gymNames = gymService.findGymNames(userSession.getId());
 
-        if (gymId != null) {
-            events = eventService.getEvents(gymId);
-            model.addAttribute("gymId", gymId);
-        }else{
-            events = eventService.getEvents(gymNames.get(0).getId());
-            model.addAttribute("gymId", gymNames.get(0).getId());
-        }
+        List<ManageEventForm> events = eventService.getEvents(gymId);
+        model.addAttribute("gymId", encryptedGymId);
 
         model.addAttribute("eventList", events);
         model.addAttribute("gymNames", gymNames);
 
         return "event/eventListForm";
     }
-
-//    @GetMapping("/manage/")
-//    public String manage(@Login LoginUserSession session, Model model) {
-//
-////        Map<String, List<ParentsInfoForm>> childInMyGyms = manageService.findChildInMyGyms(session.getGymIds());
-//        List<ParentsInfoForm> childInMyGyms = manageService.findChildInMyGyms();
-//
-//        log.debug("childInMyGys: {}", childInMyGyms.toString());
-//
-//        model.addAttribute("childInMyGyms", childInMyGyms);
-//
-//        return "gym/manageForm";
-//    }
-
-//    @ResponseBody
-//    @PostMapping("/manage2")
-//    public List<ParentsInfoForm> manage1() {
-//
-//        return manageService.findChildInMyGyms2(1L);
-//    }
+    
 
 }

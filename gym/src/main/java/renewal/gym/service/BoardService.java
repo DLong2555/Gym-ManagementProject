@@ -13,6 +13,7 @@ import renewal.gym.domain.Event;
 import renewal.gym.dto.board.BoardContentForm;
 import renewal.gym.dto.board.BoardEditForm;
 import renewal.gym.dto.board.BoardInfoForm;
+import renewal.gym.error.DataNotFoundException;
 import renewal.gym.repository.BoardRepository;
 
 
@@ -49,14 +50,15 @@ public class BoardService {
 
     @Transactional
     public void boardEdit(Long boardId, BoardEditForm editForm) {
-        boardRepository.findBoardById((boardId)).ifPresent(board -> {
-            if (editForm.getCtg() == BoardCtg.ANNOUNCEMENT) {
-                board.updateBoard(editForm.getTitle(), editForm.getContent());
-            }else{
-                log.debug("board update ctg {} ", editForm.getCtg());
-                Event event = (Event) board;
-                event.updateEvent(editForm.getTitle(), editForm.getContent(), editForm.getPrice(), editForm.getDeadline());
-            }
-        });
+        Board board = boardRepository.findBoardById((boardId)).orElseThrow(() -> new DataNotFoundException("해당 데이터를 찾을 수 없습니다."));
+
+        if (editForm.getCtg() == BoardCtg.ANNOUNCEMENT) {
+            board.updateBoard(editForm.getTitle(), editForm.getContent());
+        } else {
+            log.debug("board update ctg {} ", editForm.getCtg());
+            Event event = (Event) board;
+            event.updateEvent(editForm.getTitle(), editForm.getContent(), editForm.getPrice(), editForm.getDeadline());
+        }
+
     }
 }

@@ -19,8 +19,8 @@
                     <div class="myGymListTitle">체육관</div>
 
                     <div class="myGymList" th:each="gym : ${gymNames}">
-                        <a class="myGym" th:text="${gym.gymName}" th:data-gym="${gym.id}"
-                        th:href="@{/gym/manager/manage/event(gymId=${gym.id})}"></a>
+                        <a class="myGym" th:text="${gym.gymName}" th:data-gym="${{gym.id}}"
+                        th:href="@{/gym/manager/manage/event(gymId=${{gym.id}})}"></a>
                     </div>
                 </div>
 

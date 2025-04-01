@@ -1,5 +1,6 @@
 package renewal.gym.service.naver;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -8,7 +9,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.reactive.function.client.WebClient;
+import org.springframework.web.reactive.function.client.WebClientResponseException;
 import renewal.gym.dto.map.NaverSearchResultForm;
+import renewal.gym.error.CustomServiceException;
+import renewal.gym.error.ExternalApiException;
 import renewal.gym.service.GymService;
 
 import java.util.ArrayList;
@@ -36,49 +40,58 @@ public class NaverSearchService {
 
         log.debug("query parameter: {}", query);
 
-        WebClient webClient = WebClient.builder()
-                .baseUrl(baseUrl)
-                .build();
+        try {
+            WebClient webClient = WebClient.builder()
+                    .baseUrl(baseUrl)
+                    .build();
 
-        JsonNode json = webClient.get()
-                .uri(uriBuilder ->
-                        uriBuilder.queryParam("query", query)
-                                .queryParam("display", 5)
-                                .build())
+            JsonNode json = webClient.get()
+                    .uri(uriBuilder ->
+                            uriBuilder.queryParam("query", query)
+                                    .queryParam("display", 5)
+                                    .build())
 
-                .header("X-Naver-Client-Id", clientId)
-                .header("X-Naver-Client-Secret", clientPwd)
-                .retrieve()
-                .bodyToMono(JsonNode.class)
-                .block();
+                    .header("X-Naver-Client-Id", clientId)
+                    .header("X-Naver-Client-Secret", clientPwd)
+                    .retrieve()
+                    .bodyToMono(JsonNode.class)
+                    .block();
 
-        List<NaverSearchResultForm> result = new ArrayList<>();
-        if(json != null) {
-            for (JsonNode jsonNode : json.findValue("items")) {
-                log.debug("json node: {}", jsonNode);
-                String title = jsonNode.get("title").asText().replaceAll("<b>", " ").replaceAll("</b>", "").trim();
-                int idx = jsonNode.get("address").asText().indexOf(" ") + 1;
-                String address = jsonNode.get("address").asText().substring(idx);
+            List<NaverSearchResultForm> result = new ArrayList<>();
+            if (json != null) {
+                for (JsonNode jsonNode : json.findValue("items")) {
+                    log.debug("json node: {}", jsonNode);
+                    String title = jsonNode.get("title").asText().replaceAll("<b>", " ").replaceAll("</b>", "").trim();
+                    int idx = jsonNode.get("address").asText().indexOf(" ") + 1;
+                    String address = jsonNode.get("address").asText().substring(idx);
 
-                idx = jsonNode.get("roadAddress").asText().indexOf(" ") + 1;
-                String roadAddress = jsonNode.get("roadAddress").asText().substring(idx);
-                double mapx = jsonNode.get("mapx").asDouble() / 10000000;
-                double mapy = jsonNode.get("mapy").asDouble() / 10000000;
+                    idx = jsonNode.get("roadAddress").asText().indexOf(" ") + 1;
+                    String roadAddress = jsonNode.get("roadAddress").asText().substring(idx);
+                    double mapx = jsonNode.get("mapx").asDouble() / 10000000;
+                    double mapy = jsonNode.get("mapy").asDouble() / 10000000;
 
-                log.debug("title: {}", title);
-                log.debug("address: {}", address);
-                Long findGymId = gymService.findSelectedGym(title, address, roadAddress);
-                if(findGymId != null) {
-                    result.add(new NaverSearchResultForm(findGymId, title, address, mapx, mapy));
+                    log.debug("title: {}", title);
+                    log.debug("address: {}", address);
+                    Long findGymId = gymService.findSelectedGym(title, address, roadAddress);
+                    if (findGymId != null) {
+                        result.add(new NaverSearchResultForm(findGymId, title, address, mapx, mapy));
+                    }
+                }
+
+                for (NaverSearchResultForm item : result) {
+                    log.debug("item: {}", item);
                 }
             }
 
-            for (NaverSearchResultForm item : result) {
-                log.debug("item: {}", item);
-            }
+            return result;
+        }catch (WebClientResponseException e) {
+            log.error("네이버 API 호출 오류: {}", e.getMessage());
+            throw new ExternalApiException("네이버 API 호출 중 오류가 발생했습니다.");
+        } catch (Exception e) {
+            log.error("예기치 못한 오류 발생: {}", e.getMessage());
+            throw new CustomServiceException("검색 서비스에서 예기치 못한 오류가 발생했습니다.");
         }
-        
-        return result;
+
     }
 
 
