@@ -10,6 +10,7 @@ import renewal.gym.dto.event.EventInfoForm;
 import renewal.gym.dto.event.EventPayForm;
 import renewal.gym.dto.event.ManageEventForm;
 import renewal.gym.dto.event.MyChildNames;
+import renewal.gym.error.DataNotFoundException;
 import renewal.gym.repository.ChildRepository;
 import renewal.gym.repository.EventChildRepository;
 import renewal.gym.repository.EventRepository;
@@ -44,11 +45,7 @@ public class EventService {
 
     @Transactional
     public void saveApplication(EventPayForm eventPayForm) {
-        Event event = eventRepository.findEventById(eventPayForm.getBoardId()).orElse(null);
-
-        if (event == null) {
-            return;
-        }
+        Event event = eventRepository.findEventById(eventPayForm.getBoardId()).orElseThrow(() -> new DataNotFoundException("해당 데이터를 찾을 수 없습니다."));
 
         List<Child> children = childRepository.findChildByIds(eventPayForm.getChildIds());
 

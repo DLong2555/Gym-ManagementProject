@@ -35,7 +35,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoginInterceptor())
                 .order(1)
-                .addPathPatterns("/**")
+                .addPathPatterns("/gym/**")
                 .excludePathPatterns("/", "/gym/joinSelect", "/gym/join/*", "/gym/login",
                         "/gym/logout", "/gym/duplicationIdCheck",
                         "/css/**", "*/ico", "/error", "/js/**", "/image/**");

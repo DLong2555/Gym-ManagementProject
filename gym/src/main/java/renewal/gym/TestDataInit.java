@@ -33,11 +33,11 @@ public class TestDataInit {
     @PostConstruct
     public void init() {
         try {
-            Member member = new Member("maxol2558", "zkzktl25@#", "홍길동",
+            Member member = new Member("testuser", "qlalfqjsgh12@#", "홍길동",
                     "01012345678",
                     new Address("12345", "천안시 청당동 21-12길", "빌리지 111호"));
 
-            JoinManagerForm joinManagerForm = new JoinManagerForm("gkxkzp2558", "zkzktl25@#", "박라롱", "01025158821",
+            JoinManagerForm joinManagerForm = new JoinManagerForm("testmanager", "qlalfqjsgh12@#", "박라롱", "01025158821",
                     "3122", "충청남도 천안시 동남구 병천면 병천리 114-1", "1층 아우내 참 인성교육관",
                     "아우내 참 인성교육관", 130000, "01028479543");
 

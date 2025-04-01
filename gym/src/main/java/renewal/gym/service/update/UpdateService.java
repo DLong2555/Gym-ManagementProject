@@ -9,6 +9,7 @@ import renewal.gym.dto.mypage.MyGymForm;
 import renewal.gym.dto.mypage.MyPageForm;
 import renewal.gym.dto.manage.EditChildForm;
 import renewal.gym.dto.mypage.MyPageManagerForm;
+import renewal.gym.error.DataNotFoundException;
 import renewal.gym.repository.ChildRepository;
 import renewal.gym.repository.GymRepository;
 import renewal.gym.repository.ManagerRepository;
@@ -25,9 +26,7 @@ public class UpdateService {
     private final GymRepository gymRepository;
 
     public boolean updateChild(EditChildForm editChildForm) {
-        Child findChild = childRepository.findById(editChildForm.getId()).orElse(null);
-
-        if (findChild == null) return true;
+        Child findChild = childRepository.findById(editChildForm.getId()).orElseThrow(() -> new DataNotFoundException("해당 데이터를 찾을 수 없습니다."));
 
         findChild.updateChild(editChildForm.getBelt(), new Period(editChildForm.getStartDate(), editChildForm.getEndDate()));
 
@@ -36,9 +35,7 @@ public class UpdateService {
 
     public boolean updateUser(String memberId, MyPageForm myPageForm) {
 
-        Member findMember = memberRepository.findByMemId(memberId).orElse(null);
-
-        if (findMember == null) return false;
+        Member findMember = memberRepository.findByMemId(memberId).orElseThrow(() -> new DataNotFoundException("해당 데이터를 찾을 수 없습니다."));
 
         findMember.updateMember(myPageForm.getName(), myPageForm.getPhoneNumber(), new Address(
                 myPageForm.getZipCode(), myPageForm.getRoadName(), myPageForm.getDetailAddress()));
@@ -48,9 +45,7 @@ public class UpdateService {
 
     public boolean updateManager(String memberId, MyPageManagerForm myPageForm) {
 
-        Manager findManager = managerRepository.findByManageId(memberId).orElse(null);
-
-        if (findManager == null) return false;
+        Manager findManager = managerRepository.findByManageId(memberId).orElseThrow(() -> new DataNotFoundException("해당 데이터를 찾을 수 없습니다."));
 
         findManager.updateManager(myPageForm.getName(), myPageForm.getPhoneNumber());
 
@@ -58,9 +53,7 @@ public class UpdateService {
     }
 
     public boolean updateMyChild(MyChildEditForm form) {
-        Child findChild = childRepository.findById(form.getId()).orElse(null);
-
-        if (findChild == null) return true;
+        Child findChild = childRepository.findById(form.getId()).orElseThrow(() -> new DataNotFoundException("해당 데이터를 찾을 수 없습니다."));
 
         findChild.updateChildInfo(form.getName(), form.getAge(), form.getGender(), form.getPhoneNumber());
 
@@ -68,9 +61,7 @@ public class UpdateService {
     }
 
     public boolean updateMyGym(MyGymForm form) {
-        Gym findGym = gymRepository.findById(form.getGymId()).orElse(null);
-
-        if (findGym == null) return true;
+        Gym findGym = gymRepository.findById(form.getGymId()).orElseThrow(() -> new DataNotFoundException("해당 데이터를 찾을 수 없습니다."));
 
         findGym.updateGym(form.getGymName(), form.getPrice(), form.getGymPhoneNum(),
                 new Address(form.getZipCode(), form.getRoadName(), form.getDetailAddress()));
@@ -79,7 +70,8 @@ public class UpdateService {
     }
 
     public void deleteGymFromChild(Long childId) {
-        Child child = childRepository.findById(childId).orElse(null);
+        Child child = childRepository.findById(childId).orElseThrow(() -> new DataNotFoundException("해당 데이터를 찾을 수 없습니다."));
+
         child.removeGym();
     }
 }

@@ -18,9 +18,9 @@ public interface GymRepository extends JpaRepository<Gym, Long>, GymRepositoryCu
     Optional<Long> findByGymNameAndAddress(String gymName, String address, String roadAddress);
 
     @Query("select g.gymName from Gym g where g.id = :id")
-    String findGymNameById(Long id);
+    Optional<String> findGymNameById(Long id);
 
     @Query("select g.gymPrice from Gym g where g.id = :id")
-    Integer findGymPriceById(Long id);
+    Optional<Integer> findGymPriceById(Long id);
 }
 
