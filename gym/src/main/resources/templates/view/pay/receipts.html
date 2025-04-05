@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/layoutForm :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title>Payment Success</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/receipts.css}">
+    <script th:src="@{/js/receipts.js}"></script>
+</head>
+<section>
+    <div id="receiptForm">
+        <div id="receiptFormContainer">
+            <table class="receiptTable">
+                <thead>
+                <tr>
+                    <th>구분</th>
+                    <th>주문일시</th>
+                    <th>결제일시</th>
+                    <th>주문번호</th>
+                    <th>결제상태</th>
+                    <th>결제내용</th>
+                    <th>결제액</th>
+                    <th>결제수단</th>
+                    <th>취소</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr class="receiptContents" th:each="receipt : ${receipts}">
+                    <td th:text="${receipt.orderName}"></td>
+                    <td th:text="${{receipt.requestedAt}}"></td>
+                    <td th:text="${{receipt.approvedAt}}"></td>
+                    <td th:text="${receipt.paymentKey}"></td>
+                    <td class="payStatus" th:text="${{receipt.payStatus}}"></td>
+                    <td th:text="${receipt.description}"></td>
+                    <td th:text="${{receipt.amount}}"></td>
+                    <td th:text="${{receipt.payType}}"></td>
+                    <td>
+                        <input type="hidden" class="id" th:value="${receipt.id}">
+                        <input type="hidden" class="paymentKey" th:value="${receipt.paymentKey}">
+                        <input type="hidden" class="orderName" th:value="${receipt.orderName}">
+                        <input type="hidden" class="childName" th:value="${receipt.description}">
+                        <button type="submit" class="cancelButton"
+                                th:classappend="${receipt.payStatus.name() == 'CANCELED' ? 'notAllowed' : ''}"
+                                th:attr="disabled=${receipt.payStatus.name() == 'CANCELED' ? 'disabled' : null}"
+                                th:text="#{button.cancel}"></button>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+</html>

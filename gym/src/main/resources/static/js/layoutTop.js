@@ -31,5 +31,32 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    const profileBox = document.getElementById('profile');
+    const profileSubBox = document.getElementById('profileSubBox');
+    profileBox.addEventListener('click', () => {
+        profileSubBox.style.display = profileSubBox.style.display === 'flex' ? 'none' : 'flex';
+    })
+
+    document.addEventListener("click", (e) => {
+        if(!profileSubBox.contains(e.target) && !profileBox.contains(e.target)) {
+            profileSubBox.style.display = 'none';
+        }
+    })
+
+    const profileBtn = document.querySelectorAll('.profileBtn');
+
+    profileBtn.forEach(box => {
+        box.addEventListener('mouseover', (e) => {
+            const btn = e.target.closest('.profileBtn').querySelector('button, a');
+            box.style.backgroundColor = 'whitesmoke';
+            btn.style.color = 'gray';
+        })
+
+        box.addEventListener('mouseout', (e) => {
+            const btn = e.target.closest('.profileBtn').querySelector('button, a');
+            box.style.backgroundColor = 'white';
+            btn.style.color = 'rgb(66, 73, 73)';
+        })
+    })
 
 })

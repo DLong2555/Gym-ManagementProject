@@ -19,8 +19,11 @@ public class Child {
 
     private String childName;
     private String childPhoneNum;
-    private int childAge;
-    private String childGender;
+    private Integer childAge;
+    private String belt;
+
+    @Enumerated(EnumType.STRING)
+    private Gender childGender;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "member_id")
@@ -33,18 +36,12 @@ public class Child {
     @Embedded
     private Period period;
 
-    //test용
-    public Child(String childName, Member member, Gym gym) {
-        this.childName = childName;
-        this.member = member;
-        this.gym = gym;
-    }
-
-    public Child(String childName, String childPhoneNum, int childAge, String childGender) {
+    public Child(String childName, String childPhoneNum, int childAge, String gender) {
         this.childName = childName;
         this.childPhoneNum = childPhoneNum;
         this.childAge = childAge;
-        this.childGender = childGender;
+        this.childGender = Gender.valueOf(gender);
+        this.belt = "흰띠";
     }
 
     public void addMember(Member member) {
@@ -54,11 +51,36 @@ public class Child {
 
     public void addGym(Gym gym) {
         this.gym = gym;
-        gym.getChildren().add(this);
     }
 
     public void registration(Period period) {
         this.period = period;
+    }
+
+    public void updateChild(String belt, Period period){
+        this.belt = belt;
+        this.period = period;
+    }
+
+    public void updateChildInfo(String name, Integer age, String gender, String phoneNumber) {
+        this.childName = name;
+        this.childAge = age;
+        this.childGender = Gender.valueOf(gender);
+        this.childPhoneNum = phoneNumber;
+    }
+
+    public void registerAnotherGym(Child child, Gym gym) {
+        this.gym = gym;
+        this.childName = child.getChildName();
+        this.childAge = child.getChildAge();
+        this.childGender = child.getChildGender();
+        this.childPhoneNum = child.getChildPhoneNum();
+        this.belt = child.getBelt();
+    }
+
+    public void removeGym(){
+        this.gym = null;
+        this.period = null;
     }
 
 }

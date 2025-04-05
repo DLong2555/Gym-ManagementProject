@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/layoutForm :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>MyPage</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/myGymForm.css}">
+    <script th:src="@{/js/myGymForm.js}"></script>
+    <script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+</head>
+<body>
+<section>
+    <div id="myPageForm">
+        <div id="myPageContainer" class="noto-sans-kr">
+            <div id="myPageTitleBox">
+                <div id="myPageTitle">마이페이지</div>
+            </div>
+            <div id="myPageContentsBox">
+                <div id="myPageLeftBox">
+                    <div id="myPageInfoBox">
+                        <input type="file" id="fileInput" name="profileImage">
+                        <div id="myPageImageBox">
+                            <img id="memImg" th:src="@{/image/logo.jpg}">
+                        </div>
+                    </div>
+                    <div id="myPageMenuBox">
+                        <div class="myPageMenuEach" id="memProfile">
+                            내 프로필
+                        </div>
+                        <div class="myPageMenuEach" id="memberManage"
+                             style="font-weight: 600; font-size: 21px; text-decoration: underline; text-underline-offset: 15px; text-decoration-thickness: 2px;">
+                            내 체육관
+                        </div>
+                        <div class="myPageMenuEach" id="memDeleteAccount">회원탈퇴</div>
+                    </div>
+                </div>
+                <div id="myPageRightBox">
+                    <div id="myPageMyInfo">
+                        <!-- 수정 가능한 input 필드들 -->
+                        <div class="gymInfoBox" th:each="gym : ${myGyms}">
+                            <div class="myPageMyContents">
+                                <img th:src="@{/image/gym.png}" class="myPageImage">
+                                <input type="hidden" class="id" name="gymId" th:value="${gym.gymId}" readonly required>
+                                <input class="name" name="gymName" th:value="${gym.gymName}" readonly required>
+                                <div class="childFunctionBtns">
+                                    <img th:src="@{/image/myPagePencil.png}" class="myPageImage editIcon">
+                                    <img th:src="@{/image/myPageSave.png}" class="myPageImage saveIcon">
+                                    <img th:src="@{/image/myPageDelete.png}" class="myPageImage deleteIcon">
+                                    <img th:src="@{/image/xicon.png}" class="myPageImage cancelIcon">
+                                    <img th:src="@{/image/myPageDown.jpg}" class="myPageImage myPageDownIcon">
+                                </div>
+                            </div>
+
+                            <div class="gymInfoEachBox">
+                                <div class="myPageMyContents">
+                                    <img th:src="@{/image/price.png}" class="myPageImage">
+                                    <input class="price" name="price" th:value="${gym.price}" readonly required>
+                                    <input type="hidden" name="type" readonly required>
+                                </div>
+
+                                <div class="myPageMyContents">
+                                    <img th:src="@{/image/mapNumber.png}" class="myPageImage">
+                                    <input class="phone" name="gymPhoneNum" th:value="${{gym.gymPhoneNum}}"
+                                           readonly required>
+                                </div>
+
+                                <div class="myPageMyContents">
+                                    <img th:src="@{/image/mapGymAddress.png}" class="myPageImage">
+                                    <input type="hidden" class="zipcode" name="zipcode" th:value="${gym.zipCode}" readonly required>
+                                    <input class="roadName" th:value="${gym.roadName}" readonly required>
+                                    <div class="btnBox">
+                                        <img th:src="@{/image/addressSearch.png}" class="myPageImage addressIcon">
+                                    </div>
+                                </div>
+
+                                <div class="myPageMyContents">
+                                    <img th:src="@{/image/myPageAddress.png}" class="myPageImage">
+                                    <input class="detailAddress" name="roadName" th:value="${gym.detailAddress}" readonly required>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>

@@ -1,6 +1,5 @@
 package renewal.gym.validator;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -12,25 +11,24 @@ import java.util.regex.Pattern;
 
 import static org.springframework.util.StringUtils.hasText;
 
-@Slf4j
 @Component
 public class JoinValidator implements Validator {
 
     static private final Map<String, String> regexpMap = Map.of(
             "memId", "^[a-z0-9]{5,20}$",
             "password", "^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$",
-            "memName", "^[가-힣]+$",
-            "memPhoneNum", "^01(?:0|1|[6-9])(?:\\d{3}|\\d{4})\\d{4}$"
+            "name", "^[가-힣]+$",
+            "phone", "^01(?:0|1|[6-9])(?:\\d{3}|\\d{4})\\d{4}$"
     );
 
     static private final List<String> requiredFields = List.of(
-            "memId", "password", "memName",
-            "memPhoneNum", "zipcode"
+            "memId", "password", "name",
+            "phone", "zipcode"
     );
 
     @Override
     public boolean supports(Class<?> clazz) {
-        log.info("supports: {}", clazz);
+        // 검사하는 클래스 확인
         return JoinForm.class.isAssignableFrom(clazz);
     }
 
@@ -54,8 +52,8 @@ public class JoinValidator implements Validator {
         return switch (requiredField) {
             case "memId" -> form.getMemId();
             case "password" -> form.getPassword();
-            case "memName" -> form.getMemName();
-            case "memPhoneNum" -> form.getMemPhoneNum();
+            case "name" -> form.getName();
+            case "phone" -> form.getPhone();
             case "zipcode" -> form.getZipcode();
             default -> "";
         };

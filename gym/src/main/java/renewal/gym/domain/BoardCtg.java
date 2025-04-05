@@ -2,11 +2,16 @@ package renewal.gym.domain;
 
 public enum BoardCtg {
 
-    Announcement("공지"), FreeTalk("자유"), Questions("문의"), Trade("거래");
+    ANNOUNCEMENT("공지"), EVENT("활동");
 
     private final String ctgName;
 
-    private BoardCtg(String ctgName) {
+    private BoardCtg (String ctgName) {
         this.ctgName = ctgName;
+    }
+
+    @Override
+    public String toString() {
+        return this.ctgName;
     }
 }

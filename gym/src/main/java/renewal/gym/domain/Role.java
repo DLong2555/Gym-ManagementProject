@@ -1,11 +1,19 @@
 package renewal.gym.domain;
 
+import lombok.Getter;
+
+@Getter
 public enum Role {
-    ADMIN("Role_관리자"), MANAGER("Role_관장"), USER("Role_유저");
+    ADMIN("admin"), MANAGER("manager"), USER("user");
 
-    private final String roleName;
+    private final String value;
 
-    private Role(String roleName) {
-        this.roleName = roleName;
+    private Role(String value) {
+        this.value = value;
+    }
+
+    @Override
+    public String toString() {
+        return this.value;
     }
 }

@@ -27,12 +27,9 @@ public class Gym {
     private String gymPhoneNum;
     private Address address;
 
-    @OneToOne(fetch = LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "manager_id")
     private Manager manager;
-
-    @OneToMany(mappedBy = "gym")
-    private List<Child> children = new ArrayList<>();
 
     public Gym(String gymName, Integer gymPrice, String gymPhoneNum, Address address, Manager manager) {
         this.gymName = gymName;
@@ -42,11 +39,10 @@ public class Gym {
         this.manager = manager;
     }
 
-    //테스트용
-    public Gym(String gymName) {
+    public void updateGym(String gymName, Integer gymPrice, String gymPhoneNum, Address address) {
         this.gymName = gymName;
+        this.gymPrice = gymPrice;
+        this.gymPhoneNum = gymPhoneNum;
+        this.address = address;
     }
-
-
-
 }

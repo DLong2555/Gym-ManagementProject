@@ -12,7 +12,11 @@ import renewal.gym.repository.GymRepository;
 import renewal.gym.repository.ManagerRepository;
 import renewal.gym.repository.MemberRepository;
 
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -24,6 +28,7 @@ public class LoginService {
     private final MemberRepository memberRepository;
     private final GymRepository gymRepository;
     private final PasswordEncoder passwordEncoder;
+    private final SecureIdEncryptor secureIdEncryptor;
 
     public LoginUserSession login(String memId, String password) {
 
@@ -46,18 +51,20 @@ public class LoginService {
     }
 
     public LoginUserSession createLoginUserSession(Member member) {
+        return new LoginUserSession(member.getId(), member.getMemId(), member.getRole(), getMyGymList(member.getId()));
+    }
 
-        List<Long> childList = member.getChildren().stream().map(Child::getId).toList();
-        List<Long> myMemberGymLists = memberRepository.findMyMemberGymLists(childList);
-        log.info("myMemberGymLists: {}", myMemberGymLists);
-
-        return new LoginUserSession(member.getId(), member.getMemId(), member.getRole(), myMemberGymLists);
-
+    public Set<String> getMyGymList(Long id) {
+        return memberRepository.getMyGymList(id)
+                .stream()
+                .map(secureIdEncryptor::encryptId)
+                .collect(Collectors.toCollection(LinkedHashSet::new));
     }
 
     public LoginUserSession createLoginManagerSession(Manager manager) {
-        List<Long> gymIds = gymRepository.findByManagerId(manager.getId())
-                .stream().map(Gym::getId).toList();
+        Set<String> gymIds = gymRepository.findByManagerId(manager.getId())
+                .stream().map(Gym::getId)
+                .map(secureIdEncryptor::encryptId).collect(Collectors.toCollection(LinkedHashSet::new));
 
         return new LoginUserSession(manager.getId(), manager.getManageId(), manager.getRole(), gymIds);
     }

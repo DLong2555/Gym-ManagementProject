@@ -1,0 +1,209 @@
+#manageForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#manageForm #manageContainer{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+#manageForm #contentsBox{
+    display: flex;
+    flex-direction: row;
+}
+
+#manageForm #manageTitle{
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+    padding-bottom: 40px;
+    margin-top : 20px;
+}
+
+#manageForm #leftBox{
+    display: flex;
+    flex-direction: column;
+    margin-right: 20px;
+    width: 300px;
+}
+
+#manageForm #myGymListTitle{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    height: 41px;
+    border: 1px solid black;
+}
+
+#manageForm .gymName{
+    display: flex;
+    cursor: pointer;
+    width: 300px;
+    height: 50px;
+    margin-right: 10px;
+    margin-bottom: 5px;
+    align-items: center;
+    color: black;
+}
+
+#manageForm .checkbox{
+    border: none;
+    height: 15px;
+    margin: 0;
+}
+
+#manageForm .editButton, .deleteButton{
+    width: 80px;
+    height: 30px;
+    background-color: lightgray;
+    color: black;
+    border: none;
+    cursor: pointer;
+}
+
+#manageForm #bulkEditControls button{
+    width: 120px;
+    height: 40px;
+    background-color: lightgray;
+    color: black;
+    border-radius: 5px;
+    margin: 25px 10px 0 0;
+    cursor: pointer;
+}
+
+#manageForm #bulkEditControls button:hover{
+    background-color: rgb(220, 220, 220);
+    color: gray;
+}
+
+#manageForm .thName{
+    display: table;
+    width: 100%;
+}
+
+#manageForm .main-tbody{
+    display: block;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    width: 100%;
+    max-height: 500px;
+}
+
+#manageForm .main-tbody tr{
+    display: table;
+    width: 100%;
+}
+
+.manageTable {
+    width: 100%;
+    table-layout: fixed; /* 고정된 테이블 레이아웃으로 셀 너비 유지 */
+    border-collapse: collapse;
+}
+
+/* th와 td 기본 스타일 */
+.manage-th, .manage-td {
+    padding: 8px;
+    text-align: center;
+}
+
+/* 각 열의 너비 명시적으로 지정 */
+.manage-th:nth-child(1) { width: 6%; } /* 체크박스 */
+.manage-td:nth-child(1) { width: 5%; } /* 체크박스 */
+
+.manage-th:nth-child(2) { width: 19%; } /* 이름 (더 넓게) */
+.manage-td:nth-child(2) { width: 20%; } /* 이름 (더 넓게) */
+
+.manage-th:nth-child(3) { width: 10%; } /* 나이 */
+.manage-td:nth-child(3) { width: 10%; } /* 나이 */
+
+.manage-th:nth-child(4) { width: 10%; } /* 성별 */
+.manage-td:nth-child(4) { width: 10%; } /* 성별 */
+
+.manage-th:nth-child(5) { width: 14%; } /* 띠 */
+.manage-td:nth-child(5) { width: 15%; } /* 띠 */
+
+.manage-th:nth-child(6) { width: 15%; } /* 시작일 (더 넓게) */
+.manage-td:nth-child(6) { width: 15%; } /* 시작일 (더 넓게) */
+
+.manage-th:nth-child(7) { width: 11%; } /* 종료일 (더 넓게) */
+.manage-td:nth-child(7) { width: 15%; } /* 종료일 (더 넓게) */
+
+.manage-th:nth-child(8) { width: 14%; } /* 수정 버튼 */
+.manage-td:nth-child(8) { width: 10%; } /* 수정 버튼 */
+
+/* thead 스타일 (선택적) */
+.manageTable thead th {
+    background-color: #f4f4f4;
+    position: sticky;
+    top: 0;
+    z-index: 1;
+}
+
+/* childTbody에 스크롤 적용 (선택적) */
+.childTbody {
+    display: block;
+    width: 100%;
+}
+
+.childTbody tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed; /* 고정된 테이블 레이아웃으로 셀 너비 유지 */
+}
+
+#manageForm .childTbody input{
+    width: 100%;
+    font-size: 16px;
+    text-align: center;
+    border: none;
+}
+
+.parentDisplayBtn{
+    text-align: center;
+    border-top: 1px solid lightgray;
+}
+
+.parentDisplayBtn button{
+    height: 30px;
+    background-color: lightgray;
+    border: none;
+    margin-top: 5px;
+}
+
+.parentsBoxTh {
+    background-color: #f4f4f4;
+    text-align: center;
+    margin-top: 5px;
+}
+
+.parentsBoxTd{
+    text-align: center;
+    margin-top: 5px;
+    border-bottom: 1px solid lightgray;
+}
+
+.parentsBox{
+    display: none !important;
+}
+
+.childTbody{
+    border: 2px solid lightgray;
+}
+
+#bulkEditControls button:hover{
+    background-color: rgb(220, 220, 220);
+    color: gray;
+}
+
+
+
+
+

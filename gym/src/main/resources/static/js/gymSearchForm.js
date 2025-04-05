@@ -72,36 +72,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const gymType = document.getElementById("gymType");
     const gymListBox = document.getElementById("gymNameListBox");
     const markerMap = new Map();
+    const registerFormBtn = document.querySelector(".registerChildBtn");
 
     btn.addEventListener("click", function () {
         let searchBox = document.querySelector(".searchBox");
-        let region = document.getElementById("region");
-        let reqValue = "";
-
+        registerFormBtn.style.display = "none";
 
         if(region.value === ""){
             alert("지역 선택은 필수입니다.")
             return false;
         }
 
-        if(city.value === ""){
-            alert("시/군/구 선택은 필수입니다.")
-            return false;
-        }else{
-            if(state.value === ""){
-                if(searchBox.value === ""){
-                    reqValue = city.value + " " + gymType.value;
-                }else{
-                    reqValue = city.value + " " + searchBox.value;
-                }
-            }else{
-                if(searchBox.value === ""){
-                    reqValue = city.value + " " + state.value + " " + gymType.value;
-                }else{
-                    reqValue = city.value + " " + state.value + " " + searchBox.value;
-                }
-            }
-        }
+        let reqValue = createSearchQuery(region.value, city.value, state.value, gymType.value, searchBox.value);
 
         let reqJson = {}
         reqJson.searchQuery = reqValue;
@@ -137,11 +119,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         // 모든 검색 결과에 대해 마커 추가
                         result.forEach(value => {
+                            const id = value.gymId;
                             const title = decoding(value.title);
                             const address = value.address;
                             const lat = value.mapy; // 위도
                             const lng = value.mapx; // 경도
-                            console.log(title);
 
                             const div = document.createElement("div");
                             const addressDiv = document.createElement("div");
@@ -150,12 +132,13 @@ document.addEventListener('DOMContentLoaded', () => {
                                 <div class="gymNames">
                                     <div class="gymDiv">${title}</div>
                                     <div class="gymAddressDiv" style="display: none">${address}</div>
+                                    <input type="hidden" class="gymId" value="${id}"></input>
                                 </div>                              
                             `;
 
                             names.innerHTML += (gymListDiv);
 
-                            addMarker(lat, lng, title, address);
+                            addMarker(lat, lng, id, title, address);
                         });
 
                         //클릭 시 마커 크지 조절
@@ -185,7 +168,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
 
                         // 마커 추가 함수 및 마커 클릭시 하이라이트 및 취소
-                        function addMarker(lat, lng, title, address) {
+                        function addMarker(lat, lng, id, title, address) {
                             const marker = new naver.maps.Marker({
                                 position: new naver.maps.LatLng(lat, lng, title),
                                 map: map,
@@ -212,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                                 map.setCenter(marker.getPosition());
 
-                                highlight(title, address);
+                                highlight(id, title, address);
 
                             });
                         }
@@ -222,6 +205,7 @@ document.addEventListener('DOMContentLoaded', () => {
                             if (event.target.classList.contains("gymDiv")) {
                                 const gymName = event.target.textContent;
                                 const gymAddress = event.target.closest(".gymNames").querySelector(".gymAddressDiv").textContent;
+                                const gymId = event.target.closest(".gymNames").querySelector(".gymId").value;
 
                                 const marker = markerMap.get(gymName);
 
@@ -239,7 +223,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                                     map.setCenter(marker.getPosition());
 
-                                    highlight(gymName, gymAddress);
+                                    highlight(gymId, gymName, gymAddress);
 
                                 }
                             }
@@ -253,17 +237,21 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
 
                         //선택대상 하이라이트 함수
-                        function highlight(title, gymAddress) {
+                        function highlight(id, title, gymAddress) {
                             let gymDivs = document.querySelectorAll(".gymDiv");
                             let gymAddressDivs = document.querySelectorAll(".gymAddressDiv");
+
+                            setSelectedBox(id, title);
 
                             gymDivs.forEach(div => {
                                 if (div.textContent === title) {
                                     div.style.backgroundColor = "lightgray";
                                     div.style.fontWeight = "bold";
+                                    div.style.borderColor = "lightgray";
                                 } else {
                                     div.style.backgroundColor = "white";
                                     div.style.fontWeight = "normal";
+                                    div.style.borderColor = "white";
                                 }
                             });
 
@@ -287,6 +275,16 @@ document.addEventListener('DOMContentLoaded', () => {
                                 div.style.backgroundColor = "white";
                                 div.style.fontWeight = "normal";
                             });
+                        }
+
+                        function setSelectedBox(id, title) {
+                            let selectedId = document.getElementById("gymId");
+                            let selectedGymName = document.getElementById("gymName");
+
+                            registerFormBtn.style.display = "block";
+
+                            selectedId.value = id;
+                            selectedGymName.value = title;
                         }
 
                     }
@@ -319,4 +317,23 @@ document.addEventListener('DOMContentLoaded', () => {
             event.target.style.color = "rgb(66, 73, 73)";
         }
     });
+
+    function createSearchQuery(region, city, state, gymType, query){
+        let q = "";
+
+        if(city === ""){
+            if(query === "") q = region + " " + gymType;
+            else q = region + " " + gymType + " " + query;
+        }else{
+            if(state === ""){
+                if(query !== "") q = city + " " + gymType + " " + query;
+                else q = city + " " + gymType.value;
+            }else{
+                if(query === "")  q = city + " " + state + " " + gymType;
+                else q = city + " " + state + " " + gymType + " " + query;
+            }
+        }
+
+        return q;
+    }
 })

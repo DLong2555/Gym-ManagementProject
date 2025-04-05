@@ -44,12 +44,6 @@
 	color: #1b2631;
 }
 
-/* 상단 메뉴 박스 */
-#headerTop #topMenuBox {
-	display: flex;
-	gap: 10px;
-}
-
 /* 상단 메뉴 개별 박스 */
 #headerTop .topMenuEachBox a{
 	display: flex;
@@ -102,7 +96,7 @@
 }
 
 /* 상단 오른족 박스 */
-#headerTop #topRightBox div{
+#headerTop #topRightBox #topRightBtnBox{
 	display: flex;
 	align-items: center;
 	gap: 20px;
@@ -134,40 +128,44 @@
 	font-weight: 500;
 }
 
-/* 상단 오른족 박스 전체 */
-#headerTop #topRightImageBox {
+#headerTop #profileBox{
 	display: flex;
-	align-items: center;
-	gap : 25px;
-	font-size : 15px;
-}
-
-/* 상단 마이페이지 */
-#headerTop #topMyPage {
-	font-size: 14px;
-	font-weight: 500;
-	color: #1b2631;
-	padding: 20px;
-}
-
-/* 상단 프로필 사진 */
-#headerTop #myImage {
-	border-radius: 100%;
-	object-fit: cover;
-	background-color : lightgray;
-	width: 45px;
-	height: 45px;
-	margin-top : 5px;
-	margin-right: 30px;
-	border: 1px solid whitesmoke;
-	transition: filter 0.3s ease-out;
+	position: relative;
 	cursor: pointer;
 }
 
-/* 상단 프로필 사진 박스*/
-#headerTop #imageSubBox {
+#profileBox #profile{
+	width: 150px;
+	display: flex;
+	justify-content: end;
+	align-items: center;
+}
+
+
+#profileBox #profile p{
+	font-size: 16px;
+	font-weight: bold;
+	margin: 0 15px 0 0;
+	display: flex;
+	align-items: center;
+	padding: 2px;
+}
+#profileBox #profile img{
+	width: 60px;
+	height: 60px;
+	border-radius: 50%;
+	margin-right: 30px;
+	transition: opacity 0.2s ease-in-out;
+}
+
+#profileBox #profile img:hover{
+	opacity: 0.8;
+}
+
+
+#profileBox #profileSubBox{
 	width: 250px;
-	display : flex;
+	display : none;
 	flex-direction: column;
 	border : 1px solid whitesmoke;
 	border-radius : 8px;
@@ -178,11 +176,9 @@
 	right: 30px;
 	box-shadow: 5px 5px 10px rgba(0, 0, 0, 0.2);
 	background-color : white;
-	visibility : hidden;
 }
 
-/* 상단 프로필 유저 박스 */
-#headerTop #imageUserBox {
+#profileSubBox #subProfileImg{
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -191,50 +187,62 @@
 	color: #1b2631;
 }
 
-/* 상단 프로필 유저 아이디 */
-#headerTop #imageUserID {
-	font-size: 16px;
-	font-weight: 500;
-}
-
-/* 상단 프로필 유저 이미지 */
-#headerTop #myImageUser {
+#profileSubBox img{
 	border-radius: 100%;
 	object-fit: cover;
-	background-color : lightgray;
+	background-color : whitesmoke;
 	width: 45px;
 	height: 45px;
 	border: 1px solid whitesmoke;
 	margin-bottom: 5px;
 }
 
-
-/* 마이페이지 로그아웃 전체 박스 */
-#headerTop #imageFuncBox {
-	display: flex;
-	justify-content: space-between;
-	width: 100%;
-	padding-top : 20px;
+#profileSubBox p{
+	font-size: 16px;
+	font-weight: 500;
 }
 
-/* 마이페이지 로그아웃 각자 */
-#headerTop .imageFuncEach {
+#profileBox #subProfileBtn {
+	display: flex;
+	width: 100%;
+	padding-top: 20px;
+}
+
+.profileBtn {
 	display: flex;
 	justify-content: center;
-	align-items : center;
-	width:100%;
+	align-items: center;
+	width: 50%;  /* 두 개의 요소가 정확히 반씩 차지하도록 설정 */
 	border-top: 1px solid #E0E3E5;
-	border-right: 1px solid #E0E3E5;
 	font-size: 14px;
 }
 
-#imageFuncBox .imageFuncEach a{
-	display : flex;
-	justify-content: center;
-	width: 100%;
-	padding: 10px;
+.profileBtn:first-child {
+	border-right: 1px solid #E0E3E5; /* 첫 번째 버튼 오른쪽 테두리 */
 }
 
-button{
+.profileBtn a,
+.profileBtn button {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: 100%;  /* 부모 `.profileBtn`의 100% 차지 */
+	padding: 10px;
+	text-decoration: none;
+	border: none;
+	background: none;
 	cursor: pointer;
+	color: rgb(66, 73, 73);
+}
+
+header, section{
+	-webkit-user-select:none;
+	-moz-user-select:none;
+	-ms-user-select:none;
+	user-select:none;
+}
+
+.bodyContents{
+	position: relative;
+	margin-top: 80px;
 }

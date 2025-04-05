@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html th:replace="~{layout/layoutForm :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>manage</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/css/manageForm.css}">
+    <script th:src="@{/js/manageForm.js}"></script>
+
+</head>
+<body>
+<section>
+    <div id="manageForm">
+        <div id="manageContainer">
+
+            <div id="manageTitle">회원관리</div>
+
+            <div id="contentsBox">
+                <div id="leftBox">
+                    <div id="myGymListTitle">체육관</div>
+
+                    <div id="myGymList" th:each="gym : ${childInMyGyms}">
+                        <div class="gymName" th:text="${gym.key}" th:data-value="${gym.key}"></div>
+                    </div>
+                </div>
+                <div class="rightBox">
+                    <div id="labelBox">
+                        <div><input th:type="checkBox"></div>
+                        <div th:text="#{label.name}"></div>
+                        <div th:text="#{label.age}"></div>
+                        <div th:text="#{label.gender}"></div>
+                        <div th:text="띠"></div>
+                        <div th:text="#{label.startDate}"></div>
+                        <div th:text="#{label.endDate}"></div>
+                        <!--                        <div th:text="수정"></div>-->
+                    </div>
+                    <div class="scrollbar">
+                        <div th:each="gymEntry : ${childInMyGyms}">
+                            <div class="myMemberListBox" th:each="parent : ${gymEntry.value}" th:data-value="${gymEntry.key}">
+                                <div class="childInfoBox">
+                                    <div class="childBox" th:each="child : ${parent.children}">
+                                        <div class="childInfo">
+                                            <input type="hidden" class="childId" th:value="${child.id}">
+
+                                            <input class="checkbox" th:type="checkBox">
+
+                                            <input type="text" class="name" th:value="${child.name}" readonly>
+
+                                            <input type="text" class="age" th:value="${child.age}" readonly>
+
+                                            <input type="text" class="gender" th:value="${{child.gender}}" readonly>
+
+                                            <input type="text" class="belt" th:value="${child.belt}" readonly>
+
+                                            <input type="date" class="startDate" th:value="${child.startDate}" readonly>
+
+                                            <input type="date" class="endDate" th:value="${child.endDate}" readonly>
+
+                                            <button class="editButton" th:text="수정" data-edit="false"></button>
+                                        </div>
+                                    </div>
+                                    <div class="parentDisplayBtn">
+                                        <button>보호자 정보 보기</button>
+                                    </div>
+                                </div>
+                                <div class="parentsBox">
+                                    <input type="hidden" th:value="${parent.id}">
+
+                                    <label th:for="|name${parent.id}|" th:text="#{label.name}"></label>
+                                    <input type="text" th:id="|name${parent.id}|" th:value="${parent.memName}" readonly>
+
+                                    <label th:for="|phone${parent.id}|" th:text="#{label.phone}"></label>
+                                    <input type="text" th:id="|phone${parent.id}|" class="phoneNumber"
+                                           th:value="${parent.memPhoneNum}"
+                                           readonly>
+
+                                    <label th:for="|address${parent.id}|" th:text="#{label.address}"></label>
+                                    <input type="text" th:id="|address${parent.id}|"
+                                           class="address" th:value="|${parent.roadName} ${parent.detailAddress}|"
+                                           readonly>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="bulkEditControls">
+                        <button id="bulkEdit" data-edit="false">
+                            일괄 수정
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+</body>
+</html>

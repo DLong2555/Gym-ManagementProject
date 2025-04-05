@@ -1,7 +1,9 @@
-/**
- * 
- */
+
  $(document).ready(function () {
+     let body = document.querySelector('.bodyContents');
+     body.style.marginTop = "0px";
+
+
     // 페이지가 로드될 때 스크롤을 맨 위로 이동
     $(window).on('beforeunload', function() {
         window.scrollTo(0, 0);
@@ -114,5 +116,6 @@
     // 페이지 로드 시 및 스크롤할 때 애니메이션 체크
     $(window).on('scroll', animateOnScroll);
     animateOnScroll(); // 초기 실행
+
 });
  

@@ -1,0 +1,110 @@
+
+#joinForm {
+    display: flex;
+    justify-content: center; /* 주축 가운데 정렬 */
+    align-items: center; /* 교차축 가운데 정렬 */
+}
+
+#joinForm #joinFormContainer{
+    display: flex;
+    flex-direction: column; /* 세로정렬 */
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+}
+
+#joinForm #joinTitleDiv #joinTitle{
+    text-align: center;
+    font-size: 30px;
+    font-weight: 600;
+    padding-bottom: 50px;
+    margin-top : 20px;
+}
+
+#joinForm .inputGroup {
+    display: flex;
+    flex-direction: column;
+    margin: 10px 0 20px 0;
+}
+
+#joinForm .inputGroup label{
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+#joinForm .inputGroup input{
+    width: 600px;
+    padding: 17px 10px;
+    font-size: 16px;
+    border: 1px solid white;
+    border-bottom: 1px solid black;
+    box-sizing: border-box;
+    flex: 1;
+    border-radius: 0;
+    margin: 5px 0;
+}
+
+#joinForm .inputGroup input::placeholder{
+    color : #c3c3c3;
+}
+
+#joinForm .field-error{
+    color: red;
+    border-color: red;
+}
+
+#joinForm .field-error.error{
+    color: red;
+}
+
+#joinForm .field-error.success{
+    color: green;
+}
+
+#joinForm .label-and-btn{
+    display: flex;
+    align-items: center;
+}
+
+#joinForm .label-and-btn label{
+    flex-basis: 95px;
+}
+
+#joinForm .address-btn{
+    width: 120px;
+    height: 30px;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    border: none;
+}
+
+#joinForm .join-btn-box{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#joinForm .join-btn-box button{
+    flex-basis: 290px;
+    height: 60px;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    border: 0;
+}
+
+#joinForm .label-and-btn-user .address-btn{
+    width: 120px;
+    height: 30px;
+    background-color: black;
+    color: white;
+    border-radius: 5px;
+    border: none;
+}
+
+#joinForm .join-btn-box{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}

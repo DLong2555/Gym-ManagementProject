@@ -45,4 +45,10 @@ public class Member {
     public void passwordEncoding(String password){
         this.password = password;
     }
+
+    public void updateMember(String name, String phoneNum, Address address) {
+        this.memName = name;
+        this.memPhoneNum = phoneNum;
+        this.address = address;
+    }
 }

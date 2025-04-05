@@ -1,0 +1,68 @@
+<!DOCTYPE HTML>
+<html th:replace="~{layout/layoutForm :: layout(~{::title}, ~{::link}, ~{::script}, ~{::section})}"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <title>Board Write</title>
+    <link th:href="@{/css/eventApplication.css}" rel="stylesheet">
+    <script th:src="@{/js/eventApplication.js}"></script>
+    <script src="https://js.tosspayments.com/v2/standard"></script>
+</head>
+<body>
+<section>
+    <div class="bodyContents">
+        <div id="joinAndPayGym">
+            <div id="payGymContainer" class="noto-sans-kr">
+                <div id="payGymTitleBox">
+                    <div id="payGymTitle">활동비 납부</div>
+                </div>
+                <div id="payGymContentsBox">
+                    <div id="payGymLeftBox">
+                        <div id="payGymLeftTitleBox">
+                            <div id="payGymLeftTitle">회원 선택</div>
+                        </div>
+                        <div id="payGymUserBox" th:each="child : ${childNames}">
+                            <div class="payGymUserEach">
+                                <div class="payGymUserEachInfoBox">
+                                    <div class="payGymUserEachTitle">
+                                        <input type="hidden" th:value="${child.id}" class="payChildNo">
+                                        <input th:type="checkbox" class="payGymCheckBox" th:value="${child.name}" th:text="${child.name}" checked>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="payGymRightBox">
+                        <div id="payGymRightContents">
+                            <div id="payGymPayBox">
+                                <input th:type="hidden" id="boardId" class="boardId" th:value="${eventInfo.id}" readonly>
+                                <input th:type="hidden" id="gymId" class="gymId" th:value="${eventInfo.gymId}" readonly>
+                                <input th:type="hidden" id="memName" class="memName" th:value="${memName}" readonly>
+                                <input th:type="hidden" id="phoneNumber" class="phoneNumber" th:value="${phoneNumber}" readonly>
+
+                                <div class="eventInfoBox">
+                                    <label for="title">활동</label>
+                                    <input th:type="text" id="title" class="title" th:value="${eventInfo.title}" readonly>
+                                </div>
+
+                                <div class="eventInfoBox">
+                                    <label for="price">가격</label>
+                                    <input th:type="text" id="price" class="price" th:value="${{eventInfo.price}}" readonly>
+                                </div>
+
+                                <div id="payGymAddResult">총 가격 : 원</div>
+                            </div>
+                            <div id="payGymPayButton">
+                                <a id="payGymPayA" href="">0원 결제하기</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+</html>
