@@ -53,6 +53,7 @@ public class JoinController {
     @GetMapping("/join/{role}")
     public String joinFormView(@PathVariable("role") String role,  Model model) {
 
+        // 선택한 유형에 따라 가입 페이지로 이동
         if(role.equals("user")) {
             model.addAttribute("joinForm", new JoinForm());
             return "user/joinForm";
@@ -67,22 +68,25 @@ public class JoinController {
     @PostMapping("/join/user")
     public String join(@Validated @ModelAttribute("joinForm") JoinForm joinForm, BindingResult bindingResult) {
 
+        // 아이디 중복 체크
         if (JoinService.duplicateMemberId(joinForm.getMemId())) {
             bindingResult.rejectValue("memId", "duplicate.id");
         }
 
+        // validation에 부합하지 않으면 error 리턴
         if(bindingResult.hasErrors()){
             log.error("errors: {}", bindingResult.getAllErrors());
             return "user/joinForm";
         }
 
+        // 이상 없으면 db에 저장
         JoinService.join(createUser(joinForm));
 
         return "redirect:/gym/login";
     }
 
     @PostMapping("/join/manager")
-    public String joinManger(@Validated @ModelAttribute("joinManagerForm") JoinManagerForm joinForm, BindingResult bindingResult) {
+    public String joinManager(@Validated @ModelAttribute("joinManagerForm") JoinManagerForm joinForm, BindingResult bindingResult) {
 
         if (JoinService.duplicateMemberId(joinForm.getMemId())) {
             bindingResult.rejectValue("memId", "duplicate.id");

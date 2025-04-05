@@ -47,8 +47,6 @@ public class ManageController {
 
         List<GymInfoDto> gymNames = gymService.findGymNames(userSession.getId());
         List<ParentsInfoForm> childInMyGyms = manageService.findChildInMyGyms(gymId, ctg);
-//        List<GymInfoDto> gymNames = gymService.findGymNames(new HashSet<>(List.of(1L,2L)));
-//        List<ParentsInfoForm> childInMyGyms = manageService.findChildInMyGyms(1L);
 
         log.debug("childInMyGys: {}", childInMyGyms.toString());
 

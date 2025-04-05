@@ -45,7 +45,4 @@ public class Gym {
         this.gymPhoneNum = gymPhoneNum;
         this.address = address;
     }
-
-
-
 }

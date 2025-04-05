@@ -1,6 +1,5 @@
 package renewal.gym.validator;
 
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -12,7 +11,6 @@ import java.util.regex.Pattern;
 
 import static org.springframework.util.StringUtils.hasText;
 
-@Slf4j
 @Component
 public class JoinValidator implements Validator {
 
@@ -30,7 +28,7 @@ public class JoinValidator implements Validator {
 
     @Override
     public boolean supports(Class<?> clazz) {
-        log.info("supports: {}", clazz);
+        // 검사하는 클래스 확인
         return JoinForm.class.isAssignableFrom(clazz);
     }
 

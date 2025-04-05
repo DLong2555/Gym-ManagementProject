@@ -39,7 +39,6 @@ public class JoinService {
 
         manager.passwordEncoding(passwordEncoder.encode(manager.getPassword()));
 
-        managerRepository.save(manager);
         gymRepository.save(managerAndGym);
 
         return manager.getId();
