@@ -72,7 +72,7 @@
 
                 <div class="topMainMenu">
                     <div class="topMenuEachBox">
-                        <div class="topMenuEachBox" th:if="${loginUser?.role?.name() eq 'USER'}">
+                        <div class="topMenuEachBox" th:if="${loginUser?.role?.name() eq 'USER' || loginUser eq null}">
                             <a th:href="@{/payments(userId=${loginUser?.id})}">결제내역</a>
                         </div>
                     </div>
@@ -151,18 +151,10 @@
                         </ul>
                     </div>
                     <div class="bottomMenuEachBox">
-                        <div class="bottomMenuTitle noto-sans-kr">상품</div>
-                        <ul class="bottomMenuContents noto-sans-kr">
-                            <li><a href="#">전체 상품</a></li>
-                            <li><a th:href="@{/}">장바구니</a></li>
-                            <li><a th:href="@{/}">주문내역</a></li>
-                        </ul>
+                        <div class="bottomMenuTitle noto-sans-kr">결제내역</div>
                     </div>
                     <div class="bottomMenuEachBox">
-                        <div class="bottomMenuTitle noto-sans-kr">게시판</div>
-                        <ul class="bottomMenuContents noto-sans-kr">
-                            <li><a th:href="@{/}">공지사항</a></li>
-                        </ul>
+                        <div class="bottomMenuTitle noto-sans-kr">공지</div>
                     </div>
                 </div>
                 <div id="bottomMenuRightBox">

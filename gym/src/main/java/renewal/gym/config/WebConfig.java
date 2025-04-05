@@ -53,7 +53,7 @@ public class WebConfig implements WebMvcConfigurer {
 
         registry.addInterceptor(encryptedIdInterceptor)
                 .order(3)
-                .addPathPatterns("/gym/**");
+                .addPathPatterns("/gym/board/**", "/gym/manager/**");
 
     }
 

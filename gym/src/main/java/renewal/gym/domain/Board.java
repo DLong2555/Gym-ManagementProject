@@ -17,7 +17,7 @@ import static jakarta.persistence.FetchType.*;
 @DiscriminatorValue("ANNOUNCEMENT")
 public class Board extends Auditable{
 
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_id")
     private Long id;
 

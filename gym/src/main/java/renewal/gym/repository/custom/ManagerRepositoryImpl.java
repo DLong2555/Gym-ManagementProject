@@ -82,27 +82,6 @@ public class ManagerRepositoryImpl implements ManagerRepositoryCustom {
             }
         }
 
-//        Map<String, ParentsInfoForm> tupleMap = results.stream()
-//                .collect(Collectors.toMap(
-//                        tuple -> tuple.get(0, ParentsInfoForm.class).getMemName(), // 키: memName
-//                        tuple -> {
-//                            ParentsInfoForm parent = tuple.get(0, ParentsInfoForm.class);
-//                            ChildInfoForm child = tuple.get(1, ChildInfoForm.class);
-//                            if (child != null) {
-//                                parent.getChildren().add(child);
-//                            }
-//                            return parent;
-//                        }, // 값: ParentsInfoForm 객체
-//                        (existing, replacement) -> {
-//                            // 동일한 memName을 가진 부모가 있을 경우, 자식 정보를 병합
-//                            if (replacement.getChildren() != null) {
-//                                existing.getChildren().addAll(replacement.getChildren());
-//                            }
-//                            return existing;
-//                        }, // 병합 로직
-//                        LinkedHashMap::new // 삽입 순서 보장
-//                ));
-
         return new ArrayList<>(tupleMap.values());
     }
 

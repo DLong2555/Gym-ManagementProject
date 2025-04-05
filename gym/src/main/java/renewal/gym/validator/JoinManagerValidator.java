@@ -68,8 +68,8 @@ public class JoinManagerValidator implements Validator {
         return switch (requiredField) {
             case "memId" -> form.getMemId();
             case "password" -> form.getPassword();
-            case "memName" -> form.getName();
-            case "memPhoneNum" -> form.getPhone();
+            case "name" -> form.getName();
+            case "phone" -> form.getPhone();
             case "zipcode" -> form.getZipcode();
             case "gymName" -> form.getGymName();
             case "gymPhone" -> form.getGymPhone();

@@ -16,6 +16,4 @@ public class Address {
     private String roadName;
     private String detailAddress;
 
-//    private String pointX;
-//    private String pointY;
 }

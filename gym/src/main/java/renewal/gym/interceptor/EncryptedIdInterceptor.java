@@ -23,7 +23,7 @@ public class EncryptedIdInterceptor implements HandlerInterceptor {
 
         log.info("EncryptedIdInterceptor start");
 
-        List<String> Ids = List.of("gymId", "boardId");
+        List<String> Ids = List.of("gymId");
 
         for (String id : Ids) {
             String encryptedId = request.getParameter(id);
